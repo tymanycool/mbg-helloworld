@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="MBGHelloWorld:war exploded">
+    <output-path>$PROJECT_DIR$/target/MBGHelloWorld</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="MBGHelloWorld" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.35" />
+          <element id="library" level="project" name="Maven: org.mybatis.generator:mybatis-generator-core:1.3.2" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/MBGHelloWorld/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="MBGHelloWorld/web/Web" />
+    </root>
+  </artifact>
+</component>
