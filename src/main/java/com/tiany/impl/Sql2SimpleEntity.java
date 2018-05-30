@@ -13,6 +13,8 @@ public class Sql2SimpleEntity implements Convert {
 
     private Table table = new Table();
 
+    private String packageName = "com.csii.pmis.service.bean.model";
+
     @Override
     public Object convert(Object in) {
         try {
@@ -30,25 +32,157 @@ public class Sql2SimpleEntity implements Convert {
             String[] rows = inStr.split("\r\n");
             initData(inStr);
             parseData(data);
-
+            HashMap<String, Object> map = new HashMap<>();
             outStr = generateJava(table);
+            map.put("java",outStr);
+            outStr = generateResultMap(table);
+            map.put("resultMap",outStr);
+            outStr = generateSelect(table);
+            map.put("select",outStr);
+            outStr = generateInsert(table);
+            map.put("insert",outStr);
+            outStr = generateUpdate(table);
+            map.put("update",outStr);
+            outStr = generateDelete(table);
+            map.put("delete",outStr);
 
-            return outStr;
-
+            return map;
         }
         return null;
     }
 
+    /**
+     * 生成java属性
+     * @param table
+     * @return
+     */
     private String generateJava(Table table) {
         String ret = "";
-        ret = "public class " + StringUtil.getCamelClassName(table.getName()) + " {\r\n";
+        ret += "package "+packageName+";\r\n\r\n";
+        ret += "import java.util.Date;\r\n";
+        ret += "import java.math.BigDecimal;\r\n\r\n";
+        ret += "/*\r\n";
+        ret += " *"+getCommentString(table.getComment())+"\r\n";
+        ret += " */\r\n";
+        ret += "public class " + StringUtil.getCamelClassName(table.getName()) + " {\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
+            ret += "\t/** "+getCommentString(fields.get(i).getComment())+"  */\r\n";
             ret += "\tprivate " + getSimpleClassName(properties.get(fields.get(i).getType()) +" " +StringUtil.getCamelProperty(fields.get(i).getName())) + ";\r\n";
         }
+        ret += "}\r\n";
+        return ret;
+    }
 
+    /**
+     * 生成结果映射
+     * @param table
+     * @return
+     */
+    private String generateResultMap(Table table) {
+        String ret = "<resultMap id=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" class=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
+        }
+        ret += "</resultMap>\r\n";
+        return ret;
+    }
+    /**
+     * 生成select查询
+     * @param table
+     * @return
+     */
+    private String generateSelect(Table table) {
+        String ret = "<select id=\"selectByPrimaryKey\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotNull prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
+            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
+            ret += "\t\t</isNotNull>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
 
-        ret += "}";
+    /**
+     * 生成delete查询
+     * @param table
+     * @return
+     */
+    private String generateDelete(Table table) {
+        String ret = "<delete id=\"delete\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        ret += "\tDELETE FROM ";
+        ret += table.getName() +" \r\n";
+        List<Field> fields = table.getFields();
+
+        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
+        ret += "</delete>\r\n";
+        return ret;
+    }
+    /**
+     * 生成insert语句
+     * @param table
+     * @return
+     */
+    private String generateInsert(Table table) {
+        String ret = "<insert id=\"insert\"  parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        ret += "\tINSERT INTO "+table.getName()+" (\r\n\t\t";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\r\n\t)values (\n" + "\t\t";
+        for(int i =0;i<fields.size();i++){
+            ret += "#"+fields.get(i).getName()+"#";
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\r\n\t)\r\n";
+        ret += "</insert>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成update语句
+     * @param table
+     * @return
+     */
+    private String generateUpdate(Table table) {
+        String ret = "<update id=\"update\"  parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        ret += "\tUPDATE "+table.getName()+"\r\n";
+        List<Field> fields = table.getFields();
+        ret += "\t<dynamic prepend=\"set\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotNull prepend=\",\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
+            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
+            ret += "\t\t</isNotNull>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotNull prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
+            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
+            ret += "\t\t</isNotNull>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</update>\r\n";
         return ret;
     }
 
@@ -92,6 +226,20 @@ public class Sql2SimpleEntity implements Convert {
         }
     }
 
+    /**
+     * 处理注释
+     * @param comment
+     * @return
+     */
+    private String getCommentString(String comment){
+        if(comment.startsWith("'")){
+            comment = comment.substring(1);
+        }
+        if(comment.endsWith("'")){
+            comment = comment.substring(0,comment.length()-1);
+        }
+        return comment;
+    }
     private void getTableComment(List<String> row) {
         for (int j = 0; j< row.size(); j++) {
             if("COMMENT".equals(row.get(j).toUpperCase())){
