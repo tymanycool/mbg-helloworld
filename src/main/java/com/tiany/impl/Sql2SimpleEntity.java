@@ -35,22 +35,37 @@ public class Sql2SimpleEntity implements Convert {
             HashMap<String, Object> map = new HashMap<>();
             outStr = generateJava(table);
             map.put("java",outStr);
-            outStr = generateResultMap(table);
-            map.put("resultMap",outStr);
-            outStr = generateSelect(table);
-            map.put("select",outStr);
-            outStr = generateInsert(table);
-            map.put("insert",outStr);
-            outStr = generateUpdate(table);
-            map.put("update",outStr);
-            outStr = generateDelete(table);
-            map.put("delete",outStr);
+            outStr = generateXml(table);
+            map.put("xml",outStr);
+//            outStr = generateResultMap(table);
+//            map.put("resultMap",outStr);
+//            outStr = generateSelect(table);
+//            map.put("select",outStr);
+//            outStr = generateInsert(table);
+//            map.put("insert",outStr);
+//            outStr = generateUpdate(table);
+//            map.put("update",outStr);
+//            outStr = generateDelete(table);
+//            map.put("delete",outStr);
 
             return map;
         }
         return null;
     }
 
+    public String generateXml(Table table){
+        String ret = "";
+        ret += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
+        ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
+        ret += "<sqlMap namespace=\""+table.getName()+"\" >\r\n";
+        ret += generateResultMap(table);
+        ret += generateSelect(table);
+        ret += generateDelete(table);
+        ret += generateUpdate(table);
+        ret += generateInsert(table);
+        ret += "</sqlMap>\r\n";
+        return ret;
+    }
     /**
      * 生成java属性
      * @param table
@@ -59,17 +74,22 @@ public class Sql2SimpleEntity implements Convert {
     private String generateJava(Table table) {
         String ret = "";
         ret += "package "+packageName+";\r\n\r\n";
+        ret += "import java.io.Serializable;\r\n";
         ret += "import java.util.Date;\r\n";
         ret += "import java.math.BigDecimal;\r\n\r\n";
         ret += "/*\r\n";
         ret += " *"+getCommentString(table.getComment())+"\r\n";
         ret += " */\r\n";
-        ret += "public class " + StringUtil.getCamelClassName(table.getName()) + " {\r\n";
+        ret += "public class " + StringUtil.getCamelClassName(table.getName()) + " implements Serializable{\r\n";
+        ret += "\t/** 序列化号 */\r\n";
+        ret += "\tprivate static final long serialVersionUID = 1L;\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
-            ret += "\t/** "+getCommentString(fields.get(i).getComment())+"  */\r\n";
+            ret += "\t/** "+getCommentString(fields.get(i).getComment())+" */\r\n";
             ret += "\tprivate " + getSimpleClassName(properties.get(fields.get(i).getType()) +" " +StringUtil.getCamelProperty(fields.get(i).getName())) + ";\r\n";
         }
+        ret += "\r\n";
+        ret += generateGetterSetter(table);
         ret += "}\r\n";
         return ret;
     }
@@ -94,7 +114,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateSelect(Table table) {
-        String ret = "<select id=\"selectByPrimaryKey\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<select id=\"select\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -148,7 +168,7 @@ public class Sql2SimpleEntity implements Convert {
         }
         ret += "\r\n\t)values (\n" + "\t\t";
         for(int i =0;i<fields.size();i++){
-            ret += "#"+fields.get(i).getName()+"#";
+            ret += "#"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
             if(i<fields.size()-1){
                 ret += ",";
             }
@@ -219,11 +239,46 @@ public class Sql2SimpleEntity implements Convert {
                     }
                 }
                 table.getFields().add(field);
-
-  //              System.out.println(row);
             }
 
         }
+    }
+    private String generateGetterSetter(Table table){
+        List<Field> fields = table.getFields();
+        String ret = "";
+        for(Field field: fields){
+            ret += generateGetter(field);
+            ret += generateSetter(field);
+        }
+        return ret;
+    }
+
+    /**
+     * 生成getter方法
+     * @param field
+     * @return
+     */
+    private String generateGetter(Field field){
+        String ret = "";
+        String camelProperty = StringUtil.getCamelProperty(field.getName());
+        ret += "\tpublic " + getSimpleClassName((String) properties.get(field.getType())) + " " + StringUtil.getCamelProperty("get_" +field.getName())+"() {\r\n";
+        ret += "\t\treturn "+"this."+camelProperty +" ;\r\n";
+        ret += "\t}\r\n\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成setter方法
+     * @param field
+     * @return
+     */
+    private String generateSetter(Field field){
+        String ret = "";
+        String camelProperty = StringUtil.getCamelProperty(field.getName());
+        ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String) properties.get(field.getType()))+" "+camelProperty+") {\r\n";
+        ret += "\t\t"+camelProperty+" = this."+camelProperty +" ;\r\n";
+        ret += "\t}\r\n\r\n";
+        return ret;
     }
 
     /**
@@ -350,5 +405,21 @@ public class Sql2SimpleEntity implements Convert {
         }
 
 
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 }

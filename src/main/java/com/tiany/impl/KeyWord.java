@@ -53,7 +53,7 @@ public class KeyWord implements Word{
     }
 
     /**
-     * ch是否是a,b,c,...,z,A,B,C,...,Z,_
+     * ch是否是a,b,c,...,z,A,B,C,...,Z,_,1,2,3,4,...
      * @param ch
      * @return
      */
