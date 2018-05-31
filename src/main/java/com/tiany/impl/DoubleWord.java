@@ -54,7 +54,7 @@ public class DoubleWord implements Word{
     }
 
     /**
-     * ch是否是a,b,c,...,z,A,B,C,...,Z,_
+     * ch是数字类型
      * @param ch
      * @return
      */

@@ -276,7 +276,7 @@ public class Sql2SimpleEntity implements Convert {
         String ret = "";
         String camelProperty = StringUtil.getCamelProperty(field.getName());
         ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String) properties.get(field.getType()))+" "+camelProperty+") {\r\n";
-        ret += "\t\t"+camelProperty+" = this."+camelProperty +" ;\r\n";
+        ret += "\t\tthis."+camelProperty+" = "+camelProperty +" ;\r\n";
         ret += "\t}\r\n\r\n";
         return ret;
     }

@@ -54,7 +54,7 @@ public class OtherWord implements Word{
     }
 
     /**
-     * ch是否是a,b,c,...,z,A,B,C,...,Z,_
+     * ch是否是除开Double,Blank,String,Key之外的类型
      * @param ch
      * @return
      */
