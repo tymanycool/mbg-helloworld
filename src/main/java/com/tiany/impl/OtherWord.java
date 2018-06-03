@@ -43,9 +43,6 @@ public class OtherWord implements Word{
             firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
                 @Override
                 public boolean matches(Object obj, Object nextObj) {
-//                    if(nextObj == null){
-//                        return true;
-//                    }
                     return !isOther((Character)obj);
                 }
             });

@@ -15,7 +15,7 @@ public class CsiiDaoUtil {
     public static void start(){
         try {
             Sql2SimpleEntity sql2SimpleEntity = new Sql2SimpleEntity();
-            Map map = (Map)sql2SimpleEntity.convert(FileUtil.read("src/main/resources/sql4.txt"));
+            Map map = (Map)sql2SimpleEntity.convert(FileUtil.read("src/main/resources/sql.txt"));
             Table table = sql2SimpleEntity.getTable();
             System.out.println(map.get("java"));
             FileUtil.write("src/main/java/"+sql2SimpleEntity.getPackageName().replace(".","/")+"/"+StringUtil.getCamelClassName(table.getName())+".java",(String)map.get("java"));
