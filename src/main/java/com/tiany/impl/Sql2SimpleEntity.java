@@ -442,9 +442,8 @@ public class Sql2SimpleEntity implements Convert {
         List<List<String>> split = CollectionUtil.split(list2, (obj, nexObj) -> {
             return obj.equals(",");
         });
-
+        list1.addAll(list3);
         data.add(list1);
-        data.add(list3);
         data.addAll(split);
     }
 
