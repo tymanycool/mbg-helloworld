@@ -17,7 +17,7 @@ public class SingleWord implements Word{
         private int count = 0;
         @Override
         public boolean matches(Object obj, Object nextObj) {
-            return 0==count++;
+            return 1==count++;
         }
     };
 

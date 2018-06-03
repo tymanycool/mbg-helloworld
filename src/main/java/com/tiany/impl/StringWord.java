@@ -13,8 +13,27 @@ public class StringWord implements Word {
 
     private String strData;
 
+    private Condition condition_1 = new Condition() {
+        private int count = 0;
+
+        @Override
+        public boolean matches(Object obj, Object nextObj) {
+            return prefix_1 == (Character) obj && 0!=count++ ;
+        }
+    };
+
+    private Condition condition_2 = new Condition() {
+        private int count = 0;
+
+        @Override
+        public boolean matches(Object obj, Object nextObj) {
+            return prefix_2 == (Character) obj && 0!=count++ ;
+        }
+    };
+
     public StringWord(String strData) {
         this.strData = strData;
+        firstWord = getFirstWord();
     }
 
     @Override
@@ -24,7 +43,7 @@ public class StringWord implements Word {
 
     @Override
     public String getValue() {
-        return getFirstWord();
+        return firstWord;
     }
 
     @Override
@@ -38,28 +57,19 @@ public class StringWord implements Word {
     }
 
     private String getFirstWord() {
+        String ret = "";
         if (strData == null) {
             return null;
         }
         int fistWordIndex = getFistWordIndex();
         if (prefix_1 == strData.charAt(fistWordIndex)) {
-            firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
-                @Override
-                public boolean matches(Object obj, Object nextObj) {
-                    return prefix_1 == (Character) nextObj;
-                }
-            });
-            firstWord += prefix_1;
+            ret = StringUtil.substringUntil(strData, fistWordIndex, condition_1);
+            ret += prefix_1;
         } else if (prefix_2 == strData.charAt(fistWordIndex)) {
-            firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
-                @Override
-                public boolean matches(Object obj, Object nextObj) {
-                    return prefix_2 == (Character) nextObj;
-                }
-            });
-            firstWord += prefix_2;
+            ret = StringUtil.substringUntil(strData, fistWordIndex, condition_2);
+            ret += prefix_2;
         }
-        return firstWord;
+        return ret;
     }
 
     public static boolean isString(char ch) {

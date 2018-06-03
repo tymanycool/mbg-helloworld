@@ -47,10 +47,10 @@ public class BlankWord implements Word {
             firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
                 @Override
                 public boolean matches(Object obj, Object nextObj) {
-                    if(nextObj == null){
-                        return true;
-                    }
-                    return !isBlank((Character)nextObj);
+//                    if(nextObj == null){
+//                        return true;
+//                    }
+                    return !isBlank((Character)obj);
                 }
             });
         }
