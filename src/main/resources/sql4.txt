@@ -1,0 +1,45 @@
+
+
+-- 附件信息表
+CREATE TABLE PMIS_ATTACHMENT_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 业务流水
+	BIZ_FLOW varchar(40),
+	-- 文件名
+	FILE_NAME varchar(200),
+	-- 用印状态
+	SEALS_STATUS varchar(30),
+	-- 是否复核告知
+	IS_RECHECK_NOTICE varchar(1),
+	-- 业务类型
+	BUSINESS_TYPE varchar(3),
+	-- 文件类型
+	FILE_TAG varchar(3),
+	-- 文件格式
+	FILE_TYPE varchar(20),
+	-- 文件版本号
+	FILE_VERSION varchar(20),
+	-- 文件路径
+	FILE_PATH varchar(200),
+	-- 备注
+	REMARK varchar(1024),
+	-- 份数
+	COPY_NUM decimal(10),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);

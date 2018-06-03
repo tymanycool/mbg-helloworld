@@ -1,17 +1,29 @@
 package com.tiany.impl;
 
-import com.tiany.inf.Word;
 import com.tiany.inf.Condition;
+import com.tiany.inf.Word;
+import com.tiany.util.CollectionUtil;
 import com.tiany.util.StringUtil;
 
-public class OtherWord implements Word{
+public class SingleWord implements Word{
+    // 单独处理的字符列表
+    private static final char[] singleList = {'(',')','[',']','{','}',',',';','-','+','#','&','$','@','*','/'};
 
     private String firstWord;
 
     private String strData;
 
-    public OtherWord(String strData) {
-        this.strData = strData;
+    private Condition condition = new Condition() {
+        private int count = 0;
+        @Override
+        public boolean matches(Object obj, Object nextObj) {
+            return 0==count++;
+        }
+    };
+
+
+    public SingleWord(String str) {
+        strData = str;
     }
 
     @Override
@@ -39,32 +51,25 @@ public class OtherWord implements Word{
             return null;
         }
         int fistWordIndex = getFistWordIndex();
-        if (isOther(strData.charAt(fistWordIndex))) {
-            firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
-                @Override
-                public boolean matches(Object obj, Object nextObj) {
-                    if(nextObj == null){
-                        return true;
-                    }
-                    return !isOther((Character)nextObj);
-                }
-            });
+        if (isSingle(strData.charAt(fistWordIndex))) {
+            firstWord = StringUtil.substringUntil(strData, fistWordIndex, condition);
         }
         return firstWord;
     }
 
     /**
-     * ch是否是除开Double,Blank,String,Key之外的类型
+     * ch是否是特殊的单个字符
      * @param ch
      * @return
      */
-    public static boolean isOther(char ch) {
-        return !DoubleWord.isDouble(ch)&&!BlankWord.isBlank(ch)&&!StringWord.isString(ch)&&!KeyWord.isKey(ch)&&!SingleWord.isSingle(ch);
+    public static boolean isSingle(char ch) {
+        boolean contains = CollectionUtil.contains(singleList, ch);
+        return contains;
     }
 
     private int getFistWordIndex(){
         for (int i = 0;i < strData.length();i++){
-            if(isOther(strData.charAt(i))){
+            if(isSingle(strData.charAt(i))){
                 return i;
             }
         }

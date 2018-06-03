@@ -8,6 +8,12 @@ public class WordUtil {
         if (str == null||"".equals(str)) {
             return null;
         }
+        if (StringWord.isString(str.charAt(0))) {
+            return new StringWord(str);
+        }
+        if (SingleWord.isSingle(str.charAt(0))) {
+            return new SingleWord(str);
+        }
         if (KeyWord.isKey(str.charAt(0))) {
             return new KeyWord(str);
         }
@@ -17,9 +23,7 @@ public class WordUtil {
         if (DoubleWord.isDouble(str.charAt(0))) {
             return new DoubleWord(str);
         }
-        if (StringWord.isString(str.charAt(0))) {
-            return new StringWord(str);
-        }
+
         if (OtherWord.isOther(str.charAt(0))) {
             return new OtherWord(str);
         }

@@ -1,6 +1,8 @@
 package com.tiany.impl;
 
 import com.tiany.inf.Convert;
+import com.tiany.util.CollectionUtil;
+import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
 
 import java.io.IOException;
@@ -28,8 +30,8 @@ public class Sql2SimpleEntity implements Convert {
             String inStr = (String) in;
             inStr = inStr.trim();
             String outStr = "";
-
-            String[] rows = inStr.split("\r\n");
+            // 转换成一行
+            inStr = inStr.replaceAll("\r\n", " ");
             initData(inStr);
             parseData(data);
             HashMap<String, Object> map = new HashMap<>();
@@ -86,7 +88,8 @@ public class Sql2SimpleEntity implements Convert {
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += "\t/** "+getCommentString(fields.get(i).getComment())+" */\r\n";
-            ret += "\tprivate " + getSimpleClassName(properties.get(fields.get(i).getType()) +" " +StringUtil.getCamelProperty(fields.get(i).getName())) + ";\r\n";
+            // TODO TIANYAO
+            ret += "\tprivate " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,fields.get(i).getType())) +" " +StringUtil.getCamelProperty(fields.get(i).getName()) + ";\r\n";
         }
         ret += "\r\n";
         ret += generateGetterSetter(table);
@@ -212,20 +215,23 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String getSimpleClassName(String name){
+        if(name == null){
+            return null;
+        }
         int index = name.lastIndexOf(".");
         return name.substring(index+1);
     }
 
     private void parseData(List<List<String>> data) {
+        Map map = (Map)properties;
+        initTableNameAndComment(data);
+        //initTableComment(row);
         for (int i = 0; i < data.size(); i++) {
             List<String> row = data.get(i);
-            if (!contains(row, (Map)properties)) {
-                getTableName(row);
-                getTableComment(row);
-            }else{
+            if(contains(row, map)){
                 Field field = new Field();
                 for (int j = 0; j< row.size(); j++) {
-                    if(properties.containsKey(row.get(j).toLowerCase())){
+                    if(MapUtil.containsKeyIgnoreCase(map,row.get(j))){
                         String pre = getPre(row, row.get(j));
                         field.setName(pre);
                         field.setType(row.get(j));
@@ -236,6 +242,8 @@ public class Sql2SimpleEntity implements Convert {
                     if("COMMENT".equals(row.get(j).toUpperCase())){
                         String after = getAfter(row, row.get(j));
                         field.setComment(after);
+                    }else if("-".equals(row.get(j))&&j+2<row.size()&&"-".equals(row.get(j+1))){
+                        field.setComment(row.get(j+2));
                     }
                 }
                 table.getFields().add(field);
@@ -261,7 +269,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateGetter(Field field){
         String ret = "";
         String camelProperty = StringUtil.getCamelProperty(field.getName());
-        ret += "\tpublic " + getSimpleClassName((String) properties.get(field.getType())) + " " + StringUtil.getCamelProperty("get_" +field.getName())+"() {\r\n";
+        ret += "\tpublic " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,field.getType())) + " " + StringUtil.getCamelProperty("get_" +field.getName())+"() {\r\n";
         ret += "\t\treturn "+"this."+camelProperty +" ;\r\n";
         ret += "\t}\r\n\r\n";
         return ret;
@@ -275,7 +283,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateSetter(Field field){
         String ret = "";
         String camelProperty = StringUtil.getCamelProperty(field.getName());
-        ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String) properties.get(field.getType()))+" "+camelProperty+") {\r\n";
+        ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,field.getType()))+" "+camelProperty+") {\r\n";
         ret += "\t\tthis."+camelProperty+" = "+camelProperty +" ;\r\n";
         ret += "\t}\r\n\r\n";
         return ret;
@@ -287,15 +295,19 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String getCommentString(String comment){
-        if(comment.startsWith("'")){
-            comment = comment.substring(1);
-        }
-        if(comment.endsWith("'")){
-            comment = comment.substring(0,comment.length()-1);
+        if(comment != null) {
+            if (comment.startsWith("'")) {
+                comment = comment.substring(1);
+            }
+            if (comment.endsWith("'")) {
+                comment = comment.substring(0, comment.length() - 1);
+            }
+        }else {
+            return "";
         }
         return comment;
     }
-    private void getTableComment(List<String> row) {
+    private void initTableComment(List<String> row) {
         for (int j = 0; j< row.size(); j++) {
             if("COMMENT".equals(row.get(j).toUpperCase())){
                 String after = getAfter(row, row.get(j),2);
@@ -306,6 +318,8 @@ public class Sql2SimpleEntity implements Convert {
                     after = after.substring(0,after.length()-1);
                 }
                 table.setComment(after);
+            }else if("-".equals(row.get(j))&&j+2<row.size()&&"-".equals(row.get(j+1))){
+                table.setComment(row.get(j+2));
             }
         }
     }
@@ -341,6 +355,7 @@ public class Sql2SimpleEntity implements Convert {
         return null;
     }
 
+
     /**
      * 得到name前一个
      * @param list
@@ -359,11 +374,29 @@ public class Sql2SimpleEntity implements Convert {
     private String getAfter(List<String> list,String name){
         return getAfter(list,name,1);
     }
-    private void getTableName(List<String> row) {
-        for (int j = 0; j + 2 < row.size(); j++) {
-            if ("CREATE".equals(row.get(j).toUpperCase()) && "TABLE".equals(row.get(j+1).toUpperCase())) {
+    private void initTableNameAndComment(List<List<String>> data) {
+        // 第一行存放的是表的信息
+        List<String> row = data.get(0);
+        boolean initName = false;
+        boolean initComment = false;
+        for (int j = 0; j + 2 < row.size()&&(initComment==false||initName==false); j++) {
+            if (initName==false&&"CREATE".equals(row.get(j).toUpperCase()) && "TABLE".equals(row.get(j+1).toUpperCase())) {
                 table.setName(row.get(j + 2));
-                break;
+                initName = true;
+            }
+            if(initComment==false&&"COMMENT".equals(row.get(j).toUpperCase())){
+                String after = getAfter(row, row.get(j),2);
+                if(after.startsWith("'")){
+                    after = after.substring(1);
+                }
+                if(after.endsWith("'")){
+                    after = after.substring(0,after.length()-1);
+                }
+                table.setComment(after);
+                initComment = true;
+            }else if("-".equals(row.get(j))&&j+2<row.size()&&"-".equals(row.get(j+1))){
+                table.setComment(row.get(j+2));
+                initComment = true;
             }
         }
     }
@@ -379,8 +412,8 @@ public class Sql2SimpleEntity implements Convert {
         Iterator iterator = map.keySet().iterator();
         while (iterator.hasNext()) {
             String next = (String) iterator.next();
-            // TODO 大小写？？？
-            if (list.contains(next)) {
+            // 忽略大小写
+            if (CollectionUtil.containsIgnoreCase(list,next)) {
                 return true;
             }
         }
@@ -390,21 +423,29 @@ public class Sql2SimpleEntity implements Convert {
 
     private void initData(String inStr) {
         data = new ArrayList<>();
-        String[] rows = inStr.split("\r\n");
-        for (int i = 0; i < rows.length; i++) {
-            SqlRowTokenizer sqlRowTokenizer = new SqlRowTokenizer();
-            List<String> toke = sqlRowTokenizer.toke(rows[i]);
-            ArrayList<String> list = new ArrayList<>();
-            for (int j = 0; j < toke.size(); j++) {
-                // 过滤不必要的字段
-                if (!StringUtil.isEmpty(toke.get(j).trim()) && !"`".equals(toke.get(j).trim())) {
-                    list.add(toke.get(j).trim());
-                }
+        SqlTokenizer tokenizer = new SqlTokenizer();
+        List<String> wordList = tokenizer.toke(inStr);
+        List<String> newWordList = new ArrayList<>();
+
+        for (int i = 0;i<wordList.size();i++){
+            // 过滤不必要的字段
+            if (!StringUtil.isEmpty(wordList.get(i).trim()) && !"`".equals(wordList.get(i).trim())) {
+                newWordList.add(wordList.get(i).trim());
             }
-            data.add(list);
         }
+        int index_1 = newWordList.indexOf("(");
+        int index_2 = newWordList.lastIndexOf(")");
+        List<String> list1 = newWordList.subList(0, index_1 + 1);
+        List<String> list2 = newWordList.subList(index_1 + 1, index_2);
+        List<String> list3 = newWordList.subList(index_2, newWordList.size());
 
+        List<List<String>> split = CollectionUtil.split(list2, (obj, nexObj) -> {
+            return obj.equals(",");
+        });
 
+        data.add(list1);
+        data.add(list3);
+        data.addAll(split);
     }
 
     public String getPackageName() {

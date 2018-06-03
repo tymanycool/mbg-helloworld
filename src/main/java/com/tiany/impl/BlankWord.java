@@ -2,9 +2,13 @@ package com.tiany.impl;
 
 import com.tiany.inf.Word;
 import com.tiany.inf.Condition;
+import com.tiany.util.CollectionUtil;
 import com.tiany.util.StringUtil;
 
 public class BlankWord implements Word {
+
+    private static final char[] blankList = {' ','\t','\r','\n'};
+
     private String firstWord;
 
     private String strData;
@@ -59,7 +63,8 @@ public class BlankWord implements Word {
      * @return
      */
     public static boolean isBlank(char ch) {
-        return ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n';
+        boolean contains = CollectionUtil.contains(blankList, ch);
+        return contains;
     }
 
     private int getFistWordIndex(){

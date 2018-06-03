@@ -7,7 +7,7 @@ import com.tiany.util.WordUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlRowTokenizer implements Tokenizer {
+public class SqlTokenizer implements Tokenizer {
     @Override
     public List<String>  toke(String str) {
         List<String> list = new ArrayList<>();
