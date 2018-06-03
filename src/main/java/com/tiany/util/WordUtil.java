@@ -20,8 +20,8 @@ public class WordUtil {
         if (BlankWord.isBlank(str.charAt(0))) {
             return new BlankWord(str);
         }
-        if (DoubleWord.isDouble(str.charAt(0))) {
-            return new DoubleWord(str);
+        if (NumberWord.isDouble(str.charAt(0))) {
+            return new NumberWord(str);
         }
 
         if (OtherWord.isOther(str.charAt(0))) {

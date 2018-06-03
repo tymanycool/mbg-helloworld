@@ -4,15 +4,13 @@ import com.tiany.inf.Word;
 import com.tiany.inf.Condition;
 import com.tiany.util.StringUtil;
 
-
-@Deprecated
-public class IntegerWord implements Word{
+public class NumberWord implements Word{
 
     private String firstWord;
 
     private String strData;
 
-    public IntegerWord(String strData) {
+    public NumberWord(String strData) {
         this.strData = strData;
     }
 
@@ -41,11 +39,14 @@ public class IntegerWord implements Word{
             return null;
         }
         int fistWordIndex = getFistWordIndex();
-        if (isInteger(strData.charAt(fistWordIndex))) {
+        if (isDouble(strData.charAt(fistWordIndex))) {
             firstWord = StringUtil.substringUntil(strData, fistWordIndex, new Condition() {
                 @Override
                 public boolean matches(Object obj, Object nextObj) {
-                    return !isInteger((Character)obj);
+                    if(nextObj == null){
+                        return true;
+                    }
+                    return !isDouble((Character)nextObj);
                 }
             });
         }
@@ -53,17 +54,17 @@ public class IntegerWord implements Word{
     }
 
     /**
-     * ch是否是a,b,c,...,z,A,B,C,...,Z,_
+     * ch是数字类型
      * @param ch
      * @return
      */
-    public static boolean isInteger(char ch) {
-        return Character.isDigit(ch);
+    public static boolean isDouble(char ch) {
+        return Character.isDigit(ch)||ch=='.';
     }
 
     private int getFistWordIndex(){
         for (int i = 0;i < strData.length();i++){
-            if(isInteger(strData.charAt(i))){
+            if(isDouble(strData.charAt(i))){
                 return i;
             }
         }
