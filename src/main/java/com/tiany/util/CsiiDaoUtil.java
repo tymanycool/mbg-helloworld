@@ -20,7 +20,7 @@ public class CsiiDaoUtil {
             System.out.println(map.get("java"));
             FileUtil.write("src/main/java/"+sql2SimpleEntity.getPackageName().replace(".","/")+"/"+StringUtil.getCamelClassName(table.getName())+".java",(String)map.get("java"));
             System.out.println(map.get("xml"));
-            FileUtil.write("src/main/resources/service/db/sql-mapping/service/test.xml",(String)map.get("xml"));
+            FileUtil.write("src/main/resources/service/db/sql-mapping/service/"+StringUtil.getCamelClassName(table.getName())+"Mapper.xml",(String)map.get("xml"));
         } catch (Exception e) {
             e.printStackTrace();
         }

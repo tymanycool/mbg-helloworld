@@ -7,7 +7,7 @@ import com.tiany.util.StringUtil;
 
 public class BlankWord implements Word {
 
-    private static final char[] blankList = {' ','\t','\r','\n'};
+    private static final char[] blankList = {' ','\t','\r','\n','\f'};
 
     private String firstWord;
 
