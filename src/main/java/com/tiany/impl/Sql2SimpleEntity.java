@@ -1,9 +1,8 @@
 package com.tiany.impl;
 
 import com.tiany.inf.Convert;
-import com.tiany.util.CollectionUtil;
-import com.tiany.util.MapUtil;
-import com.tiany.util.StringUtil;
+import com.tiany.util.*;
+import com.tiany.util.format.FormatUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -60,11 +59,11 @@ public class Sql2SimpleEntity implements Convert {
         ret += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
         ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
         ret += "<sqlMap namespace=\""+table.getName()+"\" >\r\n";
-        ret += generateResultMap(table);
-        ret += generateSelect(table);
-        ret += generateDelete(table);
-        ret += generateUpdate(table);
-        ret += generateInsert(table);
+        ret += FormatUtil.addTab(generateResultMap(table),1);
+        ret += FormatUtil.addTab(generateSelect(table),1);
+        ret += FormatUtil.addTab(generateDelete(table),1);
+        ret += FormatUtil.addTab(generateUpdate(table),1);
+        ret += FormatUtil.addTab(generateInsert(table),1);
         ret += "</sqlMap>\r\n";
         return ret;
     }
@@ -80,7 +79,10 @@ public class Sql2SimpleEntity implements Convert {
         ret += "import java.util.Date;\r\n";
         ret += "import java.math.BigDecimal;\r\n\r\n";
         ret += "/*\r\n";
-        ret += " *"+getCommentString(table.getComment())+"\r\n";
+        ret += " * @description "+getCommentString(table.getComment())+"\r\n";
+        ret += " * @author "+ System.getProperty("user.name")+"\r\n";
+        ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
+        ret += " * @since 1.0\r\n";
         ret += " */\r\n";
         ret += "public class " + StringUtil.getCamelClassName(table.getName()) + " implements Serializable{\r\n";
         ret += "\t/** 序列化号 */\r\n";

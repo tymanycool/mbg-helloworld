@@ -9,5 +9,10 @@ public class KeyWordTest {
         Word word =  new KeyWord("tianyao     Ti");
         System.out.println(word.getValue());
     }
+    @Test
+    public void test() throws Exception {
+        System.out.println("==="+'\f'+"===");
+        System.out.println("==="+' '+"===");
+    }
 
 }
