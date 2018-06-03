@@ -20,7 +20,7 @@ public class WordUtil {
         if (BlankWord.isBlank(str.charAt(0))) {
             return new BlankWord(str);
         }
-        if (NumberWord.isDouble(str.charAt(0))) {
+        if (NumberWord.isNumber(str.charAt(0))) {
             return new NumberWord(str);
         }
 

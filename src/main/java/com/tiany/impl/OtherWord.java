@@ -59,7 +59,7 @@ public class OtherWord implements Word{
      * @return
      */
     public static boolean isOther(char ch) {
-        return !NumberWord.isDouble(ch)&&!BlankWord.isBlank(ch)&&!StringWord.isString(ch)&&!KeyWord.isKey(ch)&&!SingleWord.isSingle(ch);
+        return !NumberWord.isNumber(ch)&&!BlankWord.isBlank(ch)&&!StringWord.isString(ch)&&!KeyWord.isKey(ch)&&!SingleWord.isSingle(ch);
     }
 
     private int getFistWordIndex(){
