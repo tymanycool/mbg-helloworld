@@ -1,5 +1,6 @@
 package com.tiany.impl;
 
+import com.tiany.util.tokenizer.StringWord;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

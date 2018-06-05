@@ -1,5 +1,6 @@
 package com.tiany.impl;
 
+import com.tiany.util.tokenizer.NumberWord;
 import org.junit.Test;
 
 public class DoubleWordTest {

@@ -1,6 +1,7 @@
 package com.tiany.impl;
 
 import com.tiany.inf.Word;
+import com.tiany.util.tokenizer.KeyWord;
 import org.junit.Test;
 
 public class KeyWordTest {

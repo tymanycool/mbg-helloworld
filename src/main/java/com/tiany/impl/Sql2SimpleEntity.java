@@ -426,7 +426,7 @@ public class Sql2SimpleEntity implements Convert {
     private void initData(String inStr) {
         data = new ArrayList<>();
         SqlTokenizer tokenizer = new SqlTokenizer();
-        List<String> wordList = tokenizer.toke(inStr);
+        List<String> wordList = tokenizer.split(inStr);
         List<String> newWordList = new ArrayList<>();
 
         for (int i = 0;i<wordList.size();i++){

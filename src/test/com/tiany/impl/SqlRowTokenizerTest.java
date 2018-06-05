@@ -9,8 +9,8 @@ public class SqlRowTokenizerTest {
     public void toke() throws Exception {
         SqlTokenizer sqlRowTokenizer = new SqlTokenizer();
         String in = "`acct_pkey` varchar ( 64.2336 22256 ) NOT NULL COMMENT '存管账户  主键'";
-        List<String> toke = sqlRowTokenizer.toke(in);
-        //System.out.println(toke);
+        List<String> toke = sqlRowTokenizer.split(in);
+        //System.out.println(split);
         String ret = "";
         for(String s:toke){
             System.out.println("=="+s+"==");
