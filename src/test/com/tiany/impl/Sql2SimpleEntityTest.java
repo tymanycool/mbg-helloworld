@@ -12,8 +12,10 @@ public class Sql2SimpleEntityTest {
     public void test() throws Exception {
         Sql2SimpleEntity sql2SimpleEntity = new Sql2SimpleEntity();
         Map map = (Map)sql2SimpleEntity.convert(FileUtil.read("src/main/resources/sql.txt"));
-        System.out.println(map.get("java"));
+        System.out.println(map.get("entity"));
         System.out.println(map.get("xml"));
+        System.out.println(map.get("dao"));
+        System.out.println(map.get("daoImpl"));
 //        System.out.println(map.get("resultMap"));
 //        System.out.println(map.get("select"));
 //        System.out.println(map.get("insert"));

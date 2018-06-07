@@ -5,7 +5,6 @@ import com.tiany.impl.Table;
 import com.tiany.util.io.FileUtil;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class CsiiDaoUtil {
@@ -40,8 +39,12 @@ public class CsiiDaoUtil {
             Sql2SimpleEntity sql2SimpleEntity = new Sql2SimpleEntity();
             Map map = (Map)sql2SimpleEntity.convert(FileUtil.read(sqlFilePath));
             Table table = sql2SimpleEntity.getTable();
-            System.out.println(map.get("java"));
-            FileUtil.write("src/main/java/"+sql2SimpleEntity.getPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("java"));
+            System.out.println(map.get("entity"));
+            FileUtil.write("src/main/java/"+sql2SimpleEntity.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("entity"));
+            System.out.println(map.get("dao"));
+            FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/"+table.getEntityName()+"Dao.java",(String)map.get("dao"));
+            System.out.println(map.get("daoImpl"));
+            FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/impl/"+table.getEntityName()+"DaoImpl.java",(String)map.get("daoImpl"));
             System.out.println(map.get("xml"));
             FileUtil.write(mapperLocation+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
         } catch (Exception e) {

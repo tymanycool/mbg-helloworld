@@ -7,9 +7,21 @@ import com.tiany.util.format.FormatUtil;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * 通过CREATE TABLE SQL 语句生成实体类及sqlMapper.xml
+ * @author tiany
+ * @version 1.0
+ */
 public class Sql2SimpleEntity implements Convert {
 
-    private String removePrefix ="xq_,pmis_";
+    // 需要去除的前缀
+    private final String removePrefix ="xq_,pmis_";
+    // 实体类的存放的包路径
+    private String entityPackageName = "com.csii.pmis.service.bean.model";
+
+    // dao类的存放的包路径
+    private String daoPackageName = "com.csii.pmis.admin.dao";
+
 
     private Properties properties;
 
@@ -17,7 +29,7 @@ public class Sql2SimpleEntity implements Convert {
 
     private Table table = new Table();
 
-    private String packageName = "com.csii.pmis.service.bean.model";
+
 
     @Override
     public Object convert(Object in) {
@@ -36,21 +48,15 @@ public class Sql2SimpleEntity implements Convert {
             inStr = inStr.replaceAll("\r\n", " ");
             initData(inStr);
             parseData(data);
-            HashMap<String, Object> map = new HashMap<>();
-            outStr = generateJava(table);
-            map.put("java",outStr);
+            Map<String, Object> map = new HashMap<>();
+            outStr = generateEntity(table);
+            map.put("entity",outStr);
             outStr = generateXml(table);
             map.put("xml",outStr);
-//            outStr = generateResultMap(table);
-//            map.put("resultMap",outStr);
-//            outStr = generateSelect(table);
-//            map.put("select",outStr);
-//            outStr = generateInsert(table);
-//            map.put("insert",outStr);
-//            outStr = generateUpdate(table);
-//            map.put("update",outStr);
-//            outStr = generateDelete(table);
-//            map.put("delete",outStr);
+            outStr = generateDao(table);
+            map.put("dao",outStr);
+            outStr = generateDaoImpl(table);
+            map.put("daoImpl",outStr);
 
             return map;
         }
@@ -61,7 +67,7 @@ public class Sql2SimpleEntity implements Convert {
         String ret = "";
         ret += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
         ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
-        ret += "<sqlMap namespace=\""+table.getName()+"\" >\r\n";
+        ret += "<sqlMap namespace=\""+table.getEntityName()+"\" >\r\n";
         ret += FormatUtil.addTab(generateResultMap(table),1);
         ret += FormatUtil.addTab(generateSelect(table),1);
         ret += FormatUtil.addTab(generateDelete(table),1);
@@ -71,13 +77,13 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
     /**
-     * 生成java属性
+     * 生成entity类
      * @param table
      * @return
      */
-    private String generateJava(Table table) {
+    private String generateEntity(Table table) {
         String ret = "";
-        ret += "package "+packageName+";\r\n\r\n";
+        ret += "package "+ entityPackageName +";\r\n\r\n";
         ret += "import java.io.Serializable;\r\n";
         ret += "import java.util.Date;\r\n";
         ret += "import java.math.BigDecimal;\r\n\r\n";
@@ -104,12 +110,92 @@ public class Sql2SimpleEntity implements Convert {
     }
 
     /**
+     * 生成entity类
+     * @param table
+     * @return
+     */
+    private String generateDao(Table table) {
+        String ret = "";
+        ret += "package "+ daoPackageName +";\r\n\r\n";
+        ret += "import java.util.List;\r\n";
+        ret += "import java.util.Map;\r\n\r\n";
+        ret += "import "+entityPackageName+"."+table.getEntityName()+";\r\n\r\n";
+        ret += "/*\r\n";
+        ret += " * @description "+getCommentString(table.getComment())+"Dao\r\n";
+        ret += " * @author "+ System.getProperty("user.name")+"\r\n";
+        ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
+        ret += " * @since 1.0\r\n";
+        ret += " */\r\n";
+        ret += "public interface " + table.getEntityName() + "Dao {\r\n";
+        ret += "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "\tList<"+table.getEntityName()+"> select(Map<String,Object> params);\r\n";
+        ret += "\tint update(Map<String,Object> params);\r\n";
+        ret += "\tint delete(Map<String,Object> params);\r\n";
+        ret += "}\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成entity类
+     * @param table
+     * @return
+     */
+    private String generateDaoImpl(Table table) {
+        String ret = "";
+        ret += "package "+ daoPackageName +".impl;\r\n\r\n";
+        ret += "import java.util.List;\r\n";
+        ret += "import java.util.Map;\r\n\r\n";
+        ret += "import org.springframework.beans.factory.annotation.Autowired;\r\n";
+        ret += "import org.springframework.orm.ibatis.SqlMapClientOperations;\r\n";
+        ret += "import org.springframework.stereotype.Repository;\r\n\r\n";
+        ret += "import "+daoPackageName+"."+table.getEntityName()+"Dao;\r\n";
+        ret += "import "+entityPackageName+"."+table.getEntityName()+";\r\n\r\n";
+        ret += "/*\r\n";
+        ret += " * @description "+getCommentString(table.getComment())+"DaoImpl\r\n";
+        ret += " * @author "+ System.getProperty("user.name")+"\r\n";
+        ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
+        ret += " * @since 1.0\r\n";
+        ret += " */\r\n";
+        ret += "@Repository\r\n";
+        ret += "public class " + table.getEntityName() + "DaoImpl implements "+table.getEntityName()+"Dao {\r\n";
+        ret += "\t@Autowired\r\n";
+        ret += "\tpublic SqlMapClientOperations sqlMap;\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic Object insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
+        ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic List<"+table.getEntityName()+"> select(Map<String,Object> params){\r\n";
+        ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".select\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic int update(Map<String,Object> params){\r\n";
+        ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".update\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic int delete(Map<String,Object> params){\r\n";
+        ret += "\t\treturn sqlMap.delete(\""+table.getEntityName()+".delete\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "}\r\n\r";
+        return ret;
+    }
+
+    private String getBeanNameByClassName(String className){
+        return className.substring(0,1).toLowerCase()+className.substring(1);
+    }
+
+    /**
      * 生成结果映射
      * @param table
      * @return
      */
     private String generateResultMap(Table table) {
-        String ret = "<resultMap id=\""+table.getEntityName()+"BaseResultMap\" class=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
+        String ret = "<resultMap id=\""+table.getEntityName()+"BaseResultMap\" class=\""+ entityPackageName +"."+table.getEntityName()+"\" >\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
@@ -123,7 +209,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateSelect(Table table) {
-        String ret = "<select id=\"select\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+packageName+"."+ table.getEntityName()+"\" >\r\n";
+        String ret = "<select id=\"select\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\"java.util.HashMap\" >\r\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -166,7 +252,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateInsert(Table table) {
-        String ret = "<insert id=\"insert\"  parameterClass=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
+        String ret = "<insert id=\"insert\"  parameterClass=\""+ entityPackageName +"."+table.getEntityName()+"\" >\r\n";
         ret += "\tINSERT INTO "+table.getName()+" (\r\n\t\t";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -193,7 +279,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateUpdate(Table table) {
-        String ret = "<update id=\"update\"  parameterClass=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
+        String ret = "<update id=\"update\"  parameterClass=\"java.util.HashMap\" >\r\n";
         ret += "\tUPDATE "+table.getName()+"\r\n";
         List<Field> fields = table.getFields();
         ret += "\t<dynamic prepend=\"set\" >\r\n";
@@ -493,12 +579,12 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public String getEntityPackageName() {
+        return entityPackageName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setEntityPackageName(String entityPackageName) {
+        this.entityPackageName = entityPackageName;
     }
 
     public Table getTable() {
@@ -507,5 +593,13 @@ public class Sql2SimpleEntity implements Convert {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    public String getDaoPackageName() {
+        return daoPackageName;
+    }
+
+    public void setDaoPackageName(String daoPackageName) {
+        this.daoPackageName = daoPackageName;
     }
 }
