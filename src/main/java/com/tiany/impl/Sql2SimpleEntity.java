@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class Sql2SimpleEntity implements Convert {
+
+    private String removePrefix ="xq_,pmis_";
+
     private Properties properties;
 
     private List<List<String>> data;
@@ -84,7 +87,7 @@ public class Sql2SimpleEntity implements Convert {
         ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
         ret += " * @since 1.0\r\n";
         ret += " */\r\n";
-        ret += "public class " + StringUtil.getCamelClassName(table.getName()) + " implements Serializable{\r\n";
+        ret += "public class " + table.getEntityName() + " implements Serializable{\r\n";
         ret += "\t/** 序列化号 */\r\n";
         ret += "\tprivate static final long serialVersionUID = 1L;\r\n";
         List<Field> fields = table.getFields();
@@ -95,6 +98,7 @@ public class Sql2SimpleEntity implements Convert {
         }
         ret += "\r\n";
         ret += generateGetterSetter(table);
+        ret += generateToString(table);
         ret += "}\r\n";
         return ret;
     }
@@ -105,7 +109,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateResultMap(Table table) {
-        String ret = "<resultMap id=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" class=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<resultMap id=\""+table.getEntityName()+"BaseResultMap\" class=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
@@ -119,7 +123,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateSelect(Table table) {
-        String ret = "<select id=\"select\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<select id=\"select\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+packageName+"."+ table.getEntityName()+"\" >\r\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -147,7 +151,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateDelete(Table table) {
-        String ret = "<delete id=\"delete\" resultMap=\""+StringUtil.getCamelClassName(table.getName())+"BaseResultMap\" parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<delete id=\"delete\"  parameterClass=\"java.util.HashMap\" >\r\n";
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
         List<Field> fields = table.getFields();
@@ -162,7 +166,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateInsert(Table table) {
-        String ret = "<insert id=\"insert\"  parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<insert id=\"insert\"  parameterClass=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
         ret += "\tINSERT INTO "+table.getName()+" (\r\n\t\t";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -171,7 +175,7 @@ public class Sql2SimpleEntity implements Convert {
                 ret += ",";
             }
         }
-        ret += "\r\n\t)values (\n" + "\t\t";
+        ret += "\r\n\t)values (\n" + "\t\t\t";
         for(int i =0;i<fields.size();i++){
             ret += "#"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
             if(i<fields.size()-1){
@@ -189,7 +193,7 @@ public class Sql2SimpleEntity implements Convert {
      * @return
      */
     private String generateUpdate(Table table) {
-        String ret = "<update id=\"update\"  parameterClass=\""+packageName+"."+StringUtil.getCamelClassName(table.getName())+"\" >\r\n";
+        String ret = "<update id=\"update\"  parameterClass=\""+packageName+"."+table.getEntityName()+"\" >\r\n";
         ret += "\tUPDATE "+table.getName()+"\r\n";
         List<Field> fields = table.getFields();
         ret += "\t<dynamic prepend=\"set\" >\r\n";
@@ -401,6 +405,21 @@ public class Sql2SimpleEntity implements Convert {
                 initComment = true;
             }
         }
+        // 处理entity的名字
+        table.setEntityName(StringUtil.getCamelClassName(table.getName().toLowerCase()));
+        if(StringUtil.isEmpty(removePrefix)){
+            return;
+        }
+        String[] split = removePrefix.split(",");
+        for (String s : split){
+            if(StringUtil.isNotEmpty(s)){
+                // 忽略大小写
+                if(StringUtil.startsWithIgnoreCase(table.getName(),s)){
+                    table.setEntityName(StringUtil.getCamelClassName(table.getName().substring(s.length())));
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -447,6 +466,31 @@ public class Sql2SimpleEntity implements Convert {
         list1.addAll(list3);
         data.add(list1);
         data.addAll(split);
+    }
+
+    /**
+     * 生成toString
+     * @param table
+     * @return
+     */
+    private String generateToString(Table table){
+        List<Field> fields = table.getFields();
+        String ret = "";
+        ret += "\t@Override\r\n";
+        ret += "\tpublic String toString() {\r\n";
+        ret += "\t\tfinal StringBuffer sb = new StringBuffer(\""+table.getEntityName()+"{\");\r\n";
+        for (int i = 0;i<fields.size();i++){
+            Field field = fields.get(i);
+            if(i!=fields.size()-1) {
+                ret += "\t\tsb.append(\"" + StringUtil.getCamelProperty(field.getName()) + "='\").append(" + StringUtil.getCamelProperty(field.getName()) + ").append('\\'');\r\n";
+            }else {
+                ret += "\t\tsb.append(\"" + StringUtil.getCamelProperty(field.getName()) + "='\").append(" + StringUtil.getCamelProperty(field.getName()) + ");\r\n";
+            }
+        }
+        ret += "\t\tsb.append('}');\t\n";
+        ret += "\t\treturn sb.toString();\r\n";
+        ret += "\t}\r\n";
+        return ret;
     }
 
     public String getPackageName() {

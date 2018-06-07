@@ -41,9 +41,9 @@ public class CsiiDaoUtil {
             Map map = (Map)sql2SimpleEntity.convert(FileUtil.read(sqlFilePath));
             Table table = sql2SimpleEntity.getTable();
             System.out.println(map.get("java"));
-            FileUtil.write("src/main/java/"+sql2SimpleEntity.getPackageName().replace(".","/")+"/"+StringUtil.getCamelClassName(table.getName())+".java",(String)map.get("java"));
+            FileUtil.write("src/main/java/"+sql2SimpleEntity.getPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("java"));
             System.out.println(map.get("xml"));
-            FileUtil.write(mapperLocation+StringUtil.getCamelClassName(table.getName())+"Mapper.xml",(String)map.get("xml"));
+            FileUtil.write(mapperLocation+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
         } catch (Exception e) {
             e.printStackTrace();
         }

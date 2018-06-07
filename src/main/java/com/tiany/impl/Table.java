@@ -7,6 +7,7 @@ public class Table {
     private String name;
     private List<Field > fields = new ArrayList<>();
     private String comment;
+    private String entityName;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class Table {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 }
