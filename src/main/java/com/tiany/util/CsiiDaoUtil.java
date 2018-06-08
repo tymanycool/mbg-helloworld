@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.Map;
 
 public class CsiiDaoUtil {
-    private static final String mapperLocation = "src/main/resources/service/db/sql-mapping/service/";
+
 
     @Test
     public void test(){
@@ -21,17 +21,11 @@ public class CsiiDaoUtil {
         String sqlFilePath = "src/main/resources/sql2.txt";
         start(sqlFilePath);
     }
-    @Test
-    public void test3(){
-        String sqlFilePath = "src/main/resources/sql3.txt";
-        start(sqlFilePath);
-    }
-
-    @Test
-    public void test4(){
-        String sqlFilePath = "src/main/resources/sql4.txt";
-        start(sqlFilePath);
-    }
+//    @Test
+//    public void test3(){
+//        String sqlFilePath = "src/main/resources/sql3.txt";
+//        start(sqlFilePath);
+//    }
 
 
     public static void start(String sqlFilePath){
@@ -46,7 +40,7 @@ public class CsiiDaoUtil {
             System.out.println(map.get("daoImpl"));
             FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/impl/"+table.getEntityName()+"DaoImpl.java",(String)map.get("daoImpl"));
             System.out.println(map.get("xml"));
-            FileUtil.write(mapperLocation+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
+            FileUtil.write(sql2SimpleEntity.getMapperLocation()+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
         } catch (Exception e) {
             e.printStackTrace();
         }

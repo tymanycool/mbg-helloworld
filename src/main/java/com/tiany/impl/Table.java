@@ -8,6 +8,7 @@ public class Table {
     private List<Field > fields = new ArrayList<>();
     private String comment;
     private String entityName;
+    private List<Field> primaryKeys = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -39,5 +40,13 @@ public class Table {
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
+    }
+
+    public List<Field> getPrimaryKeys() {
+        return primaryKeys;
+    }
+
+    public void setPrimaryKeys(List<Field> primaryKeys) {
+        this.primaryKeys = primaryKeys;
     }
 }

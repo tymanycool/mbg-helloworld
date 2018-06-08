@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+
+    <context:component-scan base-package="com.csii.pmis.*">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+
+    <bean id="poolProperties" class="org.apache.tomcat.jdbc.pool.PoolProperties">
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"></property>
+        <property name="validationQuery" value="${db.validationQuery}"/>
+        <property name="maxActive" value="${db.maxActive}"></property>
+        <property name="maxIdle" value="${db.maxIdle}"></property>
+        <property name="minIdle" value="${db.minIdle}"></property>
+        <property name="initialSize" value="${db.initialSize}"></property>
+        <property name="testWhileIdle" value="${db.testWhileIdle}"></property>
+        <property name="validationInterval" value="${db.validationInterval}"></property>
+        <property name="removeAbandoned" value="${db.removeAbandoned}"></property>
+        <property name="jdbcInterceptors" value="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"></property>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="poolProperties" ref="poolProperties"/>
+    </bean>
+
+    <bean id="sqlMapClientOperations" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <bean name="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <!-- classpath*:ibsdbSqlMapConfig.xml不能识别 -->
+        <property name="configLocation" value="classpath:ibsdbSqlMapConfig.xml"/>
+       <!-- <property name="mappingLocations" value="classpath*:service/db/sql-mapping/service/*/*.xml"></property>-->
+    </bean>
+</beans>
