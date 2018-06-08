@@ -17,6 +17,13 @@ public class Sql2SimpleEntity implements Convert {
 
     // 需要去除的前缀
     private final String removePrefix ="xq_,pmis_";
+
+    // 定义新的前缀
+    private final String prefix = "tianyao";
+
+    // 定义后缀
+    private final String suffix = "VO";
+
     // 实体类的存放的包路径
     private String entityPackageName = "com.csii.pmis.service.bean.model";
 
@@ -27,7 +34,7 @@ public class Sql2SimpleEntity implements Convert {
     private String mapperLocation = "src/main/resources/service/db/sql-mapping/service/";
 
 
-    private Properties properties;
+    private Properties props;
 
     private List<List<String>> data;
 
@@ -38,8 +45,8 @@ public class Sql2SimpleEntity implements Convert {
     @Override
     public Object convert(Object in) {
         try {
-            properties = new Properties();
-            properties.load(this.getClass().getClassLoader().getResourceAsStream("type.properties"));
+            props = new Properties();
+            props.load(this.getClass().getClassLoader().getResourceAsStream("type.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +80,10 @@ public class Sql2SimpleEntity implements Convert {
         ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
         ret += "<sqlMap namespace=\""+table.getEntityName()+"\" >\r\n";
         ret += FormatUtil.addTab(generateResultMap(table),1);
-        ret += FormatUtil.addTab(generateSelect(table),1);
+        ret += FormatUtil.addTab(generateSelectForList(table),1);
+        ret += FormatUtil.addTab(generateSelectForMapList(table),1);
+        ret += FormatUtil.addTab(generateSelectForObject(table),1);
+        ret += FormatUtil.addTab(generateSelectForMap(table),1);
         ret += FormatUtil.addTab(generateDeleteByPrimaryKey(table),1);
         ret += FormatUtil.addTab(generateDeleteByParams(table),1);
         ret += FormatUtil.addTab(generateUpdateByParams(table),1);
@@ -106,7 +116,7 @@ public class Sql2SimpleEntity implements Convert {
         for(int i =0;i<fields.size();i++){
             ret += "\t/** "+getCommentString(fields.get(i).getComment())+" */\r\n";
             // TODO TIANYAO
-            ret += "\tprivate " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,fields.get(i).getType())) +" " +StringUtil.getCamelProperty(fields.get(i).getName()) + ";\r\n";
+            ret += "\tprivate " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,fields.get(i).getType())) +" " +StringUtil.getCamelProperty(fields.get(i).getName()) + ";\r\n";
         }
         ret += "\r\n";
         ret += generateGetterSetter(table);
@@ -133,16 +143,54 @@ public class Sql2SimpleEntity implements Convert {
         ret += " * @since 1.0\r\n";
         ret += " */\r\n";
         ret += "public interface " + table.getEntityName() + "Dao {\r\n";
-        ret += "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n";
-        ret += "\tList<"+table.getEntityName()+"> select(Map<String,Object> params);\r\n";
+        ret += "\t/**\r\n";
+        ret += "\t * 插入一条新的纪录\r\n";
+        ret += "\t */\r\n";
+        ret += "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询"+table.getEntityName()+"的List集合\r\n";
+        ret += "\t */\r\n";
+        ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,Object> params);\r\n\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询Map类型的List集合\r\n";
+        ret += "\t */\r\n";
+        ret += "\tList<Map<String,Object>> selectForMapList(Map<String,Object> params);\r\n\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询"+table.getEntityName()+"对象\r\n";
+        ret += "\t */\r\n";
+        ret += "\t"+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询，返回Map类型\r\n";
+        ret += "\t */\r\n";
+        ret += "\tMap<String,Object> selectForMap(Map<String,Object> params);\r\n\r\n";
+
         if(hasPrimatyKey(table)){
-            ret += "\tint updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+            ret += "\t/**\r\n";
+            ret += "\t * 根据主键更新"+table.getEntityName()+"\r\n";
+            ret += "\t */\r\n";
+            ret += "\tint updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
         }
-        ret += "\tint updateByParams(Map<String,Object> params);\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params更新"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        ret += "\tint updateByParams(Map<String,Object> params);\r\n\r\n";
+
         if(hasPrimatyKey(table)) {
-            ret += "\tint deleteByPrimaryKey(" + getSimpleClassName((String) properties.get(table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n";
+            ret += "\t/**\r\n";
+            ret += "\t * 根据主键删除"+table.getEntityName()+"\r\n";
+            ret += "\t */\r\n";
+            ret += "\tint deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n\r\n";
         }
-        ret += "\tint deleteByParams(Map<String,Object> params);\r\n";
+
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params删除"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        ret += "\tint deleteByParams(Map<String,Object> params);\r\n\r\n";
         ret += "}\r\n";
         return ret;
     }
@@ -179,8 +227,23 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\t}\r\n\r\n";
 
         ret += "\t@Override\r\n";
-        ret += "\tpublic List<"+table.getEntityName()+"> select(Map<String,Object> params){\r\n";
-        ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".select\",params);\r\n";
+        ret += "\tpublic List<"+table.getEntityName()+"> selectForList(Map<String,Object> params){\r\n";
+        ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForList\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic List<Map<String,Object>> selectForMapList(Map<String,Object> params){\r\n";
+        ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic "+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
+        ret += "\t\treturn ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\","+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "\t}\r\n\r\n";
+
+        ret += "\t@Override\r\n";
+        ret += "\tpublic Map<String,Object> selectForMap(Map<String,Object> params){\r\n";
+        ret += "\t\treturn (Map<String,Object>)sqlMap.queryForObject(\""+table.getEntityName()+".selectForMap\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
         if(hasPrimatyKey(table)){
@@ -197,7 +260,7 @@ public class Sql2SimpleEntity implements Convert {
 
         if(hasPrimatyKey(table)) {
             ret += "\t@Override\r\n";
-            ret += "\tpublic int deleteByPrimaryKey(" + getSimpleClassName((String) properties.get(table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "){\r\n";
+            ret += "\tpublic int deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "){\r\n";
             ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteByPrimaryKey\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n";
             ret += "\t}\r\n\r\n";
         }
@@ -226,16 +289,22 @@ public class Sql2SimpleEntity implements Convert {
         for(int i =0;i<fields.size();i++){
             ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
         }
+        ret += "</resultMap>\r\n\r\n";
+
+        ret += "<resultMap id=\"HashMapBaseResultMap\" class=\"java.util.HashMap\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
+        }
         ret += "</resultMap>\r\n";
         return ret;
     }
     /**
-     * 生成select查询
+     * 生成selectForList查询
      * @param table
      * @return
      */
-    private String generateSelect(Table table) {
-        String ret = "<select id=\"select\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\"java.util.HashMap\" >\r\n";
+    private String generateSelectForList(Table table) {
+        String ret = "<select id=\"selectForList\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\"java.util.HashMap\" >\r\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -248,9 +317,93 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tFROM " + table.getName() +" \r\n";
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
-            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
-            ret += "\t\t</isNotEmpty>\r\n";
+            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成selectForMapList查询
+     * @param table
+     * @return
+     */
+    private String generateSelectForMapList(Table table) {
+        String ret = "<select id=\"selectForMapList\" resultMap=\"HashMapBaseResultMap\" parameterClass=\"java.util.HashMap\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成selectForObject查询
+     * @param table
+     * @return
+     */
+    private String generateSelectForObject(Table table) {
+        String ret = "<select id=\"selectForObject\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+entityPackageName+"."+table.getEntityName()+"\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成selectForMap查询
+     * @param table
+     * @return
+     */
+    private String generateSelectForMap(Table table) {
+        String ret = "<select id=\"selectForMap\" resultMap=\"HashMapBaseResultMap\" parameterClass=\"java.util.HashMap\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</select>\r\n";
@@ -265,7 +418,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateDeleteByPrimaryKey(Table table) {
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
-        String ret = "<delete id=\"deleteByPrimaryKey\"  parameterClass=\""+properties.get(fields.get(0).getType())+"\" >\r\n";
+        String ret = "<delete id=\"deleteByPrimaryKey\"  parameterClass=\""+ props.get(fields.get(0).getType())+"\" >\r\n";
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
         ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
@@ -337,17 +490,17 @@ public class Sql2SimpleEntity implements Convert {
         List<Field> fields = table.getFields();
         ret += "\t<dynamic prepend=\"set\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\",\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
-            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
-            ret += "\t\t</isNotEmpty>\r\n";
+            ret += "\t\t<isNotEmpty prepend=\",\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
         }
         ret += "\t</dynamic>\r\n";
 
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >\r\n";
-            ret += "\t\t\t"+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#\r\n";
-            ret += "\t\t</isNotEmpty>\r\n";
+            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </isNotEmpty>\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</update>\r\n";
@@ -368,9 +521,9 @@ public class Sql2SimpleEntity implements Convert {
         for(int i =0;i<fields.size();i++){
             // 不是主键时
             if(!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
-                ret += "\t\t<isNotEmpty prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >\r\n";
-                ret += "\t\t\t" + fields.get(i).getName() + " = #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "#\r\n";
-                ret += "\t\t</isNotEmpty>\r\n";
+                ret += "\t\t<isNotEmpty prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
+                ret += " " + fields.get(i).getName() + " = #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
+                ret += " </isNotEmpty>\r\n";
             }
         }
         ret += "\t</dynamic>\r\n";
@@ -393,7 +546,7 @@ public class Sql2SimpleEntity implements Convert {
     }
 
     private void parseData(List<List<String>> data) {
-        Map map = (Map)properties;
+        Map map = (Map) props;
         initTableNameAndComment(data);
         //initTableComment(row);
         for (int i = 0; i < data.size(); i++) {
@@ -463,7 +616,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateGetter(Field field){
         String ret = "";
         String camelProperty = StringUtil.getCamelProperty(field.getName());
-        ret += "\tpublic " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,field.getType())) + " " + StringUtil.getCamelProperty("get_" +field.getName())+"() {\r\n";
+        ret += "\tpublic " + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,field.getType())) + " " + StringUtil.getCamelProperty("get_" +field.getName())+"() {\r\n";
         ret += "\t\treturn "+"this."+camelProperty +" ;\r\n";
         ret += "\t}\r\n\r\n";
         return ret;
@@ -477,7 +630,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateSetter(Field field){
         String ret = "";
         String camelProperty = StringUtil.getCamelProperty(field.getName());
-        ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String)MapUtil.getIgnoreCase((Map)properties,field.getType()))+" "+camelProperty+") {\r\n";
+        ret += "\tpublic void " + StringUtil.getCamelProperty("set_" +field.getName())+"("+getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,field.getType()))+" "+camelProperty+") {\r\n";
         ret += "\t\tthis."+camelProperty+" = "+camelProperty +" ;\r\n";
         ret += "\t}\r\n\r\n";
         return ret;
@@ -608,6 +761,7 @@ public class Sql2SimpleEntity implements Convert {
                 }
             }
         }
+        table.setEntityName(StringUtil.getCamelClassName(prefix)+table.getEntityName()+StringUtil.getCamelClassName(suffix));
     }
 
     /**

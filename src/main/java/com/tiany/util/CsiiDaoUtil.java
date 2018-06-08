@@ -21,11 +21,11 @@ public class CsiiDaoUtil {
         String sqlFilePath = "src/main/resources/sql2.txt";
         start(sqlFilePath);
     }
-//    @Test
-//    public void test3(){
-//        String sqlFilePath = "src/main/resources/sql3.txt";
-//        start(sqlFilePath);
-//    }
+    @Test
+    public void test3(){
+        String sqlFilePath = "src/main/resources/sql3.txt";
+        start(sqlFilePath);
+    }
 
 
     public static void start(String sqlFilePath){
