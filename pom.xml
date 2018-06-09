@@ -7,7 +7,7 @@
     <groupId>com.tianyao</groupId>
     <artifactId>MBGHelloWorld</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>MBGHelloWorld Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
@@ -192,6 +192,24 @@
                         <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
                         <overwrite>true</overwrite>
                     </configuration>
+                </plugin>
+
+                <!-- 打包依赖的包 不管用了？？？-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>copy</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

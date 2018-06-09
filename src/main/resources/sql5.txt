@@ -1,0 +1,932 @@
+
+/* Drop Indexes */
+
+DROP INDEX IDX_TRANS_FLOW_RQUUID;
+
+
+
+/* Drop Tables */
+
+DROP TABLE PMIS_ATTACHMENT_INFO;
+DROP TABLE PMIS_BATCH_FLOW;
+DROP TABLE PMIS_BUSINESS_TIPS;
+DROP TABLE PMIS_FIELD_INVESTIGATION;
+DROP TABLE PMIS_PROJECT_ADJUSTMENT;
+DROP TABLE PMIS_PROJECT_ASK_HISTORY;
+DROP TABLE PMIS_PROJECT_ASK;
+DROP TABLE PMIS_PROJECT_AUDIT;
+DROP TABLE PMIS_PROJECT_CBRC_FEEDBACK;
+DROP TABLE PMIS_PROJECT_CBRC_AUDIT;
+DROP TABLE PMIS_PROJECT_CHANGE_HISTORY;
+DROP TABLE PMIS_PROJECT_COACH;
+DROP TABLE PMIS_PROJECT_IMPLEMENT;
+DROP TABLE PMIS_PROJECT_IPO_INFO;
+DROP TABLE PMIS_PROJECT_MEMBER;
+DROP TABLE PMIS_PROJECT_ONLINE_INFO;
+DROP TABLE PMIS_PROJECT_RESEARCH_LIST;
+DROP TABLE PMIS_PUBLIC_MSG_INFO;
+DROP TABLE PMIS_RECHECK_NOTICE_INFO;
+DROP TABLE PMIS_SEALS_APPLY_FLOW;
+DROP TABLE PMIS_WORK_LOG;
+DROP TABLE PMIS_PROJECT_INFO;
+DROP TABLE PMIS_PUB_PARAM;
+DROP TABLE PMIS_TRANS_FLOW;
+
+
+
+
+/* Create Tables */
+
+-- 附件信息表
+CREATE TABLE PMIS_ATTACHMENT_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 业务流水
+	BIZ_FLOW varchar(40),
+	-- 文件名
+	FILE_NAME varchar(200),
+	-- 用印状态
+	SEALS_STATUS varchar(30),
+	-- 是否复核告知
+	IS_RECHECK_NOTICE varchar(1),
+	-- 业务类型
+	BUSINESS_TYPE varchar(3),
+	-- 文件类型
+	FILE_TAG varchar(3),
+	-- 文件格式
+	FILE_TYPE varchar(20),
+	-- 文件版本号
+	FILE_VERSION varchar(20),
+	-- 文件路径
+	FILE_PATH varchar(200),
+	-- 备注
+	REMARK varchar(1024),
+	-- 份数
+	COPY_NUM decimal(10),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 跑批流水表
+CREATE TABLE PMIS_BATCH_FLOW
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL,
+	-- 跑批类
+	BATCH_CLASS varchar(50) ,
+	-- 跑批描述
+	BATCH_DESC varchar(1024),
+	-- 跑批状态
+	BATCH_STT varchar(3),
+	-- 业务日期
+	BUSINESS_DATE varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 业务提示表
+CREATE TABLE PMIS_BUSINESS_TIPS
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 项目名称
+	PROJECT_NAME varchar(200),
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 员工id
+	USER_ID varchar(40),
+	-- 业务提示
+	TIPS varchar(1024),
+	-- 阅读状态
+	READ_STT varchar(3),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 外勤调查表
+CREATE TABLE PMIS_FIELD_INVESTIGATION
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 调查人员
+	INVESTIGATION_PERSON varchar(60),
+	-- 调查时间
+	INVESTIGATION_TIME varchar(30),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 重大事项调整
+CREATE TABLE PMIS_PROJECT_ADJUSTMENT
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 流程实例ID
+	PROCINST_ID varchar(40),
+	-- 审批状态
+	APPROVAL_STATUS varchar(30),
+	-- 调整动作
+	ACTION varchar(3),
+	-- 备注
+	REMARK varchar(1024),
+	-- 原因
+	REASON varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 检查问询
+CREATE TABLE PMIS_PROJECT_ASK
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 任务标题
+	TASK_TITLE varchar(40),
+	-- 问询描述
+	ASK_DESC varchar(10240),
+	-- 问询状态
+	ASK_STATUS varchar(3),
+	-- 问询发起岗位
+	ASK_START_POSITION varchar(40),
+	-- 问询人
+	ASK_USER varchar(40),
+	-- 问询发起时间
+	ASK_TIME varchar(20),
+	-- 问询回复岗位
+	REPLY_POSITION varchar(40),
+	-- 回复人
+	REPLY_USER varchar(40),
+	-- 回复内容
+	REPLY_CONTENT varchar(10240),
+	-- 回复时间
+	REPLY_TIME varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 检查问询历史表
+CREATE TABLE PMIS_PROJECT_ASK_HISTORY
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 检查询问表主键
+	PROJECT_ASK_ID varchar(40) NOT NULL,
+	-- 操作人岗位
+	OPERATOR_POSITION varchar(40),
+	-- 操作人
+	OPERATOR varchar(40),
+	-- 问询历史表操作类型
+	ASKHIS_OPTYPE varchar(3),
+	-- 操作内容
+	OP_CONTENT varchar(10240),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目审批
+CREATE TABLE PMIS_PROJECT_AUDIT
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 审批阶段
+	AUDIT_PHASE varchar(3),
+	-- 审核意见
+	AUDIT_COMMENTS varchar(400),
+	-- 审批状态
+	APPROVAL_STATUS varchar(30),
+	-- 审批操作员
+	AUDIT_USER_ID varchar(40),
+	-- 流程实例ID
+	PROCINST_ID varchar(40),
+	-- 计划申报时间
+	PLAN_APPLY_TIME varchar(20),
+	-- 备注
+	REMARK varchar(1024),
+	-- 受理时间
+	ACCEPT_TIME varchar(20),
+	-- 会议时间
+	MEETING_DATE varchar(20),
+	-- 会议结果
+	MEETING_RESULT varchar(50),
+	-- 参会人员
+	MEETING_PERSON varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 证监会审核表
+CREATE TABLE PMIS_PROJECT_CBRC_AUDIT
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 是否通过审核
+	AUDIT_PASS_FLAG varchar(1),
+	-- 受理时间
+	ACCEPT_TIME varchar(20),
+	-- 过会时间
+	MEETING_TIME varchar(20),
+	-- 发行批文时间
+	PUBLISH_APPROVAL_TIME varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 证监会审核反馈
+CREATE TABLE PMIS_PROJECT_CBRC_FEEDBACK
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 证监会审核表主键
+	CBRC_AUDIT_ID varchar(40) NOT NULL,
+	-- 文件名
+	FILE_NAME varchar(200),
+	-- 文件类型
+	FILE_TAG varchar(3),
+	-- 过会时间
+	MEETING_TIME varchar(20),
+	-- 届次
+	TIME_COUNT varchar(10),
+	-- 证监会审核状态
+	CBRC_AUDIT_STT varchar(3),
+	-- 证监会意见
+	CBRC_COMMENTS varchar(1024),
+	-- 批文落款日期
+	DOCUMENTS_DATED varchar(20),
+	-- 批文有效日期
+	DOCUMENT_VALID_DATE varchar(20),
+	-- 预审员
+	INTERROGATOR varchar(40),
+	-- 文件业务时间
+	FILE_BUSS_TIME varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目状态变更历史表
+CREATE TABLE PMIS_PROJECT_CHANGE_HISTORY
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 变更前状态
+	PRE_STATUS varchar(3),
+	-- 变更后项目状态
+	POST_STATUS varchar(3),
+	-- 备注
+	REMARK varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目辅导表
+CREATE TABLE PMIS_PROJECT_COACH
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 辅导备案日期
+	COACH_RECORD_DATE varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目实施信息表
+CREATE TABLE PMIS_PROJECT_IMPLEMENT
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40),
+	-- 备注
+	REMARK varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目信息表
+CREATE TABLE PMIS_PROJECT_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目名称
+	PROJECT_NAME varchar(200),
+	-- 项目编号
+	PROJECT_NO varchar(50),
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 项目子阶段
+	PROJECT_SUB_PHASE varchar(3),
+	-- 项目状态
+	PROJECT_STATUS varchar(20),
+	-- 项目分类
+	PROJECT_CLASS varchar(3),
+	-- 项目类型
+	PROJECT_TYPE varchar(3),
+	-- 项目流程
+	PROJECT_FLOW varchar(100),
+	-- 问询状态
+	ASK_STATUS varchar(3),
+	-- 股市板块
+	STOCK_MARKET varchar(3),
+	-- 所属省份
+	PROVINCE_LOC varchar(50),
+	-- 所在城市
+	CITY_LOC varchar(20),
+	-- 注册地址
+	REGISTADDR varchar(200),
+	-- 所属行业（证监会行业分类）
+	INDUSTRY_SFC varchar(3),
+	-- 企业负责人
+	ENTERPRISELEADER varchar(50),
+	-- 项目负责人
+	PROJECTLEADER varchar(50),
+	-- 联系方式
+	CONTACTINFO varchar(30),
+	-- 部门
+	DEPARTMENT varchar(3),
+	-- 分管领导
+	DIVISIONLEADER varchar(50),
+	-- 合同金额
+	CONTRACTAMT varchar(30),
+	-- 上市日期
+	LISTDATE varchar(20),
+	-- 发行结束日期
+	RELEASEDATE varchar(20),
+	-- 是否扶贫/西部项目
+	ISFP_WEST varchar(1),
+	-- 主营业务
+	ZYYW varchar(512),
+	-- 公司名称
+	COMPANYNAME varchar(256),
+	-- 辅导备案日期
+	COACH_RECORD_DATE varchar(20),
+	-- 验收申请日期
+	ACCEPT_APPLY_DATE varchar(20),
+	-- 证券代码
+	ZQDM varchar(30),
+	-- 股票简称
+	GPJC varchar(256),
+	-- 募集资金总额
+	MJZJZE varchar(50),
+	-- 海通承销金额
+	HTCXJE varchar(50),
+	-- 承销佣金收入
+	CXYJSR varchar(50),
+	-- IPO项目市值托管
+	IPOXMSZTG varchar(50),
+	-- 重组资产过户日期
+	CZZCGHDATE varchar(20),
+	-- 持续督导开始日期
+	CXDD_BEGINDATE varchar(20),
+	-- 持续督导结束日期
+	CXDD_ENDDATE varchar(20),
+	-- 审批操作员
+	AUDIT_USER_ID varchar(40),
+	-- 发行时间
+	PUBLISH_TIME varchar(20),
+	-- 批文落款日期
+	DOCUMENTS_DATED varchar(20),
+	-- 实施完成日期
+	IMP_COM_DATE varchar(20),
+	-- 公告日期
+	NOTICE_DATE varchar(20),
+	-- 起息日
+	INTEREST_DATE varchar(20),
+	-- 兑付完成日期
+	PAY_COM_DATE varchar(20),
+	-- 备注
+	REMARK varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目发行上市表
+CREATE TABLE PMIS_PROJECT_IPO_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 上市日期
+	IPO_DATE varchar(20),
+	-- 股市板块
+	STOCK_MARKET varchar(3),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 项目成员
+CREATE TABLE PMIS_PROJECT_MEMBER
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 职位
+	POSITION varchar(3) NOT NULL,
+	-- 部门id
+	DEPT_ID varchar(40),
+	-- 部门名称
+	DEPT_NAME varchar(64),
+	-- 员工id
+	USER_ID varchar(40),
+	-- 员工名称
+	USER_NAME varchar(64),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 挂网信息表
+CREATE TABLE PMIS_PROJECT_ONLINE_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 流程实例ID
+	PROCINST_ID varchar(40),
+	-- 挂网申请状态
+	ONLINE_STATUS varchar(30),
+	-- 辅导备案日期
+	COACH_RECORD_DATE varchar(20),
+	-- 备注
+	REMARK varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 尽职调查明细表
+CREATE TABLE PMIS_PROJECT_RESEARCH_LIST
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 文件说明
+	FILE_REMARK varchar(512),
+	-- 逐项尽调
+	EVE_CHECK varchar(1),
+	-- 调查方法
+	CHECK_WAY varchar(3),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 公开信息表
+CREATE TABLE PMIS_PUBLIC_MSG_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 公开信息项目类型
+	MSG_PROJECT_TYPE varchar(3),
+	-- 时点
+	MSG_TIME_POINT varchar(3),
+	-- 备注
+	REMARK varchar(1024),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 系统参数表
+CREATE TABLE PMIS_PUB_PARAM
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL,
+	-- 参数类型
+	PARA_TYPE varchar(50),
+	-- 参数key
+	PARA_KEY varchar(50),
+	-- 参数值
+	PARA_VALUE varchar(256),
+	-- 参数描述
+	PARA_DESC varchar(256),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 复核告知信息表
+CREATE TABLE PMIS_RECHECK_NOTICE_INFO
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 复核告知状态
+	RECHECK_NOTICE_STT varchar(3),
+	-- 复核人姓名
+	RECHECKUSERNAME varchar(60),
+	-- 报送人姓名
+	SENDUSERNAME varchar(60),
+	-- 验收申请日期
+	ACCEPT_APPLY_DATE varchar(20),
+	-- 报送时间
+	SEND_DATE varchar(20),
+	-- 复核告知不报送原因
+	UNSEND_REASON varchar(512),
+	-- 上传人姓名
+	UPLOAD_USERNAME varchar(40),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 用印申请表
+CREATE TABLE PMIS_SEALS_APPLY_FLOW
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 流程实例ID
+	PROCINST_ID varchar(40),
+	-- 用印状态
+	SEALS_STATUS varchar(30),
+	-- 备注
+	REMARK varchar(1024),
+	-- 上市日期
+	IPO_DATE varchar(20),
+	-- 发行时间
+	PUBLISH_TIME varchar(20),
+	-- 审批日期
+	AUDIT_DATE varchar(20),
+	-- 上次提示日期
+	LAST_TIPS_DATE varchar(20),
+	-- 实施完成日期
+	IMP_COM_DATE varchar(20),
+	-- 公告日期
+	NOTICE_DATE varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 交易流水表
+CREATE TABLE PMIS_TRANS_FLOW
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 渠道号
+	CHANNEL_ID varchar(10),
+	-- 请求流水
+	RQUUID varchar(40),
+	-- 交易日期
+	TRANS_DATE date,
+	-- 请求IP
+	IP varchar(30),
+	-- 交易类型
+	TRANS_TYPE varchar(30),
+	-- 系统业务流水
+	SYS_BIZ_FLOW_NO varchar(40),
+	-- 交易状态
+	TRANS_STATUS varchar(3),
+	-- 交易状态描述
+	TRANS_RESULT varchar(512),
+	-- 请求报文
+	REQUEST_MESSAGE clob(1024000),
+	-- 响应报文
+	RESPONSE_MESSAGE clob(1024000),
+	-- 请求时间
+	REQUEST_TIME timestamp,
+	-- 响应时间
+	RESPONSE_TIME timestamp,
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+-- 工作日志
+CREATE TABLE PMIS_WORK_LOG
+(
+	-- 序号--唯一标示
+	ID varchar(40) NOT NULL UNIQUE,
+	-- 项目表主键
+	PROJECT_INFO_ID varchar(40) NOT NULL,
+	-- 项目阶段
+	PROJECT_PHASE varchar(2),
+	-- 工作信息/工作内容
+	WORK_INFO varchar(200),
+	-- 遇到的问题
+	PROBLEM varchar(1000),
+	-- 接收人/报告查阅部门
+	RECEIVER varchar(20),
+	-- 创建人
+	CREATE_BY varchar(40),
+	-- 创建时间
+	CREATE_DATE timestamp,
+	-- 更新人
+	UPDATE_BY varchar(40),
+	-- 更新时间
+	UPDATE_DATE timestamp,
+	-- 删除标记
+	DEL_FLAG varchar(1),
+	-- 乐观锁
+	OL_VERSION numeric(8),
+	PRIMARY KEY (ID)
+);
+
+
+
+/* Create Indexes */
+
+CREATE INDEX IDX_TRANS_FLOW_RQUUID ON PMIS_TRANS_FLOW (RQUUID);
+
+
+

@@ -16,25 +16,25 @@ import java.util.*;
 public class Sql2SimpleEntity implements Convert {
 
     // 需要去除的前缀
-    private final String removePrefix ="xq_,pmis_";
+    private static String removePrefix ="xq_,pmis_";
 
     // 定义新的前缀
-    private final String prefix = "tianyao";
+    private static String prefix = "";
 
     // 定义后缀
-    private final String suffix = "VO";
+    private static String suffix = "";
 
     // 实体类的存放的包路径
-    private String entityPackageName = "com.csii.pmis.service.bean.model";
+    private static String entityPackageName = "com.csii.pmis.service.bean.model";
 
     // dao类的存放的包路径
-    private String daoPackageName = "com.csii.pmis.admin.dao";
+    private static String daoPackageName = "com.csii.pmis.admin.dao";
 
     // mapper文件的路径
-    private String mapperLocation = "src/main/resources/service/db/sql-mapping/service/";
+    private static String mapperLocation = "service/db/sql-mapping/service/";
 
 
-    private Properties props;
+    private  Properties props;
 
     private List<List<String>> data;
 
@@ -80,15 +80,29 @@ public class Sql2SimpleEntity implements Convert {
         ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
         ret += "<sqlMap namespace=\""+table.getEntityName()+"\" >\r\n";
         ret += FormatUtil.addTab(generateResultMap(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForList(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForMapList(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForObject(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForMap(table),1);
-        ret += FormatUtil.addTab(generateDeleteByPrimaryKey(table),1);
+        if(hasPrimatyKey(table)){
+            ret += "\r\n";
+            ret += FormatUtil.addTab(generateDeleteByPrimaryKey(table),1);
+        }
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateDeleteByParams(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateUpdateByParams(table),1);
-        ret += FormatUtil.addTab(generateUpdateByPrimaryKey(table),1);
+        if(hasPrimatyKey(table)) {
+            ret += "\r\n";
+            ret += FormatUtil.addTab(generateUpdateByPrimaryKey(table), 1);
+        }
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateInsert(table),1);
+        ret += "\r\n";
         ret += "</sqlMap>\r\n";
         return ret;
     }
@@ -761,7 +775,12 @@ public class Sql2SimpleEntity implements Convert {
                 }
             }
         }
-        table.setEntityName(StringUtil.getCamelClassName(prefix)+table.getEntityName()+StringUtil.getCamelClassName(suffix));
+        if(StringUtil.isNotEmpty(prefix)){
+            table.setEntityName(StringUtil.getCamelClassName(prefix)+table.getEntityName());
+        }
+        if(StringUtil.isNotEmpty(suffix)){
+            table.setEntityName(table.getEntityName()+StringUtil.getCamelClassName(suffix));
+        }
     }
 
     /**
@@ -872,5 +891,29 @@ public class Sql2SimpleEntity implements Convert {
 
     public void setMapperLocation(String mapperLocation) {
         this.mapperLocation = mapperLocation;
+    }
+
+    public String getRemovePrefix() {
+        return removePrefix;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setRemovePrefix(String removePrefix) {
+        this.removePrefix = removePrefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -37,8 +38,33 @@ public class AccountDaoImplTest {
 
     @Test
     public void select() throws Exception {
+        Account account = new Account();
+        account.setAcctPkey("tianyao2");
+        System.out.println(accountDao.selectForObject(account));
+    }
 
-        System.out.println(accountDao);
+    @Test
+    public void select2() throws Exception {
+        List<Account> accounts = accountDao.selectForList(null);
+        System.out.println(accounts);
+    }
+
+    @Test
+    public void select3() throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("acctPkey", "tianyao2");
+        List<Map<String, Object>> maps = accountDao.selectForMapList(map);
+
+        System.out.println(maps.get(0).get("account"));
+    }
+
+    @Test
+    public void select4() throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("acctPkey", "tianyao2");
+        Map<String, Object> result = accountDao.selectForMap(map);
+
+        System.out.println(result.get("account"));
     }
 
     @Test
