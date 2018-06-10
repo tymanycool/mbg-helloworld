@@ -26,12 +26,13 @@ public class AccountDaoImplTest {
     @Test
     public void insert() throws Exception {
         Account account = new Account();
-        account.setAcctPkey("tianyao3");
+        account.setAcctPkey("tianyao_blob_test2");
         account.setAccount("accout");
         account.setAccState("4");
         account.setChannel("112");
         account.setCreateTime(new Date());
         account.setIdNo("522125199212211916");
+        account.setComment("tianyao田耀".getBytes());
         Object insert = accountDao.insert(account);
         System.out.println(insert);
     }
@@ -39,7 +40,7 @@ public class AccountDaoImplTest {
     @Test
     public void select() throws Exception {
         Account account = new Account();
-        account.setAcctPkey("tianyao2");
+        account.setAcctPkey("tianyao_blob_test2");
         System.out.println(accountDao.selectForObject(account));
     }
 

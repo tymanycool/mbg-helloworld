@@ -331,9 +331,9 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tFROM " + table.getName() +" \r\n";
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</select>\r\n";
@@ -359,9 +359,9 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tFROM " + table.getName() +" \r\n";
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</select>\r\n";
@@ -387,9 +387,9 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tFROM " + table.getName() +" \r\n";
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</select>\r\n";
@@ -415,9 +415,9 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tFROM " + table.getName() +" \r\n";
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</select>\r\n";
@@ -474,7 +474,7 @@ public class Sql2SimpleEntity implements Convert {
 //            if(i<fields.size()-1){
 //                ret += ",";
 //            }
-            ret += "\t\t<isNotEmpty property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" prepend=\",\">"+fields.get(i).getName()+"</isNotEmpty> \r\n";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" prepend=\",\">"+fields.get(i).getName()+"</"+getPropertyDynamicLabel(fields.get(i))+"> \r\n";
         }
 
         ret += "\t</dynamic>";
@@ -485,7 +485,7 @@ public class Sql2SimpleEntity implements Convert {
 //            if(i<fields.size()-1){
 //                ret += ",";
 //            }
-            ret += "\t\t<isNotEmpty property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" prepend=\",\"> #"+StringUtil.getCamelProperty(fields.get(i).getName())+"# </isNotEmpty> \r\n";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" prepend=\",\"> #"+StringUtil.getCamelProperty(fields.get(i).getName())+"# </"+getPropertyDynamicLabel(fields.get(i))+"> \r\n";
         }
         ret += "\t</dynamic>";
         ret += "\r\n\t)\r\n";
@@ -504,17 +504,17 @@ public class Sql2SimpleEntity implements Convert {
         List<Field> fields = table.getFields();
         ret += "\t<dynamic prepend=\"set\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\",\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\",\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
 
         ret += "\t<dynamic prepend=\"where\" >\r\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t\t<isNotEmpty prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </isNotEmpty>\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
         ret += "</update>\r\n";
@@ -535,9 +535,9 @@ public class Sql2SimpleEntity implements Convert {
         for(int i =0;i<fields.size();i++){
             // 不是主键时
             if(!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
-                ret += "\t\t<isNotEmpty prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
+                ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
                 ret += " " + fields.get(i).getName() + " = #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
-                ret += " </isNotEmpty>\r\n";
+                ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
             }
         }
         ret += "\t</dynamic>\r\n";
@@ -556,6 +556,9 @@ public class Sql2SimpleEntity implements Convert {
             return null;
         }
         int index = name.lastIndexOf(".");
+        if(index == -1){
+            return name;
+        }
         return name.substring(index+1);
     }
 
@@ -781,6 +784,13 @@ public class Sql2SimpleEntity implements Convert {
         if(StringUtil.isNotEmpty(suffix)){
             table.setEntityName(table.getEntityName()+StringUtil.getCamelClassName(suffix));
         }
+    }
+
+    private String getPropertyDynamicLabel(Field field){
+        if(StringUtil.equalsIgnoreCase(field.getType(),"varchar")||StringUtil.equalsIgnoreCase(field.getType(),"char")){
+            return "isNotEmpty";
+        }
+        return "isNotNull";
     }
 
     /**
