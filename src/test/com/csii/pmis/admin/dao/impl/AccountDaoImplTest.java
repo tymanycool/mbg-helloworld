@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -32,8 +29,37 @@ public class AccountDaoImplTest {
         account.setChannel("112");
         account.setCreateTime(new Date());
         account.setIdNo("522125199212211916");
-        account.setComment("tianyao田耀".getBytes());
+        //account.setComment("tianyao田耀".getBytes());
         Object insert = accountDao.insert(account);
+        System.out.println(insert);
+    }
+
+    @Test
+    public void insertList() throws Exception {
+        ArrayList<Account> list = new ArrayList<>();
+
+        Account account = new Account();
+        account.setAcctPkey("tianyao_blob_test7");
+        account.setAccount("accout");
+        account.setAccState("4");
+        account.setChannel("112");
+        account.setCreateTime(new Date());
+        account.setIdNo("522125199212211916");
+        //account.setComment("tianyao田耀".getBytes());
+
+
+        Account account2 = new Account();
+        account2.setAcctPkey("tianyao_blob_test8");
+        account2.setAccount("accout");
+        account2.setAccState("4");
+        account2.setChannel("112");
+        account2.setCreateTime(new Date());
+        account2.setIdNo("522125199212211916");
+        //account2.setComment("tianyao田耀".getBytes());
+
+        list.add(account);
+        list.add(account2);
+        Object insert = accountDao.insertList(list);
         System.out.println(insert);
     }
 
@@ -96,4 +122,8 @@ public class AccountDaoImplTest {
         System.out.println(delete);
     }
 
+    @Test
+    public void testSelectCountByParams() throws Exception {
+        int count = accountDao.selectCountByParams(null);
+    }
 }
