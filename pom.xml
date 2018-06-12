@@ -22,9 +22,15 @@
         <ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
         <tomcat-jdbc.version>8.5.4</tomcat-jdbc.version>
         <mysql-connector.version>5.1.40</mysql-connector.version>
+        <jdbc.driver.db2.version>4.15.82</jdbc.driver.db2.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>db2jcc</artifactId>
+            <version>${jdbc.driver.db2.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

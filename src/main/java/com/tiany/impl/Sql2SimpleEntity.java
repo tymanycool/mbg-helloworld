@@ -517,7 +517,7 @@ public class Sql2SimpleEntity implements Convert {
     private String generateDeleteByPrimaryKey(Table table) {
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
-        String ret = "<delete id=\"deleteByPrimaryKey\"  parameterClass=\""+ props.get(fields.get(0).getType())+"\" >\r\n";
+        String ret = "<delete id=\"deleteByPrimaryKey\"  parameterClass=\""+ MapUtil.getIgnoreCase((Map)props,fields.get(0).getType())+"\" >\r\n";
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
         ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
