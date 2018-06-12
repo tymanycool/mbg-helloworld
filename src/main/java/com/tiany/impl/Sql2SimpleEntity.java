@@ -94,6 +94,10 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\r\n";
             ret += FormatUtil.addTab(generateDeleteByPrimaryKey(table),1);
         }
+        if(hasPrimatyKey(table)){
+            ret += "\r\n";
+            ret += FormatUtil.addTab(generateDeleteList(table),1);
+        }
         ret += "\r\n";
         ret += FormatUtil.addTab(generateDeleteByParams(table),1);
         ret += "\r\n";
@@ -101,6 +105,11 @@ public class Sql2SimpleEntity implements Convert {
         if(hasPrimatyKey(table)) {
             ret += "\r\n";
             ret += FormatUtil.addTab(generateUpdateByPrimaryKey(table), 1);
+        }
+        ret += "\r\n";
+        if(hasPrimatyKey(table)) {
+            ret += "\r\n";
+            ret += FormatUtil.addTab(generateUpdateList(table), 1);
         }
         ret += "\r\n";
         ret += FormatUtil.addTab(generateInsert(table),1);
@@ -203,6 +212,13 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\tint updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
         }
 
+        if(hasPrimatyKey(table)){
+            ret += "\t/**\r\n";
+            ret += "\t * 根据主键列表更新"+table.getEntityName()+"\r\n";
+            ret += "\t */\r\n";
+            ret += "\tint updateList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
+        }
+
         ret += "\t/**\r\n";
         ret += "\t * 根据params更新"+table.getEntityName()+"\r\n";
         ret += "\t */\r\n";
@@ -213,6 +229,13 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\t * 根据主键删除"+table.getEntityName()+"\r\n";
             ret += "\t */\r\n";
             ret += "\tint deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n\r\n";
+        }
+
+        if(hasPrimatyKey(table)) {
+            ret += "\t/**\r\n";
+            ret += "\t * 根据主键列表批量删除"+table.getEntityName()+"\r\n";
+            ret += "\t */\r\n";
+            ret += "\tint deleteList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n\r\n";
         }
 
         ret += "\t/**\r\n";
@@ -233,6 +256,7 @@ public class Sql2SimpleEntity implements Convert {
         ret += "package "+ daoPackageName +".impl;\r\n\r\n";
         ret += "import java.util.List;\r\n";
         ret += "import java.util.Map;\r\n\r\n";
+        ret += "import java.util.HashMap;\r\n\r\n";
         ret += "import org.springframework.beans.factory.annotation.Autowired;\r\n";
         ret += "import org.springframework.orm.ibatis.SqlMapClientOperations;\r\n";
         ret += "import org.springframework.stereotype.Repository;\r\n\r\n";
@@ -247,7 +271,7 @@ public class Sql2SimpleEntity implements Convert {
         ret += "@Repository\r\n";
         ret += "public class " + table.getEntityName() + "DaoImpl implements "+table.getEntityName()+"Dao {\r\n";
         ret += "\t@Autowired\r\n";
-        ret += "\tpublic SqlMapClientOperations sqlMap;\r\n\r\n";
+        ret += "\tprivate SqlMapClientOperations sqlMap;\r\n\r\n";
 
         ret += "\t@Override\r\n";
         ret += "\tpublic Object insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
@@ -290,6 +314,15 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKey\","+getBeanNameByClassName(table.getEntityName())+");\r\n";
             ret += "\t}\r\n\r\n";
         }
+        if(hasPrimatyKey(table)){
+            ret += "\t@Override\r\n";
+            ret += "\tpublic int updateList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
+            ret += "\t\tMap<String, Object> params = new HashMap<String,Object>();\r\n";
+            ret += "\t\tparams.put(\""+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+"\", "+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+");\r\n";
+            ret += "\t\tparams.put(\""+getBeanNameByClassName(table.getEntityName())+"\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+            ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".updateList\",params);\r\n";
+            ret += "\t}\r\n\r\n";
+        }
 
         ret += "\t@Override\r\n";
         ret += "\tpublic int updateByParams(Map<String,Object> params){\r\n";
@@ -300,6 +333,13 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\t@Override\r\n";
             ret += "\tpublic int deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "){\r\n";
             ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteByPrimaryKey\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n";
+            ret += "\t}\r\n\r\n";
+        }
+
+        if(hasPrimatyKey(table)) {
+            ret += "\t@Override\r\n";
+            ret += "\tpublic int deleteList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List){\r\n";
+            ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n";
             ret += "\t}\r\n\r\n";
         }
 
@@ -470,7 +510,7 @@ public class Sql2SimpleEntity implements Convert {
     }
 
     /**
-     * 生成deleteByPrimaryKey查询
+     * 生成deleteByPrimaryKey
      * @param table
      * @return
      */
@@ -481,6 +521,32 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
         ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
+        ret += "</delete>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成deleteList
+     * @param table
+     * @return
+     */
+    private String generateDeleteList(Table table) {
+        List<Field> fields = table.getPrimaryKeys();
+        AssertUtil.isTrue(fields.size() == 1);
+        String ret = "<delete id=\"deleteList\"  parameterClass=\"java.util.List\" >\r\n";
+        ret += "\tDELETE FROM ";
+        ret += table.getName() +" \r\n";
+        ret += "\tWHERE "+fields.get(0).getName() +" IN(\r\n";
+
+        ret += "\t<iterate conjunction =\",\">\r\n";
+        ret +="\t\t";
+        for(int i =0;i<fields.size();i++){
+            ret +="#[]#";
+            if(i != fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\r\n\t</iterate>)\r\n";
         ret += "</delete>\r\n";
         return ret;
     }
@@ -583,6 +649,38 @@ public class Sql2SimpleEntity implements Convert {
             ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
+        ret += "</update>\r\n";
+        return ret;
+    }
+
+    /**
+     * 根据主键列表生成updateList语句
+     * @param table
+     * @return
+     */
+    private String generateUpdateList(Table table) {
+        String ret = "<update id=\"updateList\"  parameterClass=\"java.util.Map\" >\r\n";
+        ret += "\tUPDATE "+table.getName()+"\r\n";
+        List<Field> fields = table.getFields();
+        ret += "\t<dynamic prepend=\"set\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\",\" property=\""+getBeanNameByClassName(table.getEntityName())+"."+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+getBeanNameByClassName(table.getEntityName())+"."+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+
+        ret += "\tWHERE "+fields.get(0).getName() +" IN(\r\n";
+        List<Field> primaryKeys = table.getPrimaryKeys();
+        ret += "\t<iterate conjunction =\",\" property=\""+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"List\">\r\n";
+        ret +="\t\t";
+        for(int i =0;i<primaryKeys.size();i++){
+            ret +="#"+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"List[]#";
+            if(i != primaryKeys.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\r\n\t</iterate>)\r\n";
         ret += "</update>\r\n";
         return ret;
     }

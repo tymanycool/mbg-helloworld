@@ -126,4 +126,29 @@ public class AccountDaoImplTest {
     public void testSelectCountByParams() throws Exception {
         int count = accountDao.selectCountByParams(null);
     }
+
+
+    @Test
+
+    public void deleteList() throws Exception {
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("tianyao_blob_test7");
+        list.add("tianyao_blob_test8");
+
+        int ret = accountDao.deleteList(list);
+    }
+
+    @Test
+    public void testUpdateList() throws Exception {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("tianyao_blob_test5");
+        list.add("tianyao_blob_test6");
+
+        Account account = new Account();
+        account.setAccState("9");
+
+        int ret = accountDao.updateList(list, account);
+
+    }
 }
