@@ -177,10 +177,10 @@ public class Sql2SimpleEntity implements Convert {
         ret += " * @since 1.0\r\n";
         ret += " */\r\n";
         ret += "public interface " + table.getEntityName() + "Dao {\r\n";
-        ret = getInsertComment(ret);
+        ret = getInsertComment(table, ret);
         ret += "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
 
-        ret = getInsertListComment(ret);
+        ret = getInsertListComment(table, ret);
         ret += "\tObject insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List);\r\n\r\n";
 
         ret = getSelectForListComment(table, ret);
@@ -189,13 +189,13 @@ public class Sql2SimpleEntity implements Convert {
         ret = getSelectCountByParamsComment(table, ret);
         ret += "\tint selectCountByParams(Map<String,Object> params);\r\n\r\n";
 
-        ret = getSelectForMapListComment(ret);
+        ret = getSelectForMapListComment(table, ret);
         ret += "\tList<Map<String,Object>> selectForMapList(Map<String,Object> params);\r\n\r\n";
 
         ret = getSelectForObjectComment(table, ret);
         ret += "\t"+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
 
-        ret = getSelectForMapComment(ret);
+        ret = getSelectForMapComment(table, ret);
         ret += "\tMap<String,Object> selectForMap(Map<String,Object> params);\r\n\r\n";
 
         if(hasPrimatyKey(table)){
@@ -269,7 +269,7 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
-    private String getSelectForMapComment(String ret) {
+    private String getSelectForMapComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 根据params查询，返回Map类型\r\n";
         ret += "\t */\r\n";
@@ -283,7 +283,7 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
-    private String getSelectForMapListComment(String ret) {
+    private String getSelectForMapListComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 根据params查询Map类型的List集合，params为null表示查询所有\r\n";
         ret += "\t */\r\n";
@@ -304,14 +304,14 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
-    private String getInsertListComment(String ret) {
+    private String getInsertListComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 批量新增\r\n";
         ret += "\t */\r\n";
         return ret;
     }
 
-    private String getInsertComment(String ret) {
+    private String getInsertComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 插入一条新的纪录\r\n";
         ret += "\t */\r\n";
@@ -354,7 +354,7 @@ public class Sql2SimpleEntity implements Convert {
         if(generateInterface) {
             ret += "\t@Override\r\n";
         }else{
-            ret = getInsertComment(ret);
+            ret = getInsertComment(table, ret);
         }
         ret += "\tpublic Object insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
         ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
@@ -363,7 +363,7 @@ public class Sql2SimpleEntity implements Convert {
         if(generateInterface) {
             ret += "\t@Override\r\n";
         }else{
-            ret = getInsertListComment(ret);
+            ret = getInsertListComment(table, ret);
         }
         ret += "\tpublic Object insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List){\r\n";
         ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
@@ -390,7 +390,7 @@ public class Sql2SimpleEntity implements Convert {
         if(generateInterface) {
             ret += "\t@Override\r\n";
         }else{
-            ret = getSelectForMapListComment(ret);
+            ret = getSelectForMapListComment(table, ret);
         }
         ret += "\tpublic List<Map<String,Object>> selectForMapList(Map<String,Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\r\n";
@@ -408,7 +408,7 @@ public class Sql2SimpleEntity implements Convert {
         if(generateInterface) {
             ret += "\t@Override\r\n";
         }else {
-            ret = getSelectForMapComment(ret);
+            ret = getSelectForMapComment(table, ret);
         }
         ret += "\tpublic Map<String,Object> selectForMap(Map<String,Object> params){\r\n";
         ret += "\t\treturn (Map<String,Object>)sqlMap.queryForObject(\""+table.getEntityName()+".selectForMap\",params);\r\n";
