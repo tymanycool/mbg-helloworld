@@ -33,6 +33,9 @@ public class Sql2SimpleEntity implements Convert {
     // mapper文件的路径
     private static String mapperLocation = "service/db/sql-mapping/service/";
 
+    // 是否生成接口
+    private static boolean generateInterface = false;
+
 
     private  Properties props;
 
@@ -64,11 +67,15 @@ public class Sql2SimpleEntity implements Convert {
             map.put("entity",outStr);
             outStr = generateXml(table);
             map.put("xml",outStr);
-            outStr = generateDao(table);
-            map.put("dao",outStr);
-            outStr = generateDaoImpl(table);
-            map.put("daoImpl",outStr);
-
+            if(generateInterface) {
+                outStr = generateDao(table);
+                map.put("dao", outStr);
+                outStr = generateDaoImpl(table,generateInterface);
+                map.put("daoImpl",outStr);
+            }else{
+                outStr = generateDaoImpl(table,generateInterface);
+                map.put("dao",outStr);
+            }
             return map;
         }
         return null;
@@ -170,79 +177,144 @@ public class Sql2SimpleEntity implements Convert {
         ret += " * @since 1.0\r\n";
         ret += " */\r\n";
         ret += "public interface " + table.getEntityName() + "Dao {\r\n";
-        ret += "\t/**\r\n";
-        ret += "\t * 插入一条新的纪录\r\n";
-        ret += "\t */\r\n";
+        ret = getInsertComment(ret);
         ret += "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 批量新增\r\n";
-        ret += "\t */\r\n";
+        ret = getInsertListComment(ret);
         ret += "\tObject insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List);\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询"+table.getEntityName()+"的List集合，params为null表示查询所有\r\n";
-        ret += "\t */\r\n";
+        ret = getSelectForListComment(table, ret);
         ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,Object> params);\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询"+table.getEntityName()+"记录的条数，params为null表示查询所有\r\n";
-        ret += "\t */\r\n";
+        ret = getSelectCountByParamsComment(table, ret);
         ret += "\tint selectCountByParams(Map<String,Object> params);\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询Map类型的List集合，params为null表示查询所有\r\n";
-        ret += "\t */\r\n";
+        ret = getSelectForMapListComment(ret);
         ret += "\tList<Map<String,Object>> selectForMapList(Map<String,Object> params);\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询"+table.getEntityName()+"对象\r\n";
-        ret += "\t */\r\n";
+        ret = getSelectForObjectComment(table, ret);
         ret += "\t"+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询，返回Map类型\r\n";
-        ret += "\t */\r\n";
+        ret = getSelectForMapComment(ret);
         ret += "\tMap<String,Object> selectForMap(Map<String,Object> params);\r\n\r\n";
 
         if(hasPrimatyKey(table)){
-            ret += "\t/**\r\n";
-            ret += "\t * 根据主键更新"+table.getEntityName()+"\r\n";
-            ret += "\t */\r\n";
+            ret = getUpdateByPrimaryKeyComment(table, ret);
             ret += "\tint updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
         }
 
         if(hasPrimatyKey(table)){
-            ret += "\t/**\r\n";
-            ret += "\t * 根据主键列表更新"+table.getEntityName()+"\r\n";
-            ret += "\t */\r\n";
+            ret = getUpdateListComment(table, ret);
             ret += "\tint updateList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
         }
 
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params更新"+table.getEntityName()+"\r\n";
-        ret += "\t */\r\n";
+        ret = getUpdateByParamsComment(table, ret);
         ret += "\tint updateByParams(Map<String,Object> params);\r\n\r\n";
 
         if(hasPrimatyKey(table)) {
-            ret += "\t/**\r\n";
-            ret += "\t * 根据主键删除"+table.getEntityName()+"\r\n";
-            ret += "\t */\r\n";
+            ret = getDeleteByPrimaryKeyComment(table, ret);
             ret += "\tint deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n\r\n";
         }
 
         if(hasPrimatyKey(table)) {
-            ret += "\t/**\r\n";
-            ret += "\t * 根据主键列表批量删除"+table.getEntityName()+"\r\n";
-            ret += "\t */\r\n";
+            ret = getDeleteListComment(table, ret);
             ret += "\tint deleteList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n\r\n";
         }
 
+        ret = getDeleteByParamsComment(table, ret);
+        ret += "\tint deleteByParams(Map<String,Object> params);\r\n\r\n";
+        ret += "}\r\n";
+        return ret;
+    }
+
+    private String getDeleteByParamsComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 根据params删除"+table.getEntityName()+"\r\n";
         ret += "\t */\r\n";
-        ret += "\tint deleteByParams(Map<String,Object> params);\r\n\r\n";
-        ret += "}\r\n";
+        return ret;
+    }
+
+    private String getDeleteListComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据主键列表批量删除"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getDeleteByPrimaryKeyComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据主键删除"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getUpdateByParamsComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params更新"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getUpdateListComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据主键列表更新"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getUpdateByPrimaryKeyComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据主键更新"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getSelectForMapComment(String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询，返回Map类型\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getSelectForObjectComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询"+table.getEntityName()+"对象\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getSelectForMapListComment(String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询Map类型的List集合，params为null表示查询所有\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getSelectCountByParamsComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询"+table.getEntityName()+"记录的条数，params为null表示查询所有\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getSelectForListComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据params查询"+table.getEntityName()+"的List集合，params为null表示查询所有\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getInsertListComment(String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 批量新增\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
+    private String getInsertComment(String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 插入一条新的纪录\r\n";
+        ret += "\t */\r\n";
         return ret;
     }
 
@@ -251,71 +323,113 @@ public class Sql2SimpleEntity implements Convert {
      * @param table
      * @return
      */
-    private String generateDaoImpl(Table table) {
+    private String generateDaoImpl(Table table,boolean generateInterface) {
         String ret = "";
-        ret += "package "+ daoPackageName +".impl;\r\n\r\n";
+        ret += "package "+ daoPackageName +(generateInterface?".impl":"")+";\r\n\r\n";
         ret += "import java.util.List;\r\n";
         ret += "import java.util.Map;\r\n\r\n";
         ret += "import java.util.HashMap;\r\n\r\n";
         ret += "import org.springframework.beans.factory.annotation.Autowired;\r\n";
         ret += "import org.springframework.orm.ibatis.SqlMapClientOperations;\r\n";
         ret += "import org.springframework.stereotype.Repository;\r\n\r\n";
-        ret += "import "+daoPackageName+"."+table.getEntityName()+"Dao;\r\n";
+        if(generateInterface) {
+            ret += "import " + daoPackageName + "." + table.getEntityName() + "Dao;\r\n";
+        }
         ret += "import "+entityPackageName+"."+table.getEntityName()+";\r\n\r\n";
         ret += "/*\r\n";
-        ret += " * @description "+getCommentString(table.getComment())+"DaoImpl\r\n";
+        ret += " * @description "+getCommentString(table.getComment())+"Dao"+(generateInterface?"Impl":"")+"\r\n";
         ret += " * @author "+ System.getProperty("user.name")+"\r\n";
         ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
         ret += " * @since 1.0\r\n";
         ret += " */\r\n";
         ret += "@Repository\r\n";
-        ret += "public class " + table.getEntityName() + "DaoImpl implements "+table.getEntityName()+"Dao {\r\n";
+        if(generateInterface) {
+            ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao {\r\n";
+        }else{
+            ret += "public class " + table.getEntityName() + "Dao {\r\n";
+        }
         ret += "\t@Autowired\r\n";
         ret += "\tprivate SqlMapClientOperations sqlMap;\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else{
+            ret = getInsertComment(ret);
+        }
         ret += "\tpublic Object insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
         ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else{
+            ret = getInsertListComment(ret);
+        }
         ret += "\tpublic Object insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List){\r\n";
         ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getSelectForListComment(table,ret);
+        }
         ret += "\tpublic List<"+table.getEntityName()+"> selectForList(Map<String,Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForList\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else{
+            ret = getSelectCountByParamsComment(table,ret);
+        }
         ret += "\tpublic int selectCountByParams(Map<String,Object> params){\r\n";
         ret += "\t\treturn (Integer)sqlMap.queryForObject(\""+table.getEntityName()+".selectCountByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else{
+            ret = getSelectForMapListComment(ret);
+        }
         ret += "\tpublic List<Map<String,Object>> selectForMapList(Map<String,Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else{
+            ret = getSelectForObjectComment(table,ret);
+        }
         ret += "\tpublic "+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
         ret += "\t\treturn ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\","+getBeanNameByClassName(table.getEntityName())+");\r\n";
         ret += "\t}\r\n\r\n";
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getSelectForMapComment(ret);
+        }
         ret += "\tpublic Map<String,Object> selectForMap(Map<String,Object> params){\r\n";
         ret += "\t\treturn (Map<String,Object>)sqlMap.queryForObject(\""+table.getEntityName()+".selectForMap\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
         if(hasPrimatyKey(table)){
-            ret += "\t@Override\r\n";
+            if(generateInterface) {
+                ret += "\t@Override\r\n";
+            }else{
+                ret = getUpdateByParamsComment(table,ret);
+            }
             ret += "\tpublic int updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
             ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKey\","+getBeanNameByClassName(table.getEntityName())+");\r\n";
             ret += "\t}\r\n\r\n";
         }
         if(hasPrimatyKey(table)){
-            ret += "\t@Override\r\n";
+            if(generateInterface) {
+                ret += "\t@Override\r\n";
+            }else{
+                ret = getUpdateListComment(table,ret);
+            }
             ret += "\tpublic int updateList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+"){\r\n";
             ret += "\t\tMap<String, Object> params = new HashMap<String,Object>();\r\n";
             ret += "\t\tparams.put(\""+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+"\", "+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+");\r\n";
@@ -324,26 +438,42 @@ public class Sql2SimpleEntity implements Convert {
             ret += "\t}\r\n\r\n";
         }
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getUpdateByParamsComment(table,ret);
+        }
         ret += "\tpublic int updateByParams(Map<String,Object> params){\r\n";
         ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".updateByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
         if(hasPrimatyKey(table)) {
-            ret += "\t@Override\r\n";
+            if(generateInterface) {
+                ret += "\t@Override\r\n";
+            }else {
+                ret = getDeleteByPrimaryKeyComment(table,ret);
+            }
             ret += "\tpublic int deleteByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "){\r\n";
             ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteByPrimaryKey\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n";
             ret += "\t}\r\n\r\n";
         }
 
         if(hasPrimatyKey(table)) {
-            ret += "\t@Override\r\n";
+            if(generateInterface) {
+                ret += "\t@Override\r\n";
+            }else {
+                ret = getDeleteListComment(table,ret);
+            }
             ret += "\tpublic int deleteList(List<" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List){\r\n";
             ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n";
             ret += "\t}\r\n\r\n";
         }
 
-        ret += "\t@Override\r\n";
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getDeleteByParamsComment(table,ret);
+        }
         ret += "\tpublic int deleteByParams(Map<String,Object> params){\r\n";
         ret += "\t\treturn sqlMap.delete(\""+table.getEntityName()+".deleteByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
@@ -1089,5 +1219,13 @@ public class Sql2SimpleEntity implements Convert {
 
     public void setSuffix(String suffix) {
         this.suffix = suffix;
+    }
+
+    public static boolean isGenerateInterface() {
+        return generateInterface;
+    }
+
+    public static void setGenerateInterface(boolean generateInterface) {
+        Sql2SimpleEntity.generateInterface = generateInterface;
     }
 }

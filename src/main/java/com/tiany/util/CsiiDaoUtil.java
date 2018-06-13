@@ -50,6 +50,13 @@ public class CsiiDaoUtil {
             String entityPackageName = PropertiesUtil.getProperty("tibatis.properties", "entityPackageName");
             String daoPackageName = PropertiesUtil.getProperty("tibatis.properties", "daoPackageName");
             String mapperLocation = PropertiesUtil.getProperty("tibatis.properties", "mapperLocation");
+            String gf = PropertiesUtil.getProperty("tibatis.properties", "generateInterface");
+            boolean generateInterface = true;
+            try {
+                generateInterface = Boolean.valueOf(gf);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if(StringUtil.isNotEmpty(removePrefix)){
                 sql2SimpleEntity.setRemovePrefix(removePrefix);
                 logger.debug("配置已经设置，要移除的前缀："+removePrefix);
@@ -74,6 +81,12 @@ public class CsiiDaoUtil {
                 sql2SimpleEntity.setMapperLocation(mapperLocation);
                 logger.debug("配置已经设置，生成Mapper的路径："+mapperLocation);
             };
+
+            if(StringUtil.isNotEmpty(gf)){
+                Sql2SimpleEntity.setGenerateInterface(generateInterface);
+                logger.debug("配置已经设置，是否生成接口："+(generateInterface?"是":"否"));
+            };
+
             String read = FileUtil.read(sqlFilePath);
             CreateTableFilter createTableFilter = new CreateTableFilter(read);
             List<String> sqls = createTableFilter.getSqls();
@@ -81,14 +94,14 @@ public class CsiiDaoUtil {
                 sql2SimpleEntity = new Sql2SimpleEntity();
                 Map map = (Map)sql2SimpleEntity.convert(sql);
                 Table table = sql2SimpleEntity.getTable();
-                //System.out.println(map.get("entity"));
+
                 FileUtil.write("src/main/java/"+sql2SimpleEntity.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("entity"));
-                //System.out.println(map.get("dao"));
                 FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/"+table.getEntityName()+"Dao.java",(String)map.get("dao"));
-                // System.out.println(map.get("daoImpl"));
-                FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/impl/"+table.getEntityName()+"DaoImpl.java",(String)map.get("daoImpl"));
-                //System.out.println(map.get("xml"));
+                if(generateInterface) {
+                    FileUtil.write("src/main/java/" + sql2SimpleEntity.getDaoPackageName().replace(".", "/") + "/impl/" + table.getEntityName() + "DaoImpl.java", (String) map.get("daoImpl"));
+                }
                 FileUtil.write("src/main/resources/"+sql2SimpleEntity.getMapperLocation()+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
+
                 logger.debug(table.getEntityName()+",已经生成完成，正在生成下一个...");
             }
 
