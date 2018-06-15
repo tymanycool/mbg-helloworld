@@ -184,19 +184,19 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\tObject insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List);\r\n\r\n";
 
         ret = getSelectForListComment(table, ret);
-        ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,Object> params);\r\n\r\n";
+        ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,? extends Object> params);\r\n\r\n";
 
         ret = getSelectCountByParamsComment(table, ret);
-        ret += "\tint selectCountByParams(Map<String,Object> params);\r\n\r\n";
+        ret += "\tint selectCountByParams(Map<String,? extends Object> params);\r\n\r\n";
 
         ret = getSelectForMapListComment(table, ret);
-        ret += "\tList<Map<String,Object>> selectForMapList(Map<String,Object> params);\r\n\r\n";
+        ret += "\tList<Map<String,Object>> selectForMapList(Map<String,? extends Object> params);\r\n\r\n";
 
         ret = getSelectForObjectComment(table, ret);
         ret += "\t"+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+");\r\n\r\n";
 
         ret = getSelectForMapComment(table, ret);
-        ret += "\tMap<String,Object> selectForMap(Map<String,Object> params);\r\n\r\n";
+        ret += "\tMap<String,Object> selectForMap(Map<String,? extends Object> params);\r\n\r\n";
 
         if(hasPrimatyKey(table)){
             ret = getUpdateByPrimaryKeyComment(table, ret);
@@ -209,7 +209,7 @@ public class Sql2SimpleEntity implements Convert {
         }
 
         ret = getUpdateByParamsComment(table, ret);
-        ret += "\tint updateByParams(Map<String,Object> params);\r\n\r\n";
+        ret += "\tint updateByParams(Map<String,? extends Object> params);\r\n\r\n";
 
         if(hasPrimatyKey(table)) {
             ret = getDeleteByPrimaryKeyComment(table, ret);
@@ -222,7 +222,7 @@ public class Sql2SimpleEntity implements Convert {
         }
 
         ret = getDeleteByParamsComment(table, ret);
-        ret += "\tint deleteByParams(Map<String,Object> params);\r\n\r\n";
+        ret += "\tint deleteByParams(Map<String,? extends Object> params);\r\n\r\n";
         ret += "}\r\n";
         return ret;
     }
@@ -374,7 +374,7 @@ public class Sql2SimpleEntity implements Convert {
         }else {
             ret = getSelectForListComment(table,ret);
         }
-        ret += "\tpublic List<"+table.getEntityName()+"> selectForList(Map<String,Object> params){\r\n";
+        ret += "\tpublic List<"+table.getEntityName()+"> selectForList(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForList\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
@@ -383,7 +383,7 @@ public class Sql2SimpleEntity implements Convert {
         }else{
             ret = getSelectCountByParamsComment(table,ret);
         }
-        ret += "\tpublic int selectCountByParams(Map<String,Object> params){\r\n";
+        ret += "\tpublic int selectCountByParams(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn (Integer)sqlMap.queryForObject(\""+table.getEntityName()+".selectCountByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
@@ -392,7 +392,7 @@ public class Sql2SimpleEntity implements Convert {
         }else{
             ret = getSelectForMapListComment(table, ret);
         }
-        ret += "\tpublic List<Map<String,Object>> selectForMapList(Map<String,Object> params){\r\n";
+        ret += "\tpublic List<Map<String,Object>> selectForMapList(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
@@ -410,7 +410,7 @@ public class Sql2SimpleEntity implements Convert {
         }else {
             ret = getSelectForMapComment(table, ret);
         }
-        ret += "\tpublic Map<String,Object> selectForMap(Map<String,Object> params){\r\n";
+        ret += "\tpublic Map<String,Object> selectForMap(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn (Map<String,Object>)sqlMap.queryForObject(\""+table.getEntityName()+".selectForMap\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
@@ -443,7 +443,7 @@ public class Sql2SimpleEntity implements Convert {
         }else {
             ret = getUpdateByParamsComment(table,ret);
         }
-        ret += "\tpublic int updateByParams(Map<String,Object> params){\r\n";
+        ret += "\tpublic int updateByParams(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn sqlMap.update(\""+table.getEntityName()+".updateByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
@@ -474,7 +474,7 @@ public class Sql2SimpleEntity implements Convert {
         }else {
             ret = getDeleteByParamsComment(table,ret);
         }
-        ret += "\tpublic int deleteByParams(Map<String,Object> params){\r\n";
+        ret += "\tpublic int deleteByParams(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn sqlMap.delete(\""+table.getEntityName()+".deleteByParams\",params);\r\n";
         ret += "\t}\r\n\r\n";
 

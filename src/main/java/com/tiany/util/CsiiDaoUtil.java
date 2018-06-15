@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class CsiiDaoUtil {
 
     @Test
     public void test(){
-        String sqlFilePath = "src/main/resources/sql.txt";
+        String sqlFilePath = "src/main/resources/xq_account.sql";
         start(sqlFilePath);
     }
 
@@ -36,6 +37,14 @@ public class CsiiDaoUtil {
     public void test4(){
         String sqlFilePath = "src/main/resources/sql_temp.txt";
         start(sqlFilePath);
+    }
+
+    @Test
+    public void test5(){
+        String sqlFilePath = "src/main/resources/sql_temp.txt";
+        List<File> files = FileUtil.listAllFiles(new File("."));
+
+        //start(sqlFilePath);
     }
 
 

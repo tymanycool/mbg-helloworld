@@ -2,6 +2,7 @@ package com.csii.pmis.admin.dao.impl;
 
 import com.csii.pmis.admin.dao.AccountDao;
 import com.csii.pmis.service.bean.model.Account;
+import com.tiany.util.DateUtil;
 import com.tiany.util.MapUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ public class AccountDaoImplTest {
     @Test
     public void insert() throws Exception {
         Account account = new Account();
-        account.setAcctPkey("tianyao_blob_test2");
+        account.setAcctPkey("tianyao_3333");
         account.setAccount("accout");
         account.setAccState("4");
         account.setChannel("112");
@@ -80,7 +81,7 @@ public class AccountDaoImplTest {
     public void select3() throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("acctPkey", "tianyao2");
-        List<Map<String, Object>> maps = accountDao.selectForMapList(map);
+        List<Map<String,Object>> maps = accountDao.selectForMapList(map);
 
         System.out.println(maps.get(0).get("account"));
     }
@@ -89,7 +90,7 @@ public class AccountDaoImplTest {
     public void select4() throws Exception {
         HashMap<String, Object> map = new HashMap<>();
         map.put("acctPkey", "tianyao2");
-        Map<String, Object> result = accountDao.selectForMap(map);
+        Map<String, ?> result = accountDao.selectForMap(map);
 
         System.out.println(result.get("account"));
     }
@@ -102,10 +103,10 @@ public class AccountDaoImplTest {
         account.setAccState("2");
         account.setChannel("112");
         account.setCreateTime(new Date());
-        account.setIdNo("522125199212211916");
-        Map<String, Object> map = MapUtil.bean2Map(account);
-        int update = accountDao.updateByParams(map);
-        System.out.println(update);
+        account.setIdNo("522125199212211917");
+        Map<String, Object> map =  MapUtil.obj2Map(account);
+       int update = accountDao.updateByParams(map);
+       System.out.println(update);
     }
 
     @Test
