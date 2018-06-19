@@ -26,6 +26,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.ibm.db2</groupId>
             <artifactId>db2jcc</artifactId>
