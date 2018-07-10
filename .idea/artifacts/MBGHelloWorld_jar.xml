@@ -2,7 +2,7 @@
   <artifact type="jar" name="MBGHelloWorld:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MBGHelloWorld_jar</output-path>
     <root id="archive" name="MBGHelloWorld.jar">
-      <element id="module-output" name="MBGHelloWorld" />
+      <element id="module-output" name="mbg-helloworld" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/springframework/spring-test/4.3.4.RELEASE/spring-test-4.3.4.RELEASE.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/belerweb/pinyin4j/2.5.0/pinyin4j-2.5.0.jar" path-in-jar="/" />

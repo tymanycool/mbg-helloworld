@@ -99,6 +99,10 @@ public class Sql2SimpleEntity implements Convert {
         ret += FormatUtil.addTab(generateSelectForMap(table),1);
         if(hasPrimatyKey(table)){
             ret += "\r\n";
+            ret += FormatUtil.addTab(generateSelectByPrimaryKey(table),1);
+        }
+        if(hasPrimatyKey(table)){
+            ret += "\r\n";
             ret += FormatUtil.addTab(generateDeleteByPrimaryKey(table),1);
         }
         if(hasPrimatyKey(table)){
@@ -182,6 +186,11 @@ public class Sql2SimpleEntity implements Convert {
 
         ret = getInsertListComment(table, ret);
         ret += "\tObject insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List);\r\n\r\n";
+
+        if(hasPrimatyKey(table)){
+            ret = getSelectByPrimaryKeyComment(table, ret);
+            ret +="\t"+table.getEntityName()+ " selectByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ");\r\n\r\n";
+        }
 
         ret = getSelectForListComment(table, ret);
         ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,? extends Object> params);\r\n\r\n";
@@ -269,6 +278,13 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
+    private String getSelectByPrimaryKeyComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据主键查询"+table.getEntityName()+"\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
     private String getSelectForMapComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 根据params查询，返回Map类型\r\n";
@@ -278,7 +294,7 @@ public class Sql2SimpleEntity implements Convert {
 
     private String getSelectForObjectComment(Table table, String ret) {
         ret += "\t/**\r\n";
-        ret += "\t * 根据params查询"+table.getEntityName()+"对象\r\n";
+        ret += "\t * 根据对象字段查询"+table.getEntityName()+"对象\r\n";
         ret += "\t */\r\n";
         return ret;
     }
@@ -367,6 +383,15 @@ public class Sql2SimpleEntity implements Convert {
         }
         ret += "\tpublic Object insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List){\r\n";
         ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getSelectByPrimaryKeyComment(table,ret);
+        }
+        ret +="\tpublic "+table.getEntityName()+ " selectByPrimaryKey(" + getSimpleClassName((String)MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "){\r\n";
+        ret += "\t\treturn ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectByPrimaryKey\","+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName())+");\r\n";
         ret += "\t}\r\n\r\n";
 
         if(generateInterface) {
@@ -607,6 +632,29 @@ public class Sql2SimpleEntity implements Convert {
             ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成selectByPrimaryKey查询
+     * @param table
+     * @return
+     */
+    private String generateSelectByPrimaryKey(Table table) {
+        List<Field> primaryKeys = table.getPrimaryKeys();
+        String ret = "<select id=\"selectByPrimaryKey\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map)props,primaryKeys.get(0).getType())+"\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
         ret += "</select>\r\n";
         return ret;
     }

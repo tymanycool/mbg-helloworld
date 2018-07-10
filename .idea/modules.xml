@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MBGHelloWorld.iml" filepath="$PROJECT_DIR$/MBGHelloWorld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mbg-helloworld.iml" filepath="$PROJECT_DIR$/mbg-helloworld.iml" />
     </modules>
   </component>
 </project>

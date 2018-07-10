@@ -4,7 +4,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="MBGHelloWorld" />
+          <element id="module-output" name="mbg-helloworld" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: junit:junit:4.12" />
@@ -62,7 +62,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/MBGHelloWorld/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="MBGHelloWorld/web/Web" />
+      <element id="javaee-facet-resources" facet="mbg-helloworld/web/Web" />
     </root>
   </artifact>
 </component>

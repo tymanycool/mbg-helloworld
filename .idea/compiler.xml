@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="mbg-helloworld" />
         <module name="MBGHelloWorld" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mbg-helloworld" target="1.8" />
       <module name="MBGHelloWorld" target="1.8" />
     </bytecodeTargetLevel>
   </component>
