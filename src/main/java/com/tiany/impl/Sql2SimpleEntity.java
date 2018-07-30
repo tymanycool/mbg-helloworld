@@ -14,7 +14,7 @@ import java.util.*;
  * @version 1.0
  */
 public class Sql2SimpleEntity implements Convert {
-
+    private Random random = new Random();
     // 需要去除的前缀
     private static String removePrefix ="xq_,pmis_";
 
@@ -149,7 +149,7 @@ public class Sql2SimpleEntity implements Convert {
         ret += " */\r\n";
         ret += "public class " + table.getEntityName() + " implements Serializable{\r\n";
         ret += "\t/** 序列化号 */\r\n";
-        ret += "\tprivate static final long serialVersionUID = 1L;\r\n";
+        ret += "\tprivate static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += "\t/** "+getCommentString(fields.get(i).getComment())+" */\r\n";
