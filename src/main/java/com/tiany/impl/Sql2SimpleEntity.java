@@ -883,7 +883,7 @@ public class Sql2SimpleEntity implements Convert {
             }
         }
         ret += "\t</dynamic>\r\n";
-        ret += "\tWHERE "+ primaryKeys.get(0).getName() + " = # " +StringUtil.getCamelProperty(primaryKeys.get(0).getName())+" #\r\n";
+        ret += "\tWHERE "+ primaryKeys.get(0).getName() + " = #" +StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"#\r\n";
         ret += "</update>\r\n";
         return ret;
     }
