@@ -92,6 +92,8 @@ public class Sql2SimpleEntity implements Convert {
         ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForList(table),1);
         ret += "\r\n";
+        ret += FormatUtil.addTab(generateSelectForListNot(table),1);
+        ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForMapList(table),1);
         ret += "\r\n";
         ret += FormatUtil.addTab(generateSelectForObject(table),1);
@@ -194,6 +196,10 @@ public class Sql2SimpleEntity implements Convert {
 
         ret = getSelectForListComment(table, ret);
         ret += "\tList<"+table.getEntityName()+"> selectForList(Map<String,? extends Object> params);\r\n\r\n";
+
+        ret = getSelectForListNotComment(table, ret);
+        ret += "\tList<"+table.getEntityName()+"> selectForListNot(Map<String,? extends Object> params);\r\n\r\n";
+
 
         ret = getSelectCountByParamsComment(table, ret);
         ret += "\tint selectCountByParams(Map<String,? extends Object> params);\r\n\r\n";
@@ -320,6 +326,13 @@ public class Sql2SimpleEntity implements Convert {
         return ret;
     }
 
+    private String getSelectForListNotComment(Table table, String ret) {
+        ret += "\t/**\r\n";
+        ret += "\t * 根据不是params查询"+table.getEntityName()+"的List集合，params为null表示查询所有\r\n";
+        ret += "\t */\r\n";
+        return ret;
+    }
+
     private String getInsertListComment(Table table, String ret) {
         ret += "\t/**\r\n";
         ret += "\t * 批量新增\r\n";
@@ -399,8 +412,20 @@ public class Sql2SimpleEntity implements Convert {
         }else {
             ret = getSelectForListComment(table,ret);
         }
+
+
         ret += "\tpublic List<"+table.getEntityName()+"> selectForList(Map<String,? extends Object> params){\r\n";
         ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForList\",params);\r\n";
+        ret += "\t}\r\n\r\n";
+
+        if(generateInterface) {
+            ret += "\t@Override\r\n";
+        }else {
+            ret = getSelectForListNotComment(table,ret);
+        }
+
+        ret += "\tpublic List<"+table.getEntityName()+"> selectForListNot(Map<String,? extends Object> params){\r\n";
+        ret += "\t\treturn sqlMap.queryForList(\""+table.getEntityName()+".selectForListNot\",params);\r\n";
         ret += "\t}\r\n\r\n";
 
         if(generateInterface) {
@@ -552,6 +577,34 @@ public class Sql2SimpleEntity implements Convert {
         for(int i =0;i<fields.size();i++){
             ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
+        }
+        ret += "\t</dynamic>\r\n";
+        ret += "</select>\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成selectForList查询
+     * @param table
+     * @return
+     */
+    private String generateSelectForListNot(Table table) {
+        String ret = "<select id=\"selectForListNot\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\"java.util.Map\" >\r\n";
+        ret += "\tSELECT ";
+        List<Field> fields = table.getFields();
+        for(int i =0;i<fields.size();i++){
+            ret += fields.get(i).getName();
+            if(i<fields.size()-1){
+                ret += ",";
+            }
+        }
+        ret += "\t\r\n";
+        ret += "\tFROM " + table.getName() +" \r\n";
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " ("+fields.get(i).getName()+" != #"+StringUtil.getCamelProperty(fields.get(i).getName())+"# OR "+fields.get(i).getName()+" IS NULL)";
             ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
         ret += "\t</dynamic>\r\n";
