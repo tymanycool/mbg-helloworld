@@ -1,13 +1,15 @@
 package com.tiany.util;
 
-import com.tiany.impl.CreateTableFilter;
-import com.tiany.impl.Sql2SimpleEntity;
-import com.tiany.impl.Table;
+import com.tiany.ibator.CreateTableFilter;
+import com.tiany.ibator.SimpleSqlibator;
+import com.tiany.ibator.meta.Table;
 import com.tiany.util.io.FileUtil;
 import com.tiany.util.io.PropertiesUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.Map;
 
 public class CsiiDaoUtil {
     private static final Logger logger = LoggerFactory.getLogger(CsiiDaoUtil.class);
-
+    private static ApplicationContext ioc;
     @Test
     public void test(){
         String sqlFilePath = "src/main/resources/xq_account.sql";
@@ -50,7 +52,14 @@ public class CsiiDaoUtil {
 
     public static void start(String sqlFilePath){
         try {
-            Sql2SimpleEntity sql2SimpleEntity = new Sql2SimpleEntity();
+
+            if(ioc==null){
+                ioc =  new ClassPathXmlApplicationContext("classpath:spring.xml");
+                logger.debug("ioc==================:{}",ioc);
+            }else{
+                logger.info("ioc==================:{}",ioc);
+            }
+            SimpleSqlibator sql2SimpleEntity = (SimpleSqlibator)ioc.getBean("simpleSqlibator");
 
             // 加载配置
             String removePrefix = PropertiesUtil.getProperty("tibatis.properties", "removePrefix");
@@ -92,7 +101,7 @@ public class CsiiDaoUtil {
             };
 
             if(StringUtil.isNotEmpty(gf)){
-                Sql2SimpleEntity.setGenerateInterface(generateInterface);
+                SimpleSqlibator.setGenerateInterface(generateInterface);
                 logger.debug("配置已经设置，是否生成接口："+(generateInterface?"是":"否"));
             };
 
@@ -100,7 +109,7 @@ public class CsiiDaoUtil {
             CreateTableFilter createTableFilter = new CreateTableFilter(read);
             List<String> sqls = createTableFilter.getSqls();
             for(String sql:sqls){
-                sql2SimpleEntity = new Sql2SimpleEntity();
+                sql2SimpleEntity = ioc.getBean(SimpleSqlibator.class);
                 Map map = (Map)sql2SimpleEntity.convert(sql);
                 Table table = sql2SimpleEntity.getTable();
 
