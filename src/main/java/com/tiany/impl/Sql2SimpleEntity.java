@@ -1108,7 +1108,11 @@ public class Sql2SimpleEntity implements Convert {
     private String getPre(List<String> list,String name,int offset){
         for(int i =0;i<list.size();i++){
             if(list.get(i).equals(name)){
-                return list.get(i-offset);
+                if(i-offset>=0) {
+                    return list.get(i - offset);
+                }else{
+                    return null;
+                }
             }
         }
         return null;

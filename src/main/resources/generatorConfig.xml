@@ -45,7 +45,7 @@
         <!-- 要生成哪些表 -->
         <table tableName="tx_test" domainObjectName="Test"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
     </context>
