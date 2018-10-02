@@ -59,7 +59,7 @@ public class CsiiDaoUtil {
             }else{
                 logger.info("ioc==================:{}",ioc);
             }
-            SimpleSqlibator sql2SimpleEntity = (SimpleSqlibator)ioc.getBean(SimpleSqlibator.class);
+            SimpleSqlibator simpleSqlibator = (SimpleSqlibator)ioc.getBean(SimpleSqlibator.class);
 
             // 加载配置
             String removePrefix = PropertiesUtil.getProperty("tibatis.properties", "removePrefix");
@@ -76,27 +76,27 @@ public class CsiiDaoUtil {
                 e.printStackTrace();
             }
             if(StringUtil.isNotEmpty(removePrefix)){
-                sql2SimpleEntity.setRemovePrefix(removePrefix);
+                simpleSqlibator.setRemovePrefix(removePrefix);
                 logger.debug("配置已经设置，要移除的前缀："+removePrefix);
             };
             if(StringUtil.isNotEmpty(prefix)){
-                sql2SimpleEntity.setPrefix(prefix);
+                simpleSqlibator.setPrefix(prefix);
                 logger.debug("配置已经设置，新的前缀："+prefix);
             };
             if(StringUtil.isNotEmpty(suffix)){
-                sql2SimpleEntity.setSuffix(suffix);
+                simpleSqlibator.setSuffix(suffix);
                 logger.debug("配置已经设置，后缀："+suffix);
             };
             if(StringUtil.isNotEmpty(entityPackageName)){
-                sql2SimpleEntity.setEntityPackageName(entityPackageName);
+                simpleSqlibator.setEntityPackageName(entityPackageName);
                 logger.debug("配置已经设置，生成实体的包路径："+entityPackageName);
             };
             if(StringUtil.isNotEmpty(daoPackageName)){
-                sql2SimpleEntity.setDaoPackageName(daoPackageName);
+                simpleSqlibator.setDaoPackageName(daoPackageName);
                 logger.debug("配置已经设置，生成Dao的包路径："+daoPackageName);
             };
             if(StringUtil.isNotEmpty(mapperLocation)){
-                sql2SimpleEntity.setMapperLocation(mapperLocation);
+                simpleSqlibator.setMapperLocation(mapperLocation);
                 logger.debug("配置已经设置，生成Mapper的路径："+mapperLocation);
             };
 
@@ -109,16 +109,16 @@ public class CsiiDaoUtil {
             CreateTableFilter createTableFilter = new CreateTableFilter(read);
             List<String> sqls = createTableFilter.getSqls();
             for(String sql:sqls){
-                sql2SimpleEntity = ioc.getBean(SimpleSqlibator.class);
-                Map map = (Map)sql2SimpleEntity.convert(sql);
-                Table table = sql2SimpleEntity.getTable();
+                simpleSqlibator = ioc.getBean(SimpleSqlibator.class);
+                Map map = (Map)simpleSqlibator.convert(sql);
+                Table table = simpleSqlibator.getTable();
 
-                FileUtil.write("src/main/java/"+sql2SimpleEntity.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("entity"));
-                FileUtil.write("src/main/java/"+sql2SimpleEntity.getDaoPackageName().replace(".","/")+"/"+table.getEntityName()+"Dao.java",(String)map.get("dao"));
+                FileUtil.write("src/main/java/"+simpleSqlibator.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("entity"));
+                FileUtil.write("src/main/java/"+simpleSqlibator.getDaoPackageName().replace(".","/")+"/"+table.getEntityName()+"Dao.java",(String)map.get("dao"));
                 if(generateInterface) {
-                    FileUtil.write("src/main/java/" + sql2SimpleEntity.getDaoPackageName().replace(".", "/") + "/impl/" + table.getEntityName() + "DaoImpl.java", (String) map.get("daoImpl"));
+                    FileUtil.write("src/main/java/" + simpleSqlibator.getDaoPackageName().replace(".", "/") + "/impl/" + table.getEntityName() + "DaoImpl.java", (String) map.get("daoImpl"));
                 }
-                FileUtil.write("src/main/resources/"+sql2SimpleEntity.getMapperLocation()+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
+                FileUtil.write("src/main/resources/"+simpleSqlibator.getMapperLocation()+table.getEntityName()+"Mapper.xml",(String)map.get("xml"));
 
                 logger.debug(table.getEntityName()+",已经生成完成，正在生成下一个...");
             }
