@@ -2,8 +2,9 @@ package com.tiany.ibator;
 
 import com.tiany.inf.Word;
 import com.tiany.util.tokenizer.KeyWord;
+import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class KeyWordTest {
     @Test
     public void getValue() throws Exception {

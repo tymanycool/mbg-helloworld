@@ -1,5 +1,5 @@
 package com.tiany.ibator.inf;
 
-public interface MapperUpdateGenerator extends MapperGeneratorContext{
+public interface MapperUpdateGenerator extends MapperElementGenerator {
     public String getUpdateId();
 }

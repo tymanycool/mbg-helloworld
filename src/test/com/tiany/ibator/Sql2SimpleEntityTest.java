@@ -1,10 +1,11 @@
 package com.tiany.ibator;
 
 import com.tiany.util.io.FileUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
-
+@Ignore
 public class Sql2SimpleEntityTest {
     @Test
     public void test() throws Exception {

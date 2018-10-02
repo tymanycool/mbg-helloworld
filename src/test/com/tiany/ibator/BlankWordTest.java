@@ -3,8 +3,10 @@ package com.tiany.ibator;
 import com.tiany.inf.Word;
 import com.tiany.util.tokenizer.BlankWord;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class BlankWordTest {
     @Test
     public void getFirstWord() throws Exception {

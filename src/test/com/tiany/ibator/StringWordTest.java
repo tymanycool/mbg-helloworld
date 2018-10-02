@@ -1,8 +1,9 @@
 package com.tiany.ibator;
 
 import com.tiany.util.tokenizer.StringWord;
+import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class StringWordTest {
     @Test
     public void getValue() throws Exception {

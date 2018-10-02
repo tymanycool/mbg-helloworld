@@ -23,6 +23,8 @@
         <tomcat-jdbc.version>8.5.4</tomcat-jdbc.version>
         <mysql-connector.version>5.1.40</mysql-connector.version>
         <jdbc.driver.db2.version>4.15.82</jdbc.driver.db2.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.7</logback.version>
     </properties>
 
     <dependencies>
@@ -145,12 +147,41 @@
             <version>${mysql-connector.version}</version>
         </dependency>
 
+        <!-- 日志配置 begin -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!--logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
 
 
     </dependencies>
 
     <build>
-        <finalName>MBGHelloWorld</finalName>
+        <finalName>SqlIbator</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
@@ -182,6 +213,26 @@
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.tiany.Main</mainClass>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>./lib/</classpathPrefix>
+                            </manifest>
+
+                            <manifestEntries>
+                                <!--<Main-Class>
+                                    com.tiany.Main
+                                </Main-Class>-->
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+
 
                 <plugin>
                     <groupId>org.mybatis.generator</groupId>
@@ -210,12 +261,30 @@
                             <id>copy</id>
                             <phase>package</phase>
                             <goals>
-                                <goal>copy-dependencies</goal>
+                                <goal>copy-dependencys</goal>
                             </goals>
                             <configuration>
                                 <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             </configuration>
                         </execution>
+                        <!--<execution>
+                            <id>unpack</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>com.alibaba</groupId>
+                                        <artifactId>dubbo</artifactId>
+                                        <outputDirectory>${project.build.directory}/dubbo</outputDirectory>
+                                        <includes>META-INF/assembly/**</includes>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>-->
+
                     </executions>
                 </plugin>
             </plugins>

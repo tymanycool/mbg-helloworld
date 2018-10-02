@@ -1,5 +1,5 @@
 package com.tiany.ibator.inf;
 
-public interface MapperSelectGenerator extends MapperGeneratorContext{
+public interface MapperSelectGenerator extends MapperElementGenerator {
     public String getSelectId();
 }

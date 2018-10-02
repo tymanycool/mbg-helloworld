@@ -1,7 +1,6 @@
 package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.impl.dao.AbstractBaseDaoGenerator;
 import com.tiany.ibator.inf.*;
 import com.tiany.ibator.meta.Table;
 import com.tiany.util.format.FormatUtil;
@@ -99,7 +98,7 @@ public class MapperGeneratorImpl extends AbstractBaseSqlibator implements Mapper
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        String[] names = applicationContext.getBeanNamesForType(MapperGeneratorContext.class);
+        String[] names = applicationContext.getBeanNamesForType(MapperElementGenerator.class);
         generators = new ArrayList<>();
         for(String name : names){
             Generator bean = applicationContext.getBean(name, Generator.class);

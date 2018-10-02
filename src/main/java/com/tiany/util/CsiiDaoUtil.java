@@ -54,12 +54,12 @@ public class CsiiDaoUtil {
         try {
 
             if(ioc==null){
-                ioc =  new ClassPathXmlApplicationContext("classpath:spring.xml");
+                ioc =  new ClassPathXmlApplicationContext("classpath*:spring.xml");
                 logger.debug("ioc==================:{}",ioc);
             }else{
                 logger.info("ioc==================:{}",ioc);
             }
-            SimpleSqlibator sql2SimpleEntity = (SimpleSqlibator)ioc.getBean("simpleSqlibator");
+            SimpleSqlibator sql2SimpleEntity = (SimpleSqlibator)ioc.getBean(SimpleSqlibator.class);
 
             // 加载配置
             String removePrefix = PropertiesUtil.getProperty("tibatis.properties", "removePrefix");
@@ -125,7 +125,7 @@ public class CsiiDaoUtil {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("生成功出现了异常："+e.getMessage(),e);
+            throw new RuntimeException("生成出现了异常："+e.getMessage(),e);
         }
     }
 }
