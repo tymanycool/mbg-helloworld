@@ -5,12 +5,12 @@ import com.tiany.ibator.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateByPrimaryKeyComment implements Comment {
+public class UpdateByPrimaryKeyForcibleComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
         ret += "\t/**\r\n";
-        ret += "\t * 根据主键选择性更新"+table.getEntityName()+"\r\n";
+        ret += "\t * 根据主键强制覆盖更新"+table.getEntityName()+"\r\n";
         ret += "\t */\r\n";
         return ret;
     }

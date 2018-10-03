@@ -1,6 +1,10 @@
 package com.tiany.ibator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class AbstractSqlibator {
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractBaseSqlibator.class);
 
     // 需要去除的前缀
     protected static String removePrefix ="xq_,pmis_";

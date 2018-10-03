@@ -114,6 +114,7 @@ public class CsiiDaoUtil {
                 Table table = simpleSqlibator.getTable();
 
                 FileUtil.write("src/main/java/"+simpleSqlibator.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+".java",(String)map.get("entity"));
+                FileUtil.write("src/main/java/"+simpleSqlibator.getEntityPackageName().replace(".","/")+"/"+table.getEntityName()+"Example.java",(String)map.get("entityExample"));
                 FileUtil.write("src/main/java/"+simpleSqlibator.getDaoPackageName().replace(".","/")+"/"+table.getEntityName()+"Dao.java",(String)map.get("dao"));
                 if(generateInterface) {
                     FileUtil.write("src/main/java/" + simpleSqlibator.getDaoPackageName().replace(".", "/") + "/impl/" + table.getEntityName() + "DaoImpl.java", (String) map.get("daoImpl"));

@@ -29,6 +29,13 @@ public class MapperGeneratorImpl extends AbstractBaseSqlibator implements Mapper
 
     @Override
     public String generateMapper(Table table, List<Generator> generators) {
+        resultMaps.clear();
+        selects.clear();
+        deletes.clear();
+        updates.clear();
+        insters.clear();
+        sqls.clear();
+        defaults.clear();
         for(Generator g:generators){
             if(g instanceof MapperResultMapGenerator){
                 resultMaps.add(g);

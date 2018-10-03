@@ -1,5 +1,6 @@
 package com.tiany.ibator;
 
+import com.tiany.ibator.impl.EntityExampleGenerator;
 import com.tiany.ibator.impl.EntityGenerator;
 import com.tiany.ibator.inf.DaoGenerator;
 import com.tiany.ibator.inf.DaoImplGenerator;
@@ -22,12 +23,15 @@ import java.util.*;
  * @version 1.0
  */
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class SimpleSqlibator extends AbstractBaseSqlibator implements Convert {
 
     private List<List<String>> data;
 
-    private Table table = new Table();
+    private Table table;
+
+    @Autowired
+    private EntityExampleGenerator entityExampleGenerator;
 
     @Autowired
     private EntityGenerator entityGenerator;
@@ -50,9 +54,13 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements Convert {
             String outStr = "";
             // 转换成一行
             inStr = inStr.replaceAll("\r\n", " ");
+            inStr = inStr.replaceAll("\n", " ");
+            inStr = inStr.replaceAll("\r", " ");
             initData(inStr);
             parseData(data);
             Map<String, Object> map = new HashMap<>();
+            outStr = entityExampleGenerator.generate(table);
+            map.put("entityExample",outStr);
             outStr = entityGenerator.generate(table);
             map.put("entity",outStr);
             outStr = mapperGenerator.generate(table);
@@ -218,6 +226,7 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements Convert {
 
     private void initData(String inStr) {
         data = new ArrayList<>();
+        table = new Table();
         SqlTokenizer tokenizer = new SqlTokenizer();
         List<String> wordList = tokenizer.split(inStr);
         List<String> newWordList = new ArrayList<>();

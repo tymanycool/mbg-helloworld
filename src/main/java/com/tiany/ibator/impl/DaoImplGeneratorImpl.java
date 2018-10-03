@@ -35,6 +35,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
             ret += "import " + daoPackageName + "." + table.getEntityName() + "Dao;\r\n";
         }
         ret += "import "+entityPackageName+"."+table.getEntityName()+";\r\n\r\n";
+        ret += "import "+entityPackageName+"."+table.getEntityName()+"Example;\r\n\r\n";
         ret += "/*\r\n";
         ret += " * @description "+getCommentString(table.getComment())+"Dao"+(generateInterface?"Impl":"")+"\r\n";
         ret += " * @author "+ System.getProperty("user.name")+"\r\n";

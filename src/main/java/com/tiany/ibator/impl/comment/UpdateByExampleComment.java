@@ -5,12 +5,12 @@ import com.tiany.ibator.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateByParamsComment implements Comment {
+public class UpdateByExampleComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
         ret += "\t/**\r\n";
-        ret += "\t * 根据params更新"+table.getEntityName()+"\r\n";
+        ret += "\t * 根据example更新"+table.getEntityName()+"\r\n";
         ret += "\t */\r\n";
         return ret;
     }

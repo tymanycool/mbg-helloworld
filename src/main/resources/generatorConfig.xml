@@ -48,5 +48,10 @@
                enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
+        <table tableName="tx_account" domainObjectName="Account"
+               enableCountByExample="false" enableUpdateByExample="true"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>

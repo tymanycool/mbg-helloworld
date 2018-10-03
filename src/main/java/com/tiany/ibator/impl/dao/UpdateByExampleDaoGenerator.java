@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class UpdateByParamsDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
+public class UpdateByExampleDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\tint updateByParams(Map<String,? extends Object> params)";
+        String entityName = table.getEntityName();
+        return "\tint updateByExample("+ entityName +" "+StringUtil.getCamelProperty(entityName)+","+entityName+"Example example)";
     }
 }

@@ -2,23 +2,26 @@ package com.tiany.ibator;
 
 import com.tiany.ibator.meta.Field;
 import com.tiany.ibator.meta.Table;
+import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
     private static final Logger logger = LoggerFactory.getLogger(AbstractBaseSqlibator.class);
-    protected Properties props = new Properties();
-
-    public AbstractBaseSqlibator() {
+    protected static Properties props = new Properties();
+    static {
         try {
-            props.load(this.getClass().getClassLoader().getResourceAsStream("type.properties"));
+            props.load(AbstractBaseSqlibator.class.getClassLoader().getResourceAsStream("type.properties"));
         }catch (Exception e){
             logger.error("type.properties加载失败");
         }
+    }
+    public AbstractBaseSqlibator() {
     }
 
     protected boolean hasPrimatyKey(Table table){
@@ -128,6 +131,33 @@ public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
      */
     protected String getAfter(List<String> list,String name){
         return getAfter(list,name,1);
+    }
+
+    /**
+     * 得到java类型
+     * @param field
+     * @return
+     */
+    protected String getJavaType(Field field){
+        return getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,field.getType()));
+    }
+
+    /**
+     * 得到javaName
+     * @param field
+     * @return
+     */
+    protected String getJavaName(Field field){
+        return StringUtil.getCamelProperty(field.getName());
+    }
+    /**
+     * 得到javaName
+     * @param field
+     * @return
+     */
+    protected String getJavaName2(Field field){
+        String camelProperty = StringUtil.getCamelProperty(field.getName());
+        return camelProperty.substring(0,1).toUpperCase()+camelProperty.substring(1);
     }
 
 }
