@@ -22,13 +22,14 @@ public class DeleteByParamsMapperGenerator extends AbstractBaseSqlibator impleme
         String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\"java.util.Map\" >\r\n";
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
-        List<Field> fields = table.getPrimaryKeys();
-
-        if(fields.size()<1){
-            fields = table.getFields();
+        List<Field> fields = table.getFields();
+        ret += "\t<dynamic prepend=\"where\" >\r\n";
+        for(int i =0;i<fields.size();i++){
+            ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\"and\" property=\""+ StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
+            ret += " "+fields.get(i).getName()+" = #"+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
         }
-
-        ret += "\tWHERE "+fields.get(0).getName()+" = #"+ StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
+        ret += "\t</dynamic>\r\n";
         ret += "</delete>\r\n";
         return ret;
     }

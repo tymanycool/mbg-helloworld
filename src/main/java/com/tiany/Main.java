@@ -1,5 +1,6 @@
 package com.tiany;
 
+import com.tiany.logo.Logo;
 import com.tiany.util.CsiiDaoUtil;
 import com.tiany.util.io.FileUtil;
 import org.slf4j.Logger;
@@ -16,14 +17,19 @@ public class Main {
     private static final Logger logger= LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        String sqlFilePath = "sql.txt";
-        logger.debug("正在生成，请稍后...");
-        List<File> files = FileUtil.listFiles(new File("."),"txt","sql");
-        for (File file : files){
-            if(file.getName().equals(sqlFilePath)||file.getName().endsWith(".sql")){
-                CsiiDaoUtil.start(file.getPath());
+        try {
+            String sqlFilePath = "sql.txt";
+            Logo.logo("tianyao");
+            logger.debug("正在生成，请稍后...");
+            List<File> files = FileUtil.listFiles(new File("."), "txt", "sql");
+            for (File file : files) {
+                if (file.getName().equals(sqlFilePath) || file.getName().endsWith(".sql")) {
+                    CsiiDaoUtil.start(file.getPath());
+                }
             }
+            Logo.logo("success");
+        }catch (Exception e){
+            Logo.logo("failed",e);
         }
-        logger.debug("已经成功生成");
     }
 }

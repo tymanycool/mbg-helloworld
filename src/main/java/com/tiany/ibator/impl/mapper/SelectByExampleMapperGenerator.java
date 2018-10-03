@@ -25,7 +25,7 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
     public String generate(Table table) {
         List<Field> primaryKeys = table.getPrimaryKeys();
         String ret = "<select id=\"" + getSelectId() + "\" resultMap=\"" + table.getEntityName() + "BaseResultMap\" parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "Example\" >\r\n";
-        ret += "\tSELECT ";
+        ret += "\tSELECT \n";
         ret += "\t<isEqual property=\"distinct\" compareValue=\"true\">\n";
         ret += "\t\tDISTINCT\n";
         ret += "\t</isEqual>\n";

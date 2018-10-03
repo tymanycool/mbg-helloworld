@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 /*
  * @description 账户表Example
  * @author tiany
- * @version 2018-10-03 modify: tiany
+ * @version 2018-10-04 modify: tiany
  * @since 1.0
  */
 public class AccountExample implements Serializable{
 	/** 序列化号 */
-	private static final long serialVersionUID = 2008281769309670272L;
+	private static final long serialVersionUID = 186825101680721775L;
 	protected String orderByClause;
 	protected boolean distinct;
 	protected List<Criteria> oredCriteria;

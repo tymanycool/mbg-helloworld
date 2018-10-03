@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //@Ignore
@@ -64,5 +65,12 @@ public class Sql2SimpleEntityTest {
         account.setBankName("田耀2");
         account.setBankId("2");
         int count = accountDao.updateByExample(account, example);
+    }
+
+    @Test
+    public void test6() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        //params.put("orgId","323232");
+        int count = accountDao.deleteByParams(params);
     }
 }

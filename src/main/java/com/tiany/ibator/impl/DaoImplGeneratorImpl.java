@@ -4,6 +4,7 @@ import com.tiany.ibator.AbstractBaseSqlibator;
 import com.tiany.ibator.impl.daoimpl.AbstractBaseDaoImplGenerator;
 import com.tiany.ibator.inf.DaoImplGenerator;
 import com.tiany.ibator.inf.Generator;
+import com.tiany.ibator.meta.Field;
 import com.tiany.ibator.meta.Table;
 import com.tiany.util.DateUtil;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         String ret = "";
         ret += "package "+ daoPackageName +(generateInterface?".impl":"")+";\r\n\r\n";
         ret += "import java.util.List;\r\n";
+        ret += "import java.util.ArrayList;\r\n";
         ret += "import java.util.Map;\r\n\r\n";
         ret += "import java.util.HashMap;\r\n\r\n";
         ret += "import org.springframework.beans.factory.annotation.Autowired;\r\n";
@@ -49,7 +51,17 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
             ret += "public class " + table.getEntityName() + "Dao {\r\n";
         }
         ret += "\t@Autowired\r\n";
-        ret += "\tprivate SqlMapClientOperations sqlMap;\r\n\r\n";
+        ret += "\tprivate SqlMapClientOperations sqlMap;\r\n";
+        ret += "\tprivate List<String> fields = new ArrayList<>();\r\n\r\n";
+        if(generateInterface) {
+            ret += "\tpublic "+table.getEntityName()+"DaoImpl(){\n";
+        }else{
+            ret += "\tpublic "+table.getEntityName()+"Dao(){\n";
+        }
+        for (Field field:table.getFields()){
+            ret += "\t\tfields.add(\""+getJavaName(field)+"\");\n";
+        }
+        ret += "\t}\n";
 
         for(Generator g: generators){
             if (g instanceof AbstractBaseDaoImplGenerator&&!generateInterface){

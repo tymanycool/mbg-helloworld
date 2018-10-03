@@ -13,6 +13,6 @@ public class UpdateByExampleDaoGenerator extends AbstractBaseDaoGenerator implem
     @Override
     public String generate(Table table) {
         String entityName = table.getEntityName();
-        return "\tint updateByExample("+ entityName +" "+StringUtil.getCamelProperty(entityName)+","+entityName+"Example example)";
+        return "\tint updateByExample("+ entityName +" "+getBeanNameByClassName(entityName)+","+entityName+"Example example)";
     }
 }

@@ -109,7 +109,7 @@ public class CsiiDaoUtil {
             CreateTableFilter createTableFilter = new CreateTableFilter(read);
             List<String> sqls = createTableFilter.getSqls();
             for(String sql:sqls){
-                simpleSqlibator = ioc.getBean(SimpleSqlibator.class);
+                //simpleSqlibator = ioc.getBean(SimpleSqlibator.class);
                 Map map = (Map)simpleSqlibator.convert(sql);
                 Table table = simpleSqlibator.getTable();
 

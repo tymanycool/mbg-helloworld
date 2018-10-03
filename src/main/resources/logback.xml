@@ -22,6 +22,14 @@
 			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{transUUID} %logger %X{sessionId} %X{transId} %X{transName} %X{userId} %m%n</Pattern>
 		</layout>
 	</appender>
+	<appender name="LOGO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern></Pattern>
+		</layout>
+	</appender>
 
 	<logger name="org.springframework" additivity="false">
 		<level value="debug" />
