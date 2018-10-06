@@ -24,7 +24,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "import java.io.Serializable;\r\n";
         ret += "import java.util.Date;\r\n";
         ret += "import java.util.List;\r\n";
-        ret += "import java.util.ArrayList;;\r\n";
+        ret += "import java.util.ArrayList;\r\n";
         ret += "import java.math.BigDecimal;\r\n\r\n";
         ret += "/*\r\n";
         ret += " * @description "+getCommentString(table.getComment())+"Example\r\n";
