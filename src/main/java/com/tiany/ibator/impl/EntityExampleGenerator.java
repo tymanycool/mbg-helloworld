@@ -38,6 +38,10 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "\tprotected String orderByClause;\n";
         ret += "\tprotected boolean distinct;\n";
         ret += "\tprotected List<Criteria> oredCriteria;\n";
+        if(generatePage) {
+            ret += "\tprotected int pageNo;\n";
+            ret += "\tprotected int pageSize;\n";
+        }
         ret += "\tpublic "+table.getEntityName()+"Example() {\n";
         ret += "\t\toredCriteria = new ArrayList<Criteria>();\n";
         ret += "\t}\n";
@@ -53,6 +57,23 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "\tpublic boolean isDistinct() {\n";
         ret += "\t\treturn distinct;\n";
         ret += "\t}\n";
+        if(generatePage) {
+            ret += "\tpublic int getPageNo() {\n";
+            ret += "\t\treturn pageNo;\n";
+            ret += "\t}\n";
+            ret += "\tpublic void setPageNo(int pageNo) {\n";
+            ret += "\t\tthis.pageNo = pageNo;\n";
+            ret += "\t}\n";
+            ret += "\tpublic int getPageStartIndex() {\n";
+            ret += "\t\treturn (pageNo-1)*pageSize;\n";
+            ret += "\t}\n";
+            ret += "\tpublic int getPageSize() {\n";
+            ret += "\t\treturn pageSize;\n";
+            ret += "\t}\n";
+            ret += "\tpublic void setPageSize(int pageSize) {\n";
+            ret += "\t\tthis.pageSize = pageSize;\n";
+            ret += "\t}\n";
+        }
         ret += "\tpublic List<Criteria> getOredCriteria() {\n";
         ret += "\t\treturn oredCriteria;\n";
         ret += "\t}\n";

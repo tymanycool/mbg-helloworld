@@ -25,7 +25,11 @@ public abstract class AbstractSqlibator {
     protected static String mapperLocation = "service/db/sql-mapping/service/";
 
     // 是否生成接口
-    protected static boolean generateInterface = false;
+    protected static boolean generateInterface = true;
+
+    // 是否生成分页
+    protected static boolean generatePage = true;
+
 
     public static String getRemovePrefix() {
         return removePrefix;
