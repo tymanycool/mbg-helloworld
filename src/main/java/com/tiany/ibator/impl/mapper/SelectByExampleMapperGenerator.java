@@ -46,9 +46,9 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
         ret += "\t\tORDER BY $orderByClause$\n";
         ret += "\t</isNotNull>\n";
         if(generatePage) {
-            ret += "\t<isNotNull property=\"pageSize\">\n";
+            ret += "\t<isNotEqual property=\"pageSize\" compareValue=\"0\">\n";
             ret += "\t\tLIMIT #pageStartIndex#,#pageSize#\n";
-            ret += "\t</isNotNull>\n";
+            ret += "\t</isNotEqual>\n";
         }
         ret += "</select>\r\n";
         return ret;

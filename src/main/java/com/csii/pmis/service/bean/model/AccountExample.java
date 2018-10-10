@@ -3,21 +3,23 @@ package com.csii.pmis.service.bean.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;;
+import java.util.ArrayList;
 import java.math.BigDecimal;
 
 /*
  * @description 账户表Example
  * @author tiany
- * @version 2018-10-04 modify: tiany
+ * @version 2018-10-10 modify: tiany
  * @since 1.0
  */
 public class AccountExample implements Serializable{
 	/** 序列化号 */
-	private static final long serialVersionUID = 186825101680721775L;
+	private static final long serialVersionUID = 9219397361557430892L;
 	protected String orderByClause;
 	protected boolean distinct;
 	protected List<Criteria> oredCriteria;
+	protected int pageNo;
+	protected int pageSize;
 	public AccountExample() {
 		oredCriteria = new ArrayList<Criteria>();
 	}
@@ -32,6 +34,21 @@ public class AccountExample implements Serializable{
 	}
 	public boolean isDistinct() {
 		return distinct;
+	}
+	public int getPageNo() {
+		return pageNo;
+	}
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+	public int getPageStartIndex() {
+		return (pageNo-1)*pageSize;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 	public List<Criteria> getOredCriteria() {
 		return oredCriteria;

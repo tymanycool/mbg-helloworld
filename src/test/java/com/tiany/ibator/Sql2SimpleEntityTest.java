@@ -1,8 +1,10 @@
 package com.tiany.ibator;
 
 import com.csii.pmis.admin.dao.AccountDao;
+import com.csii.pmis.admin.dao.AnsycMsgDao;
 import com.csii.pmis.service.bean.model.Account;
 import com.csii.pmis.service.bean.model.AccountExample;
+import com.csii.pmis.service.bean.model.AnsycMsg;
 import com.tiany.util.io.FileUtil;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,6 +24,9 @@ public class Sql2SimpleEntityTest {
     private SimpleSqlibator simpleSqlibator;
     @Autowired
     private AccountDao accountDao;
+
+    @Autowired
+    private AnsycMsgDao ansycMsgDao;
 
     @Ignore
     @Test
@@ -72,5 +77,13 @@ public class Sql2SimpleEntityTest {
         Map<String, Object> params = new HashMap<>();
         //params.put("orgId","323232");
         int count = accountDao.deleteByParams(params);
+    }
+
+    @Test
+    public void test7() throws Exception {
+        AnsycMsg ansycMsg = new AnsycMsg();
+        ansycMsg.setId("363465138977640448");
+        ansycMsg.setReceiveMsgFromDown("232323");
+        int count = ansycMsgDao.updateByPrimaryKey(ansycMsg);
     }
 }
