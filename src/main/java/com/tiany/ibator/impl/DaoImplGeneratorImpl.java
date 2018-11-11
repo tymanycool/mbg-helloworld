@@ -30,6 +30,8 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         ret += "import java.util.ArrayList;\r\n";
         ret += "import java.util.Map;\r\n\r\n";
         ret += "import java.util.HashMap;\r\n\r\n";
+        ret += "import java.util.logging.Level;\n";
+        ret += "import java.util.logging.Logger;\n";
         ret += "import org.springframework.beans.factory.annotation.Autowired;\r\n";
         ret += "import org.springframework.orm.ibatis.SqlMapClientOperations;\r\n";
         ret += "import org.springframework.stereotype.Repository;\r\n\r\n";
@@ -47,9 +49,12 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         ret += "@Repository\r\n";
         if(generateInterface) {
             ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao {\r\n";
+            ret += "\tprivate static final Logger logger = Logger.getLogger("+table.getEntityName()+"DaoImpl.class.getName());\n";
         }else{
             ret += "public class " + table.getEntityName() + "Dao {\r\n";
+            ret += "\tprivate static final Logger logger = Logger.getLogger("+table.getEntityName()+"Dao.class.getName());\n";
         }
+
         ret += "\t@Autowired\r\n";
         ret += "\tprivate SqlMapClientOperations sqlMap;\r\n";
         ret += "\tprivate List<String> fields = new ArrayList<>();\r\n\r\n";

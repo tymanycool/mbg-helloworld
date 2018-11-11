@@ -258,7 +258,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateNotEqualTo(Field field){
         String ret = "";
         ret += "\t\tpublic Criteria and"+getJavaName2(field)+"NotEqualTo("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" &lt;&gt;\", value, \""+getJavaName(field)+"\");\n";
+        ret += "\t\t\taddCriterion(\""+field.getName()+" !=\", value, \""+getJavaName(field)+"\");\n";
         ret += "\t\t\treturn (Criteria) this;\n";
         ret += "\t\t}\n";
         return ret;
