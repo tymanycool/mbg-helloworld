@@ -5,13 +5,16 @@ import com.tiany.ibator.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateByPrimaryKeyComment implements Comment {
+public class UpdateByPrimaryKeyComment extends BaseComment implements Comment {
     @Override
     public String remark(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         String ret ="";
-        ret += "\t/**\r\n";
-        ret += "\t * 根据主键选择性更新"+table.getEntityName()+"\r\n";
-        ret += "\t */\r\n";
+        ret += "  /**\r\n";
+        ret += "   * 根据主键选择性更新"+table.getEntityName()+" .\r\n";
+        ret += "   */\r\n";
         return ret;
     }
 }

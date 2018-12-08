@@ -12,6 +12,9 @@ import java.util.Map;
 public class DeleteListDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\tint deleteList(List<" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List)";
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
+        return "  int deleteList(List<" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List)";
     }
 }

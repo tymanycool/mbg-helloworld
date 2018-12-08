@@ -5,13 +5,16 @@ import com.tiany.ibator.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeleteListComment implements Comment {
+public class DeleteListComment extends BaseComment implements Comment {
     @Override
     public String remark(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         String ret ="";
-        ret += "\t/**\r\n";
-        ret += "\t * 根据主键列表批量删除"+table.getEntityName()+"\r\n";
-        ret += "\t */\r\n";
+        ret += "  /**\r\n";
+        ret += "   * 根据主键列表批量删除"+table.getEntityName()+" .\r\n";
+        ret += "   */\r\n";
         return ret;
     }
 }

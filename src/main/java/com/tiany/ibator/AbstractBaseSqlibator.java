@@ -23,7 +23,18 @@ public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
     }
     public AbstractBaseSqlibator() {
     }
-
+    protected boolean hasClass(Table table,String clazz){
+        List<Field> fields = table.getFields();
+        for(Field field : fields){
+            String type = (String) props.get(field.getType().toLowerCase());
+            if(StringUtil.isNotEmpty(type)){
+                if(type.endsWith(clazz)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     protected boolean hasPrimatyKey(Table table){
         if(table.getPrimaryKeys().size()>=1){
             return true;
@@ -71,6 +82,19 @@ public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
             if (comment.endsWith("'")) {
                 comment = comment.substring(0, comment.length() - 1);
             }
+            comment = comment.replaceAll("\t"," ");
+            comment = comment.replaceAll("\r"," ");
+            comment = comment.replaceAll("\n"," ");
+
+            comment = comment.replaceAll("\\t"," ");
+            comment = comment.replaceAll("\\r"," ");
+            comment = comment.replaceAll("\\n"," ");
+
+            comment = comment.replaceAll("\\\\t"," ");
+            comment = comment.replaceAll("\\\\r"," ");
+            comment = comment.replaceAll("\\\\n"," ");
+            comment = comment.replaceAll("[\\s]+"," ");
+
         }else {
             return "";
         }

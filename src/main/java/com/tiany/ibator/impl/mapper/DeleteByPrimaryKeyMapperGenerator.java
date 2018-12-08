@@ -21,6 +21,9 @@ public class DeleteByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
     }
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
         String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\""+ MapUtil.getIgnoreCase((Map)props,fields.get(0).getType())+"\" >\r\n";

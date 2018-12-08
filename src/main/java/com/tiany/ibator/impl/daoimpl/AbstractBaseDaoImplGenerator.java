@@ -24,7 +24,7 @@ public class AbstractBaseDaoImplGenerator extends AbstractBaseSqlibator implemen
         String simpleName = this.getClass().getSimpleName();
         String first = String.valueOf(simpleName.charAt(0)).toLowerCase();
         Generator generator = (Generator)applicationContext.getBean(first+simpleName.substring(1,simpleName.length()- daoImplSuffix.length())+ daoSuffix);
-        return "\tpublic "+generator.generate(table);
+        return "  public "+String.valueOf(generator.generate(table)).trim();
     }
 
     @Override

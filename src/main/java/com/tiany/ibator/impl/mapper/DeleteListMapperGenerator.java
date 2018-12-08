@@ -15,6 +15,9 @@ import java.util.List;
 public class DeleteListMapperGenerator extends AbstractBaseSqlibator implements MapperDeleteGenerator {
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
         String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\"java.util.List\" >\r\n";

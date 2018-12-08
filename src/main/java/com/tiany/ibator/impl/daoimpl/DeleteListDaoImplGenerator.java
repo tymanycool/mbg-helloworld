@@ -13,10 +13,13 @@ import java.util.Map;
 public class DeleteListDaoImplGenerator extends AbstractBaseDaoImplGenerator implements Generator {
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         String ret = "";
-        ret += getDaoString(table)+"{\r\n";
-        ret += "\t\treturn sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n";
-        ret += "\t}\r\n";
+        ret += getDaoString(table)+" {\r\n";
+        ret += "    return sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

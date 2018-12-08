@@ -9,9 +9,9 @@ public class SelectForMapComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params查询，返回Map类型\r\n";
-        ret += "\t */\r\n";
+        ret += "  /**\r\n";
+        ret += "   * 根据params查询，返回Map类型 .\r\n";
+        ret += "   */\r\n";
         return ret;
     }
 }

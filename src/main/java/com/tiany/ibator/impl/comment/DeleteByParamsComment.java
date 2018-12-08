@@ -9,9 +9,9 @@ public class DeleteByParamsComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
-        ret += "\t/**\r\n";
-        ret += "\t * 根据params删除"+table.getEntityName()+"\r\n";
-        ret += "\t */\r\n";
+        ret += "  /**\r\n";
+        ret += "   * 根据params删除"+table.getEntityName()+" .\r\n";
+        ret += "   */\r\n";
         return ret;
     }
 }

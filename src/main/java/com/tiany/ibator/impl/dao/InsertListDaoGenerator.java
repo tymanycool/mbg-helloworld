@@ -12,6 +12,6 @@ import java.util.Map;
 public class InsertListDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\tObject insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List)";
+        return "  Object insertList(List<"+table.getEntityName()+"> "+getBeanNameByClassName(table.getEntityName())+"List)";
     }
 }

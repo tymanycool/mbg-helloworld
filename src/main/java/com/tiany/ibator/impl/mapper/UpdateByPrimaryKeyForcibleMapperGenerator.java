@@ -19,6 +19,9 @@ public class UpdateByPrimaryKeyForcibleMapperGenerator extends AbstractBaseSqlib
 
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         List<Field> primaryKeys = table.getPrimaryKeys();
         String ret = "<update id=\""+getUpdateId()+"\"  parameterClass=\""+entityPackageName+"."+table.getEntityName()+"\" >\r\n";
         ret += "\tUPDATE "+table.getName()+" SET\r\n";

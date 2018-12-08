@@ -15,6 +15,9 @@ public class UpdateListMapperGenerator extends AbstractBaseSqlibator implements 
 
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         String ret = "<update id=\""+getUpdateId()+"\"  parameterClass=\"java.util.Map\" >\r\n";
         ret += "\tUPDATE "+table.getName()+"\r\n";
         List<Field> fields = table.getFields();

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class InsertDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\tObject insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
+        return "  Object insert("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
     }
 }

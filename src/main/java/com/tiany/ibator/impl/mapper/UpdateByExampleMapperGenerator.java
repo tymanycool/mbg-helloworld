@@ -32,16 +32,25 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
         ret += "\t<dynamic prepend=\"set\" >\r\n";
         for(int i =0;i<fields.size();i++){
             // 不是主键时
-            if(!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
-                ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\",\" property=\"" +camelProperty+"."+ StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
-                ret += " " + fields.get(i).getName() + " = #"+camelProperty+"." + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
-                ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
+            if(!hasPrimatyKey(table)){
+                ret = getString(ret, fields, camelProperty, i);
+            }else {
+                if (!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
+                    ret = getString(ret, fields, camelProperty, i);
+                }
             }
         }
         ret += "\t</dynamic>\r\n";
 
         ret += "\t<include refid=\""+updateWhereSqlMapperGenerator.getSqlId()+"\" />\n";
         ret += "</update>\r\n";
+        return ret;
+    }
+
+    private String getString(String ret, List<Field> fields, String camelProperty, int i) {
+        ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " prepend=\",\" property=\"" + camelProperty + "." + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
+        ret += " " + fields.get(i).getName() + " = #" + camelProperty + "." + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
+        ret += " </" + getPropertyDynamicLabel(fields.get(i)) + ">\r\n";
         return ret;
     }
 }

@@ -15,6 +15,6 @@ public class DeleteByPrimaryKeyDaoGenerator extends AbstractBaseDaoGenerator imp
         if(!hasPrimatyKey(table)){
             return "";
         }
-        return "\tint deleteByPrimaryKey(" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ")";
+        return "  int deleteByPrimaryKey(" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ")";
     }
 }

@@ -9,9 +9,9 @@ public class SelectByExampleComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
-        ret += "\t/**\r\n";
-        ret += "\t * 根据Example查询"+table.getEntityName()+"\r\n";
-        ret += "\t */\r\n";
+        ret += "  /**\r\n";
+        ret += "   * 根据Example查询"+table.getEntityName()+" .\r\n";
+        ret += "   */\r\n";
         return ret;
     }
 }

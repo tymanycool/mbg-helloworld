@@ -20,6 +20,9 @@ public class SelectByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
 
     @Override
     public String generate(Table table) {
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
         List<Field> primaryKeys = table.getPrimaryKeys();
         String ret = "<select id=\""+getSelectId()+"\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map)props,primaryKeys.get(0).getType())+"\" >\r\n";
         ret += "\tSELECT ";

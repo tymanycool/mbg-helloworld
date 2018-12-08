@@ -11,6 +11,6 @@ public class UpdateByPrimaryKeyDaoGenerator extends AbstractBaseDaoGenerator imp
         if(!hasPrimatyKey(table)){
             return "";
         }
-        return "\tint updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
+        return "  int updateByPrimaryKey("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
     }
 }

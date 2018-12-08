@@ -11,9 +11,9 @@ public class InsertListDaoImplGenerator extends AbstractBaseDaoImplGenerator imp
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table)+"{\r\n";
-        ret += "\t\treturn sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
-        ret += "\t}\r\n\r\n";
+        ret += getDaoString(table)+" {\r\n";
+        ret += "    return sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
+        ret += "  }\r\n\r\n";
         return ret;
     }
 }

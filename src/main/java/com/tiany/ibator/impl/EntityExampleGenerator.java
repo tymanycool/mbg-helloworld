@@ -9,9 +9,7 @@ import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Component
 public class EntityExampleGenerator extends AbstractBaseSqlibator implements Generator {
@@ -21,318 +19,360 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generate(Table table) {
         String ret = "";
         ret += "package "+ entityPackageName +";\r\n\r\n";
-        ret += "import java.io.Serializable;\r\n";
-        ret += "import java.util.Date;\r\n";
-        ret += "import java.util.List;\r\n";
-        ret += "import java.util.ArrayList;\r\n";
-        ret += "import java.math.BigDecimal;\r\n\r\n";
-        ret += "/*\r\n";
-        ret += " * @description "+getCommentString(table.getComment())+"Example\r\n";
+
+        List<String> imports = new ArrayList<>();
+        imports.add("java.io.Serializable");
+        imports.add("java.util.ArrayList");
+        imports.add("java.util.List");
+        if(hasClass(table,"BigInteger")){
+            imports.add("java.math.BigInteger");
+        }
+        if(hasClass(table,"Date")){
+            imports.add("java.util.Date");
+        }
+        if(hasClass(table,"BigDecimal")) {
+            imports.add("java.math.BigDecimal");
+        }
+        Collections.sort(imports);
+
+        for (String s : imports){
+            ret +="import "+ s + ";\n";
+        }
+
+        ret += "\n";
+        ret += "/**\r\n";
+        ret += " * "+getCommentString(table.getComment())+"Example .\r\n";
         ret += " * @author "+ System.getProperty("user.name")+"\r\n";
         ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
         ret += " * @since 1.0\r\n";
-        ret += " */\r\n";
-        ret += "public class " + table.getEntityName() + "Example implements Serializable{\r\n";
-        ret += "\t/** 序列化号 */\r\n";
-        ret += "\tprivate static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\r\n";
-        ret += "\tprotected String orderByClause;\n";
-        ret += "\tprotected boolean distinct;\n";
-        ret += "\tprotected List<Criteria> oredCriteria;\n";
+        ret += " */\n";
+        ret += "public class " + table.getEntityName() + "Example implements Serializable {\r\n";
+        ret += "  /** 序列化号 . */\r\n";
+        ret += "  private static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\r\n";
+        ret += "  protected String orderByClause;\n";
+        ret += "  protected boolean distinct;\n";
+        ret += "  private List<Criteria> oredCriteria;\n";
         if(generatePage) {
-            ret += "\tprotected int pageNo;\n";
-            ret += "\tprotected int pageSize;\n";
+            ret += "  protected int pageNo;\n";
+            ret += "  protected int pageSize;\n\n";
         }
-        ret += "\tpublic "+table.getEntityName()+"Example() {\n";
-        ret += "\t\toredCriteria = new ArrayList<Criteria>();\n";
-        ret += "\t}\n";
-        ret += "\tpublic void setOrderByClause(String orderByClause) {\n";
-        ret += "\t\tthis.orderByClause = orderByClause;\n";
-        ret += "\t}\n";
-        ret += "\tpublic String getOrderByClause() {\n";
-        ret += "\t\treturn orderByClause;\n";
-        ret += "\t}\n";
-        ret += "\tpublic void setDistinct(boolean distinct) {\n";
-        ret += "\t\tthis.distinct = distinct;\n";
-        ret += "\t}\n";
-        ret += "\tpublic boolean isDistinct() {\n";
-        ret += "\t\treturn distinct;\n";
-        ret += "\t}\n";
+        ret += "  public "+table.getEntityName()+"Example() {\n";
+        ret += "    oredCriteria = new ArrayList<>();\n";
+        ret += "  }\n\n";
+        ret += "  public void setOrderByClause(String orderByClause) {\n";
+        ret += "    this.orderByClause = orderByClause;\n";
+        ret += "  }\n\n";
+        ret += "  public String getOrderByClause() {\n";
+        ret += "    return orderByClause;\n";
+        ret += "  }\n\n";
+        ret += "  public void setDistinct(boolean distinct) {\n";
+        ret += "    this.distinct = distinct;\n";
+        ret += "  }\n\n";
+        ret += "  public boolean isDistinct() {\n";
+        ret += "    return distinct;\n";
+        ret += "  }\n\n";
         if(generatePage) {
-            ret += "\tpublic int getPageNo() {\n";
-            ret += "\t\treturn pageNo;\n";
-            ret += "\t}\n";
-            ret += "\tpublic void setPageNo(int pageNo) {\n";
-            ret += "\t\tthis.pageNo = pageNo;\n";
-            ret += "\t}\n";
-            ret += "\tpublic int getPageStartIndex() {\n";
-            ret += "\t\treturn (pageNo-1)*pageSize;\n";
-            ret += "\t}\n";
-            ret += "\tpublic int getPageSize() {\n";
-            ret += "\t\treturn pageSize;\n";
-            ret += "\t}\n";
-            ret += "\tpublic void setPageSize(int pageSize) {\n";
-            ret += "\t\tthis.pageSize = pageSize;\n";
-            ret += "\t}\n";
+            ret += "  public int getPageNo() {\n";
+            ret += "    return pageNo;\n";
+            ret += "  }\n\n";
+            ret += "  public void setPageNo(int pageNo) {\n";
+            ret += "    this.pageNo = pageNo;\n";
+            ret += "  }\n\n";
+            ret += "  public int getPageStartIndex() {\n";
+            ret += "    return (pageNo - 1) * pageSize;\n";
+            ret += "  }\n\n";
+            ret += "  public int getPageSize() {\n";
+            ret += "    return pageSize;\n";
+            ret += "  }\n\n";
+            ret += "  public void setPageSize(int pageSize) {\n";
+            ret += "    this.pageSize = pageSize;\n";
+            ret += "  }\n\n";
         }
-        ret += "\tpublic List<Criteria> getOredCriteria() {\n";
-        ret += "\t\treturn oredCriteria;\n";
-        ret += "\t}\n";
-        ret += "\tpublic void or(Criteria criteria) {\n";
-        ret += "\t\toredCriteria.add(criteria);\n";
-        ret += "\t}\n";
-        ret += "\tpublic Criteria or() {\n";
-        ret += "\t\tCriteria criteria = createCriteriaInternal();\n";
-        ret += "\t\toredCriteria.add(criteria);\n";
-        ret += "\t\treturn criteria;\n";
-        ret += "\t}\n";
-        ret += "\tpublic Criteria createCriteria() {\n";
-        ret += "\t\tCriteria criteria = createCriteriaInternal();\n";
-        ret += "\t\tif (oredCriteria.size() == 0) {\n";
-        ret += "\t\t\toredCriteria.add(criteria);\n";
-        ret += "\t\t}\n";
-        ret += "\t\treturn criteria;\n";
-        ret += "\t}\n";
-        ret += "\tprotected Criteria createCriteriaInternal() {\n";
-        ret += "\t\tCriteria criteria = new Criteria();\n";
-        ret += "\t\treturn criteria;\n";
-        ret += "\t}\n";
-        ret += "\tpublic void clear() {\n";
-        ret += "\t\toredCriteria.clear();\n";
-        ret += "\t\torderByClause = null;\n";
-        ret += "\t\tdistinct = false;\n";
-        ret += "\t}\n";
+        ret += "  public List<Criteria> getOredCriteria() {\n";
+        ret += "    return oredCriteria;\n";
+        ret += "  }\n\n";
+        ret += "  /** or . **/\n";
+        ret += "  public void or(Criteria criteria) {\n";
+        ret += "    oredCriteria.add(criteria);\n";
+        ret += "  }\n\n";
+        ret += "  /** or . **/\n";
+        ret += "  public Criteria or() {\n";
+        ret += "    Criteria criteria = createCriteriaInternal();\n";
+        ret += "    oredCriteria.add(criteria);\n";
+        ret += "    return criteria;\n";
+        ret += "  }\n\n";
+        ret += "  /** createCriteria . **/\n";
+        ret += "  public Criteria createCriteria() {\n";
+        ret += "    Criteria criteria = createCriteriaInternal();\n";
+        ret += "    if (oredCriteria.isEmpty()) {\n";
+        ret += "      oredCriteria.add(criteria);\n";
+        ret += "    }\n";
+        ret += "    return criteria;\n";
+        ret += "  }\n\n";
+        ret += "  protected Criteria createCriteriaInternal() {\n";
+        ret += "    return new Criteria();\n";
+        ret += "  }\n\n";
+
+        ret += "  /** clear . **/\n";
+        ret += "  public void clear() {\n";
+        ret += "    oredCriteria.clear();\n";
+        ret += "    orderByClause = null;\n";
+        ret += "    distinct = false;\n";
+        ret += "  }\n\n";
         ret += "\n";
-        ret += "\tprotected abstract static class GeneratedCriteria {\n";
-        ret += "\t\tprotected List<Criterion> criteria;\n";
-        ret += "\t\tprotected GeneratedCriteria() {\n";
-        ret += "\t\t\tsuper();\n";
-        ret += "\t\t\tcriteria = new ArrayList<Criterion>();\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic boolean isValid() {\n";
-        ret += "\t\t\treturn criteria.size() > 0;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic List<Criterion> getAllCriteria() {\n";
-        ret += "\t\t\treturn criteria;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic List<Criterion> getCriteria() {\n";
-        ret += "\t\t\treturn criteria;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected void addCriterion(String condition) {\n";
-        ret += "\t\t\tif (condition == null) {\n";
-        ret += "\t\t\t\tthrow new RuntimeException(\"Value for condition cannot be null\");\n";
-        ret += "\t\t\t}\n";
-        ret += "\t\t\tcriteria.add(new Criterion(condition));\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected void addCriterion(String condition, Object value, String property) {\n";
-        ret += "\t\t\tif (value == null) {\n";
-        ret += "\t\t\t\tthrow new RuntimeException(\"Value for \" + property + \" cannot be null\");\n";
-        ret += "\t\t\t}\n";
-        ret += "\t\t\tcriteria.add(new Criterion(condition, value));\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected void addCriterion(String condition, Object value1, Object value2, String property) {\n";
-        ret += "\t\t\tif (value1 == null || value2 == null) {\n";
-        ret += "\t\t\t\tthrow new RuntimeException(\"Between values for \" + property + \" cannot be null\");\n";
-        ret += "\t\t\t}\n";
-        ret += "\t\t\tcriteria.add(new Criterion(condition, value1, value2));\n";
-        ret += "\t\t}\n";
+        ret += "  protected abstract static class GeneratedCriteria {\n";
+        ret += "    protected List<Criterion> criteria;\n\n";
+        ret += "    protected GeneratedCriteria() {\n";
+        ret += "      super();\n";
+        ret += "      criteria = new ArrayList<>();\n";
+        ret += "    }\n\n";
+        ret += "    public boolean isValid() {\n";
+        ret += "      return !criteria.isEmpty();\n";
+        ret += "    }\n\n";
+        ret += "    public List<Criterion> getAllCriteria() {\n";
+        ret += "      return criteria;\n";
+        ret += "    }\n\n";
+        ret += "    public List<Criterion> getCriteria() {\n";
+        ret += "      return criteria;\n";
+        ret += "    }\n\n";
+        ret += "    protected void addCriterion(String condition) {\n";
+        ret += "      if (condition == null) {\n";
+        ret += "        throw new IllegalArgumentException(\"Value for condition cannot be null\");\n";
+        ret += "      }\n";
+        ret += "      criteria.add(new Criterion(condition));\n";
+        ret += "    }\n\n";
+        ret += "    protected void addCriterion(String condition, Object value, String property) {\n";
+        ret += "      if (value == null) {\n";
+        ret += "        throw new IllegalArgumentException(\"Value for \" + property + \" cannot be null\");\n";
+        ret += "      }\n";
+        ret += "      criteria.add(new Criterion(condition, value));\n";
+        ret += "    }\n\n";
+        ret += "    protected void addCriterion(String condition, Object value1, Object value2, String property) {\n";
+        ret += "      if (value1 == null || value2 == null) {\n";
+        ret += "        throw new IllegalArgumentException(\"Between values for \" + property + \" cannot be null\");\n";
+        ret += "      }\n";
+        ret += "      criteria.add(new Criterion(condition, value1, value2));\n";
+        ret += "    }\n\n";
 
 
         // 生成属性相关的条件
         for(Field field:table.getFields()){
             ret += generateIsNull(field);
+            ret += "\n";
             ret += generateIsNotNull(field);
+            ret += "\n";
             ret += generateEqualTo(field);
+            ret += "\n";
             ret += generateNotEqualTo(field);
+            ret += "\n";
             ret += generateLessThan(field);
+            ret += "\n";
             ret += generateLike(field);
+            ret += "\n";
             ret += generateNotLike(field);
+            ret += "\n";
             ret += generateIn(field);
+            ret += "\n";
             ret += generateNotIn(field);
+            ret += "\n";
             ret += generateBetween(field);
+            ret += "\n";
             ret += generateNotBetween(field);
+            ret += "\n";
         }
 
-        ret += "\t}\n";
+        ret += "  }\n\n";
 
 
 
 
-        ret += "\tpublic static class Criteria extends GeneratedCriteria {\n";
-        ret += "\t\tprotected Criteria() {\n";
-        ret += "\t\t\tsuper();\n";
-        ret += "\t\t}\n";
-        ret += "\t}\n";
-        ret += "\tpublic static class Criterion {\n";
-        ret += "\t\tprivate String condition;\n";
-        ret += "\t\tprivate Object value;\n";
-        ret += "\t\tprivate Object secondValue;\n";
-        ret += "\t\tprivate boolean noValue;\n";
-        ret += "\t\tprivate boolean singleValue;\n";
-        ret += "\t\tprivate boolean betweenValue;\n";
-        ret += "\t\tprivate boolean listValue;\n\n";
-        ret += "\t\tprivate String typeHandler;\n\n";
-        ret += "\t\tpublic String getCondition() {\n";
-        ret += "\t\t\treturn condition;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic Object getValue() {\n";
-        ret += "\t\t\treturn value;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic Object getSecondValue() {\n";
-        ret += "\t\t\treturn secondValue;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic boolean isNoValue() {\n";
-        ret += "\t\t\treturn noValue;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic boolean isSingleValue() {\n";
-        ret += "\t\t\treturn singleValue;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic boolean isBetweenValue() {\n";
-        ret += "\t\treturn betweenValue;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic boolean isListValue() {\n";
-        ret += "\t\t\treturn listValue;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tpublic String getTypeHandler() {\n";
-        ret += "\t\t\treturn typeHandler;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected Criterion(String condition) {\n";
-        ret += "\t\t\tsuper();\n";
-        ret += "\t\t\tthis.condition = condition;\n";
-        ret += "\t\t\tthis.typeHandler = null;\n";
-        ret += "\t\t\tthis.noValue = true;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected Criterion(String condition, Object value, String typeHandler) {\n";
-        ret += "\t\t\tsuper();\n";
-        ret += "\t\t\tthis.condition = condition;\n";
-        ret += "\t\t\tthis.value = value;\n";
-        ret += "\t\t\tthis.typeHandler = typeHandler;\n";
-        ret += "\t\t\tif (value instanceof List<?>) {\n";
-        ret += "\t\t\t\tthis.listValue = true;\n";
-        ret += "\t\t\t} else {\n";
-        ret += "\t\t\t\tthis.singleValue = true;\n";
-        ret += "\t\t\t}\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected Criterion(String condition, Object value) {\n";
-        ret += "\t\t\tthis(condition, value, null);\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected Criterion(String condition, Object value, Object secondValue, String typeHandler) {\n";
-        ret += "\t\t\tsuper();\n";
-        ret += "\t\t\tthis.condition = condition;\n";
-        ret += "\t\t\tthis.value = value;\n";
-        ret += "\t\t\tthis.secondValue = secondValue;\n";
-        ret += "\t\t\tthis.typeHandler = typeHandler;\n";
-        ret += "\t\t\tthis.betweenValue = true;\n";
-        ret += "\t\t}\n";
-        ret += "\t\tprotected Criterion(String condition, Object value, Object secondValue) {\n";
-        ret += "\t\t\tthis(condition, value, secondValue, null);\n";
-        ret += "\t\t}\n";
-        ret += "\t}\n";
-        ret += "}\r\n";
+        ret += "  public static class Criteria extends GeneratedCriteria implements Serializable {\n";
+        ret += "    /** 序列化号 . */\r\n";
+        ret += "    private static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\n\n";
+        ret += "    protected Criteria() {\n";
+        ret += "      super();\n";
+        ret += "    }\n";
+        ret += "  }\n\n";
+        ret += "  public static class Criterion {\n";
+        ret += "    private String condition;\n";
+        ret += "    private Object value;\n";
+        ret += "    private Object secondValue;\n";
+        ret += "    private boolean noValue;\n";
+        ret += "    private boolean singleValue;\n";
+        ret += "    private boolean betweenValue;\n";
+        ret += "    private boolean listValue;\n\n";
+        ret += "    private String typeHandler;\n\n";
+        ret += "    public String getCondition() {\n";
+        ret += "      return condition;\n";
+        ret += "    }\n\n";
+        ret += "    public Object getValue() {\n";
+        ret += "      return value;\n";
+        ret += "    }\n\n";
+        ret += "    public Object getSecondValue() {\n";
+        ret += "      return secondValue;\n";
+        ret += "    }\n\n";
+        ret += "    public boolean isNoValue() {\n";
+        ret += "      return noValue;\n";
+        ret += "    }\n\n";
+        ret += "    public boolean isSingleValue() {\n";
+        ret += "      return singleValue;\n";
+        ret += "    }\n\n";
+        ret += "    public boolean isBetweenValue() {\n";
+        ret += "      return betweenValue;\n";
+        ret += "    }\n\n";
+        ret += "    public boolean isListValue() {\n";
+        ret += "      return listValue;\n";
+        ret += "    }\n\n";
+        ret += "    public String getTypeHandler() {\n";
+        ret += "      return typeHandler;\n";
+        ret += "    }\n\n";
+        ret += "    protected Criterion(String condition) {\n";
+        ret += "      super();\n";
+        ret += "      this.condition = condition;\n";
+        ret += "      this.typeHandler = null;\n";
+        ret += "      this.noValue = true;\n";
+        ret += "    }\n\n";
+        ret += "    protected Criterion(String condition, Object value, String typeHandler) {\n";
+        ret += "      super();\n";
+        ret += "      this.condition = condition;\n";
+        ret += "      this.value = value;\n";
+        ret += "      this.typeHandler = typeHandler;\n";
+        ret += "      if (value instanceof List<?>) {\n";
+        ret += "        this.listValue = true;\n";
+        ret += "      } else {\n";
+        ret += "        this.singleValue = true;\n";
+        ret += "      }\n";
+        ret += "    }\n\n";
+        ret += "    protected Criterion(String condition, Object value) {\n";
+        ret += "      this(condition, value, null);\n";
+        ret += "    }\n\n";
+        ret += "    protected Criterion(String condition, Object value, Object secondValue, String typeHandler) {\n";
+        ret += "      super();\n";
+        ret += "      this.condition = condition;\n";
+        ret += "      this.value = value;\n";
+        ret += "      this.secondValue = secondValue;\n";
+        ret += "      this.typeHandler = typeHandler;\n";
+        ret += "      this.betweenValue = true;\n";
+        ret += "    }\n\n";
+        ret += "    protected Criterion(String condition, Object value, Object secondValue) {\n";
+        ret += "      this(condition, value, secondValue, null);\n";
+        ret += "    }\n\n";
+        ret += "  }\n\n";
+        ret += "}\n";
         return ret;
     }
 
     public String generateIsNull(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"IsNull() {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" IS NULL\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"IsNull() {\n";
+        ret += "      addCriterion(\""+field.getName()+" IS NULL\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateIsNotNull(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"IsNotNull() {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" IS NOT NULL\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"IsNotNull() {\n";
+        ret += "      addCriterion(\""+field.getName()+" IS NOT NULL\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateEqualTo(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"EqualTo("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" =\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"EqualTo("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" =\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateNotEqualTo(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"NotEqualTo("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" !=\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"NotEqualTo("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" !=\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateGreaterThan(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"GreaterThan("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" &gt;\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"GreaterThan("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" &gt;\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateLessThan(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"LessThan("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" &lt;\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"LessThan("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" &lt;\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateLessThanOrEqualTo(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"LessThanOrEqualTo("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" &gt;=\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"LessThanOrEqualTo("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" &gt;=\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateLike(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"Like("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" LIKE\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"Like("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" LIKE\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateNotLike(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"NotLike("+getJavaType(field)+" value) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" NOT LIKE\", value, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"NotLike("+getJavaType(field)+" value) {\n";
+        ret += "      addCriterion(\""+field.getName()+" NOT LIKE\", value, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateIn(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"In(List<"+getJavaType(field)+"> values) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" IN\", values, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"In(List<"+getJavaType(field)+"> values) {\n";
+        ret += "      addCriterion(\""+field.getName()+" IN\", values, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateNotIn(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"NotIn(List<"+getJavaType(field)+"> values) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" NOT IN\", values, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"NotIn(List<"+getJavaType(field)+"> values) {\n";
+        ret += "      addCriterion(\""+field.getName()+" NOT IN\", values, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateBetween(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"Between("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" BETWEEN\", value1, value2, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"Between("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
+        ret += "      addCriterion(\""+field.getName()+" BETWEEN\",";
+        if(field.getName().length()>20){
+            ret += "\n         ";
+        }
+        ret += " value1, value2, \""+getJavaName(field)+"\");\n";
+
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
     public String generateNotBetween(Field field){
         String ret = "";
-        ret += "\t\tpublic Criteria and"+getJavaName2(field)+"NotBetween("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
-        ret += "\t\t\taddCriterion(\""+field.getName()+" NOT BETWEEN\", value1, value2, \""+getJavaName(field)+"\");\n";
-        ret += "\t\t\treturn (Criteria) this;\n";
-        ret += "\t\t}\n";
+        ret += "    public Criteria and"+getJavaName2(field)+"NotBetween("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
+        ret += "      addCriterion(\""+field.getName()+" NOT BETWEEN\",";
+        if(field.getName().length()>20){
+            ret += "\n         ";
+        }
+        ret += " value1, value2, \""+getJavaName(field)+"\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
         return ret;
     }
 }

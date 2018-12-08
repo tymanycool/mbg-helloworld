@@ -12,7 +12,7 @@ import java.util.Map;
 public class SelectByExampleDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        String ret ="\tList<"+table.getEntityName()+"> selectByExample("+table.getEntityName()+"Example example)";
+        String ret ="  List<"+table.getEntityName()+"> selectByExample("+table.getEntityName()+"Example example)";
         return ret;
     }
 }

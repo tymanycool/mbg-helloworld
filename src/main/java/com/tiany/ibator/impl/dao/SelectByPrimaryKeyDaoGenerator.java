@@ -15,6 +15,6 @@ public class SelectByPrimaryKeyDaoGenerator extends AbstractBaseDaoGenerator imp
         if(!hasPrimatyKey(table)){
             return "";
         }
-        return "\t"+table.getEntityName()+ " selectByPrimaryKey(" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ")";
+        return "  "+table.getEntityName()+ " selectByPrimaryKey(" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + " " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + ")";
     }
 }

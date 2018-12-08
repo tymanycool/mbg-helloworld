@@ -10,9 +10,9 @@ public class SelectByExampleDaoImplGenerator extends AbstractBaseDaoImplGenerato
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table)+"{\r\n";
-        ret += "\t\treturn (List<"+table.getEntityName()+">)sqlMap.queryForList(\""+table.getEntityName()+".selectByExample\",example);\r\n";
-        ret += "\t}\r\n\r\n";
+        ret += getDaoString(table)+" {\r\n";
+        ret += "    return (List<"+table.getEntityName()+">)sqlMap.queryForList(\""+table.getEntityName()+".selectByExample\",example);\r\n";
+        ret += "  }\r\n\r\n";
         return ret;
     }
 }

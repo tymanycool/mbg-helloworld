@@ -28,7 +28,7 @@ public class Sql2SimpleEntityTest {
     @Autowired
     private AnsycMsgDao ansycMsgDao;
 
-    @Ignore
+    //@Ignore
     @Test
     public void test() throws Exception {
         Map map = (Map)simpleSqlibator.convert(FileUtil.read("src/main/resources/sql.txt"));

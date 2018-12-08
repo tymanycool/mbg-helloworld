@@ -176,7 +176,7 @@
     </dependencies>
 
     <build>
-        <finalName>sql-ibator-1.4</finalName>
+        <finalName>sql-ibator-1.5</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

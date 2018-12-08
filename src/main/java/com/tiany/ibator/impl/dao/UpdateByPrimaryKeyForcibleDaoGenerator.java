@@ -11,6 +11,6 @@ public class UpdateByPrimaryKeyForcibleDaoGenerator extends AbstractBaseDaoGener
         if(!hasPrimatyKey(table)){
             return "";
         }
-        return "\tint updateByPrimaryKeyForcible("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
+        return "  int updateByPrimaryKeyForcible("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
     }
 }

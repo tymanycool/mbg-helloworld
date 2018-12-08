@@ -11,6 +11,6 @@ import java.util.List;
 public class SelectForObjectDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\t"+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
+        return "  "+table.getEntityName()+" selectForObject("+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
     }
 }

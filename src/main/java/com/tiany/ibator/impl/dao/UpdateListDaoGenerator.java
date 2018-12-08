@@ -11,6 +11,9 @@ import java.util.Map;
 public class UpdateListDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "\tint updateList(List<" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
+        if(!hasPrimatyKey(table)){
+            return "";
+        }
+        return "  int updateList(List<" + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,table.getPrimaryKeys().get(0).getType())) + "> " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List,"+table.getEntityName()+" "+getBeanNameByClassName(table.getEntityName())+")";
     }
 }
