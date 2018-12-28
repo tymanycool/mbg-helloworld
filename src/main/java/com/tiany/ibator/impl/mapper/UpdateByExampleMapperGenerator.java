@@ -28,7 +28,7 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
         List<Field> fields = table.getFields();
         List<Field> primaryKeys = table.getPrimaryKeys();
         String entityName = table.getEntityName();
-        String camelProperty = StringUtil.getCamelProperty(entityName);
+        String camelProperty = getBeanNameByClassName(entityName);
         ret += "\t<dynamic prepend=\"set\" >\r\n";
         for(int i =0;i<fields.size();i++){
             // 不是主键时
@@ -53,4 +53,5 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
         ret += " </" + getPropertyDynamicLabel(fields.get(i)) + ">\r\n";
         return ret;
     }
+
 }

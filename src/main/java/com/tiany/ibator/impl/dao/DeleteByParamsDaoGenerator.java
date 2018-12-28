@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class DeleteByParamsDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "  int deleteByParams(Map<String,? extends Object> params)";
+        return "  int deleteByParams(Map<String, Object> params)";
     }
 }

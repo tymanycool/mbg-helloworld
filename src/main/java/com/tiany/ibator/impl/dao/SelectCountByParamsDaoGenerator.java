@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class SelectCountByParamsDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "  int selectCountByParams(Map<String,? extends Object> params)";
+        return "  int selectCountByParams(Map<String, Object> params)";
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class SelectForMapListDaoGenerator extends AbstractBaseDaoGenerator implements Generator {
     @Override
     public String generate(Table table) {
-        return "  List<Map<String,Object>> selectForMapList(Map<String,? extends Object> params)";
+        return "  List<Map<String,Object>> selectForMapList(Map<String, Object> params)";
     }
 }
