@@ -6,6 +6,7 @@ import com.tiany.ibator.meta.Field;
 import com.tiany.ibator.meta.Table;
 import com.tiany.util.DateUtil;
 import com.tiany.util.MapUtil;
+import com.tiany.util.SerializableNoUtil;
 import com.tiany.util.StringUtil;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +49,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += " */\n";
         ret += "public class " + table.getEntityName() + "Example implements Serializable {\r\n";
         ret += "  /** 序列化号 . */\r\n";
-        ret += "  private static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\r\n";
+        ret += "  private static final long serialVersionUID = "+ SerializableNoUtil.getSerializableNo(table.getEntityName()+"Example",""+Math.abs(random.nextLong()))+"L;\r\n";
         ret += "  protected String orderByClause;\n";
         ret += "  protected boolean distinct;\n";
         ret += "  private List<Criteria> oredCriteria;\n";
@@ -188,7 +189,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
 
         ret += "  public static class Criteria extends GeneratedCriteria implements Serializable {\n";
         ret += "    /** 序列化号 . */\r\n";
-        ret += "    private static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\n\n";
+        ret += "    private static final long serialVersionUID = "+SerializableNoUtil.getSerializableNo(table.getEntityName()+"Example.Criteria",""+Math.abs(random.nextLong()))+"L;\n\n";
         ret += "    protected Criteria() {\n";
         ret += "      super();\n";
         ret += "    }\n";

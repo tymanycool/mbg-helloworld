@@ -4,10 +4,7 @@ import com.tiany.ibator.AbstractBaseSqlibator;
 import com.tiany.ibator.inf.Generator;
 import com.tiany.ibator.meta.Field;
 import com.tiany.ibator.meta.Table;
-import com.tiany.util.CollectionUtil;
-import com.tiany.util.DateUtil;
-import com.tiany.util.MapUtil;
-import com.tiany.util.StringUtil;
+import com.tiany.util.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -47,7 +44,7 @@ public class EntityGenerator extends AbstractBaseSqlibator implements Generator 
         ret += " */\n";
         ret += "public class " + table.getEntityName() + " implements Serializable {\r\n";
         ret += "  /** 序列化号 . */\r\n";
-        ret += "  private static final long serialVersionUID = "+Math.abs(random.nextLong())+"L;\r\n";
+        ret += "  private static final long serialVersionUID = "+ SerializableNoUtil.getSerializableNo(table.getEntityName(),""+Math.abs(random.nextLong()))+"L;\r\n";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += "  /** "+getCommentString(fields.get(i).getComment())+" . */\r\n";
