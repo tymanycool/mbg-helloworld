@@ -1,18 +1,13 @@
 package com.tiany.ibator.impl.mapper;
 
 import com.tiany.ibator.AbstractSqlibator;
-import com.tiany.ibator.inf.MapperResultMapGenerator;
-import com.tiany.ibator.inf.MapperSqlGenerator;
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
-import com.tiany.util.StringUtil;
+import com.tiany.ibator.infs.MapperSqlGenerator;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.io.FileUtil;
 import com.tiany.util.io.StreamUtil;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @Component
 public class WhereSqlMapperGenerator extends AbstractSqlibator implements MapperSqlGenerator {

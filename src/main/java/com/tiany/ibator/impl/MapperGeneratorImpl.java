@@ -1,8 +1,8 @@
 package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.*;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.*;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.format.FormatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

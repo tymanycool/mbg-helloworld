@@ -1,8 +1,7 @@
 package com.tiany.ibator.impl.daoimpl;
 
-import com.tiany.ibator.impl.dao.AbstractBaseDaoGenerator;
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,8 +14,8 @@ public class SelectForObjectDaoImplGenerator extends AbstractBaseDaoImplGenerato
         ret += "    try {\n";
         ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\",\n          "+getBeanNameByClassName(table.getEntityName())+");\r\n";
         ret += "    } catch (Exception e) {\n";
-        ret += "      logger.log(Level.INFO, \"查询参数对象:\" + "+getBeanNameByClassName(table.getEntityName())+", e);\n";
-        ret += "      logger.log(Level.INFO, \"查询结果:\" + result);\n";
+        ret += "      logger.log(Level.INFO, \"查询参数对象:\" + "+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "      logger.log(Level.INFO, \"查询结果:null,可能没有查询到数据或者查询到多条数据\" );\n";
         ret += "    }\n";
         ret += "    return result;\n";
         ret += "  }\r\n\r\n";

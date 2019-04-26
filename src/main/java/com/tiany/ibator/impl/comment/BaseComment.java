@@ -1,6 +1,6 @@
 package com.tiany.ibator.impl.comment;
 
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.common.meta.Table;
 
 public class BaseComment {
     protected boolean hasPrimatyKey(Table table){

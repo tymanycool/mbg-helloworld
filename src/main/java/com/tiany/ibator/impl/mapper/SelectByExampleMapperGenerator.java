@@ -1,21 +1,20 @@
 package com.tiany.ibator.impl.mapper;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.MapperSelectGenerator;
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
-import com.tiany.util.MapUtil;
-import com.tiany.util.StringUtil;
+import com.tiany.ibator.infs.MapperSelectGenerator;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
+import com.tiany.util.CastUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implements MapperSelectGenerator {
     @Autowired
     private WhereSqlMapperGenerator whereSqlMapperGenerator;
+
     @Override
     public String getSelectId() {
         return "selectByExample";
@@ -23,6 +22,8 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
 
     @Override
     public String generate(Table table) {
+        String entityPackageName = tibatisConfig.get("entityPackageName");
+        boolean generatePage = CastUtil.castBoolean(tibatisConfig.get("generatePage"));
         List<Field> primaryKeys = table.getPrimaryKeys();
         String ret = "<select id=\"" + getSelectId() + "\" resultMap=\"" + table.getEntityName() + "BaseResultMap\" parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "Example\" >\r\n";
         ret += "\tSELECT \n";
@@ -40,12 +41,12 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
         ret += "\t\r\n";
         ret += "\tFROM " + table.getName() + " \r\n";
         //ret += "<isNotNull property=\"_parameter\">\n";
-        ret += "\t<include refid=\""+whereSqlMapperGenerator.getSqlId()+"\" />\n";
+        ret += "\t<include refid=\"" + whereSqlMapperGenerator.getSqlId() + "\" />\n";
         //ret += "\t</isNotNull>\n";
         ret += "\t<isNotNull property=\"orderByClause\">\n";
         ret += "\t\tORDER BY $orderByClause$\n";
         ret += "\t</isNotNull>\n";
-        if(generatePage) {
+        if (generatePage) {
             ret += "\t<isNotEqual property=\"pageSize\" compareValue=\"0\">\n";
             ret += "\t\tLIMIT #pageStartIndex#,#pageSize#\n";
             ret += "\t</isNotEqual>\n";

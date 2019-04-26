@@ -1,13 +1,12 @@
 package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
+import com.tiany.util.CastUtil;
 import com.tiany.util.DateUtil;
-import com.tiany.util.MapUtil;
-import com.tiany.util.SerializableNoUtil;
-import com.tiany.util.StringUtil;
+import com.tiany.ibator.util.SerializableNoUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -18,46 +17,48 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
 
     @Override
     public String generate(Table table) {
+        String entityPackageName = tibatisConfig.get("entityPackageName");
+        boolean generatePage = CastUtil.castBoolean(tibatisConfig.get("generatePage"));
         String ret = "";
-        ret += "package "+ entityPackageName +";\r\n\r\n";
+        ret += "package " + entityPackageName + ";\r\n\r\n";
 
         List<String> imports = new ArrayList<>();
         imports.add("java.io.Serializable");
         imports.add("java.util.ArrayList");
         imports.add("java.util.List");
-        if(hasClass(table,"BigInteger")){
+        if (hasClass(table, "BigInteger")) {
             imports.add("java.math.BigInteger");
         }
-        if(hasClass(table,"Date")){
+        if (hasClass(table, "Date")) {
             imports.add("java.util.Date");
         }
-        if(hasClass(table,"BigDecimal")) {
+        if (hasClass(table, "BigDecimal")) {
             imports.add("java.math.BigDecimal");
         }
         Collections.sort(imports);
 
-        for (String s : imports){
-            ret +="import "+ s + ";\n";
+        for (String s : imports) {
+            ret += "import " + s + ";\n";
         }
 
         ret += "\n";
         ret += "/**\r\n";
-        ret += " * "+getCommentString(table.getComment())+"Example .\r\n";
-        ret += " * @author "+ System.getProperty("user.name")+"\r\n";
-        ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
+        ret += " * " + getCommentString(table.getComment()) + "Example .\r\n";
+        ret += " * @author " + System.getProperty("user.name") + "\r\n";
+        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
         ret += " * @since 1.0\r\n";
         ret += " */\n";
         ret += "public class " + table.getEntityName() + "Example implements Serializable {\r\n";
         ret += "  /** 序列化号 . */\r\n";
-        ret += "  private static final long serialVersionUID = "+ SerializableNoUtil.getSerializableNo(table.getEntityName()+"Example",""+Math.abs(random.nextLong()))+"L;\r\n";
+        ret += "  private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example", "" + Math.abs(random.nextLong())) + "L;\r\n";
         ret += "  protected String orderByClause;\n";
         ret += "  protected boolean distinct;\n";
         ret += "  private List<Criteria> oredCriteria;\n";
-        if(generatePage) {
+        if (generatePage) {
             ret += "  protected int pageNo;\n";
             ret += "  protected int pageSize;\n\n";
         }
-        ret += "  public "+table.getEntityName()+"Example() {\n";
+        ret += "  public " + table.getEntityName() + "Example() {\n";
         ret += "    oredCriteria = new ArrayList<>();\n";
         ret += "  }\n\n";
         ret += "  public void setOrderByClause(String orderByClause) {\n";
@@ -72,7 +73,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "  public boolean isDistinct() {\n";
         ret += "    return distinct;\n";
         ret += "  }\n\n";
-        if(generatePage) {
+        if (generatePage) {
             ret += "  public int getPageNo() {\n";
             ret += "    return pageNo;\n";
             ret += "  }\n\n";
@@ -121,7 +122,9 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "    distinct = false;\n";
         ret += "  }\n\n";
         ret += "\n";
-        ret += "  protected abstract static class GeneratedCriteria {\n";
+        ret += "  protected abstract static class GeneratedCriteria implements Serializable {\n";
+        ret += "    /** 序列化号 . */\r\n";
+        ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.GeneratedCriteria", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    protected List<Criterion> criteria;\n\n";
         ret += "    protected GeneratedCriteria() {\n";
         ret += "      super();\n";
@@ -157,7 +160,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
 
 
         // 生成属性相关的条件
-        for(Field field:table.getFields()){
+        for (Field field : table.getFields()) {
             ret += generateIsNull(field);
             ret += "\n";
             ret += generateIsNotNull(field);
@@ -185,16 +188,16 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "  }\n\n";
 
 
-
-
-        ret += "  public static class Criteria extends GeneratedCriteria implements Serializable {\n";
+        ret += "  public static class Criteria extends GeneratedCriteria {\n";
         ret += "    /** 序列化号 . */\r\n";
-        ret += "    private static final long serialVersionUID = "+SerializableNoUtil.getSerializableNo(table.getEntityName()+"Example.Criteria",""+Math.abs(random.nextLong()))+"L;\n\n";
+        ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.Criteria", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    protected Criteria() {\n";
         ret += "      super();\n";
         ret += "    }\n";
         ret += "  }\n\n";
-        ret += "  public static class Criterion {\n";
+        ret += "  public static class Criterion implements Serializable {\n";
+        ret += "    /** 序列化号 . */\r\n";
+        ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.Criterion", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    private String condition;\n";
         ret += "    private Object value;\n";
         ret += "    private Object secondValue;\n";
@@ -263,115 +266,127 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         return ret;
     }
 
-    public String generateIsNull(Field field){
+    public String generateIsNull(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"IsNull() {\n";
-        ret += "      addCriterion(\""+field.getName()+" IS NULL\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "IsNull() {\n";
+        ret += "      addCriterion(\"" + field.getName() + " IS NULL\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateIsNotNull(Field field){
+
+    public String generateIsNotNull(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"IsNotNull() {\n";
-        ret += "      addCriterion(\""+field.getName()+" IS NOT NULL\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "IsNotNull() {\n";
+        ret += "      addCriterion(\"" + field.getName() + " IS NOT NULL\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateEqualTo(Field field){
+
+    public String generateEqualTo(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"EqualTo("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" =\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "EqualTo(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " =\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateNotEqualTo(Field field){
+
+    public String generateNotEqualTo(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"NotEqualTo("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" !=\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "NotEqualTo(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " !=\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateGreaterThan(Field field){
+
+    public String generateGreaterThan(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"GreaterThan("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" &gt;\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "GreaterThan(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " &gt;\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateLessThan(Field field){
+
+    public String generateLessThan(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"LessThan("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" &lt;\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "LessThan(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " &lt;\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateLessThanOrEqualTo(Field field){
+
+    public String generateLessThanOrEqualTo(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"LessThanOrEqualTo("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" &gt;=\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "LessThanOrEqualTo(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " &gt;=\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateLike(Field field){
+
+    public String generateLike(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"Like("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" LIKE\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "Like(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " LIKE\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateNotLike(Field field){
+
+    public String generateNotLike(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"NotLike("+getJavaType(field)+" value) {\n";
-        ret += "      addCriterion(\""+field.getName()+" NOT LIKE\", value, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "NotLike(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " NOT LIKE\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateIn(Field field){
+
+    public String generateIn(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"In(List<"+getJavaType(field)+"> values) {\n";
-        ret += "      addCriterion(\""+field.getName()+" IN\", values, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "In(List<" + getJavaType(field) + "> values) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " IN\", values, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateNotIn(Field field){
+
+    public String generateNotIn(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"NotIn(List<"+getJavaType(field)+"> values) {\n";
-        ret += "      addCriterion(\""+field.getName()+" NOT IN\", values, \""+getJavaName(field)+"\");\n";
+        ret += "    public Criteria and" + getJavaName2(field) + "NotIn(List<" + getJavaType(field) + "> values) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " NOT IN\", values, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateBetween(Field field){
+
+    public String generateBetween(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"Between("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
-        ret += "      addCriterion(\""+field.getName()+" BETWEEN\",";
-        if(field.getName().length()>20){
+        ret += "    public Criteria and" + getJavaName2(field) + "Between(" + getJavaType(field) + " value1, " + getJavaType(field) + " value2) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " BETWEEN\",";
+        if (field.getName().length() > 20) {
             ret += "\n         ";
         }
-        ret += " value1, value2, \""+getJavaName(field)+"\");\n";
+        ret += " value1, value2, \"" + getJavaName(field) + "\");\n";
 
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
     }
-    public String generateNotBetween(Field field){
+
+    public String generateNotBetween(Field field) {
         String ret = "";
-        ret += "    public Criteria and"+getJavaName2(field)+"NotBetween("+getJavaType(field)+" value1, "+getJavaType(field)+" value2) {\n";
-        ret += "      addCriterion(\""+field.getName()+" NOT BETWEEN\",";
-        if(field.getName().length()>20){
+        ret += "    public Criteria and" + getJavaName2(field) + "NotBetween(" + getJavaType(field) + " value1, " + getJavaType(field) + " value2) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " NOT BETWEEN\",";
+        if (field.getName().length() > 20) {
             ret += "\n         ";
         }
-        ret += " value1, value2, \""+getJavaName(field)+"\");\n";
+        ret += " value1, value2, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;

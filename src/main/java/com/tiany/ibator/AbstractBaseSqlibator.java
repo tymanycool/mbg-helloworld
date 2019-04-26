@@ -1,32 +1,23 @@
 package com.tiany.ibator;
 
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractBaseSqlibator.class);
-    protected static Properties props = new Properties();
-    static {
-        try {
-            props.load(AbstractBaseSqlibator.class.getClassLoader().getResourceAsStream("type.properties"));
-        }catch (Exception e){
-            logger.error("type.properties加载失败");
-        }
-    }
+    @Autowired
+    protected Map<String,String> typesConfig;
     public AbstractBaseSqlibator() {
     }
     protected boolean hasClass(Table table,String clazz){
         List<Field> fields = table.getFields();
         for(Field field : fields){
-            String type = (String) props.get(field.getType().toLowerCase());
+            String type = (String) typesConfig.get(field.getType().toLowerCase());
             if(StringUtil.isNotEmpty(type)){
                 if(type.endsWith(clazz)){
                     return true;
@@ -102,60 +93,7 @@ public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
     }
 
 
-    /**
-     * 得到name之后的，偏移offset
-     * @param list
-     * @param name
-     * @param offset
-     * @return
-     */
-    protected String getAfter(List<String> list, String name, int offset){
-        for(int i =0;i<list.size();i++){
-            if(list.get(i).equals(name)){
-                return list.get(i+offset);
-            }
-        }
-        return null;
-    }
-    /**
-     * 得到name之前的，偏移offset
-     * @param list
-     * @param name
-     * @param offset
-     * @return
-     */
-    protected String getPre(List<String> list,String name,int offset){
-        for(int i =0;i<list.size();i++){
-            if(list.get(i).equals(name)){
-                if(i-offset>=0) {
-                    return list.get(i - offset);
-                }else{
-                    return null;
-                }
-            }
-        }
-        return null;
-    }
 
-
-    /**
-     * 得到name前一个
-     * @param list
-     * @param name
-     * @return
-     */
-    protected String getPre(List<String> list,String name){
-        return getPre(list,name,1);
-    }
-    /**
-     * 得到name后一个
-     * @param list
-     * @param name
-     * @return
-     */
-    protected String getAfter(List<String> list,String name){
-        return getAfter(list,name,1);
-    }
 
     /**
      * 得到java类型
@@ -163,7 +101,7 @@ public abstract class AbstractBaseSqlibator extends AbstractSqlibator {
      * @return
      */
     protected String getJavaType(Field field){
-        return getSimpleClassName((String) MapUtil.getIgnoreCase((Map) props,field.getType()));
+        return getSimpleClassName((String) MapUtil.getIgnoreCase((Map) typesConfig,field.getType()));
     }
 
     /**

@@ -1,89 +1,23 @@
 package com.tiany.ibator;
 
+import com.tiany.ibator.common.BaseComponent;
+import com.tiany.ibator.impl.comment.BaseComment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-public abstract class AbstractSqlibator {
-    protected static final Logger logger = LoggerFactory.getLogger(AbstractBaseSqlibator.class);
+import java.util.Map;
 
-    // 需要去除的前缀
-    protected static String removePrefix ="xq_,pmis_";
+public abstract class AbstractSqlibator extends BaseComponent implements ApplicationContextAware {
+    protected ApplicationContext applicationContext;
+    @Autowired
+    protected Map<String,String> tibatisConfig;
 
-    // 定义新的前缀
-    protected static String prefix = "";
-
-    // 定义后缀
-    protected static String suffix = "";
-
-    // 实体类的存放的包路径
-    protected static String entityPackageName = "com.csii.pmis.service.bean.model";
-
-    // dao类的存放的包路径
-    protected static String daoPackageName = "com.csii.pmis.admin.dao";
-
-    // mapper文件的路径
-    protected static String mapperLocation = "service/db/sql-mapping/service/";
-
-    // 是否生成接口
-    protected static boolean generateInterface = true;
-
-    // 是否生成分页
-    protected static boolean generatePage = true;
-
-
-    public static String getRemovePrefix() {
-        return removePrefix;
-    }
-
-    public static void setRemovePrefix(String removePrefix) {
-        AbstractSqlibator.removePrefix = removePrefix;
-    }
-
-    public static String getPrefix() {
-        return prefix;
-    }
-
-    public static void setPrefix(String prefix) {
-        AbstractSqlibator.prefix = prefix;
-    }
-
-    public static String getSuffix() {
-        return suffix;
-    }
-
-    public static void setSuffix(String suffix) {
-        AbstractSqlibator.suffix = suffix;
-    }
-
-    public static String getEntityPackageName() {
-        return entityPackageName;
-    }
-
-    public static void setEntityPackageName(String entityPackageName) {
-        AbstractSqlibator.entityPackageName = entityPackageName;
-    }
-
-    public static String getDaoPackageName() {
-        return daoPackageName;
-    }
-
-    public static void setDaoPackageName(String daoPackageName) {
-        AbstractSqlibator.daoPackageName = daoPackageName;
-    }
-
-    public static String getMapperLocation() {
-        return mapperLocation;
-    }
-
-    public static void setMapperLocation(String mapperLocation) {
-        AbstractSqlibator.mapperLocation = mapperLocation;
-    }
-
-    public static boolean isGenerateInterface() {
-        return generateInterface;
-    }
-
-    public static void setGenerateInterface(boolean generateInterface) {
-        AbstractSqlibator.generateInterface = generateInterface;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

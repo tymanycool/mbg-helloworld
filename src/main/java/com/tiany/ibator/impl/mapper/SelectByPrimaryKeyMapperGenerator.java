@@ -1,9 +1,9 @@
 package com.tiany.ibator.impl.mapper;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.MapperSelectGenerator;
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.MapperSelectGenerator;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class SelectByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
             return "";
         }
         List<Field> primaryKeys = table.getPrimaryKeys();
-        String ret = "<select id=\""+getSelectId()+"\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map)props,primaryKeys.get(0).getType())+"\" >\r\n";
+        String ret = "<select id=\""+getSelectId()+"\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map) typesConfig,primaryKeys.get(0).getType())+"\" >\r\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){

@@ -2,11 +2,10 @@ package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
 import com.tiany.ibator.impl.dao.AbstractBaseDaoGenerator;
-import com.tiany.ibator.inf.DaoGenerator;
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.DaoGenerator;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.DateUtil;
-import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,22 +17,23 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenerator ,ApplicationContextAware {
+public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenerator, ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(DaoGeneratorImpl.class);
     private List<Generator> generators;
+
     @Override
     public String generate(Table table) {
-        return generateDao(table,generators);
+        return generateDao(table, generators);
     }
 
     @Override
     public String generateDao(Table table, List<Generator> generators) {
         String ret = "";
-        ret += "package "+ daoPackageName +";\r\n\r\n";
+        ret += "package " + tibatisConfig.get("daoPackageName") + ";\r\n\r\n";
 
         List<String> imports = new ArrayList<>();
-        imports.add(entityPackageName+"."+table.getEntityName());
-        imports.add(entityPackageName+"."+table.getEntityName()+"Example");
+        imports.add(tibatisConfig.get("entityPackageName") + "." + table.getEntityName());
+        imports.add(tibatisConfig.get("entityPackageName") + "." + table.getEntityName() + "Example");
         imports.add("java.util.List");
         imports.add("java.util.Map");
 //        if(hasClass(table,"BigInteger")){
@@ -47,27 +47,27 @@ public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenera
 //        }
         Collections.sort(imports);
 
-        for (String s : imports){
-            ret +="import "+ s + ";\n";
+        for (String s : imports) {
+            ret += "import " + s + ";\n";
         }
 
         ret += "\n";
 
         ret += "/**\r\n";
-        ret += " * "+getCommentString(table.getComment())+"Dao .\r\n";
-        ret += " * @author "+ System.getProperty("user.name")+"\r\n";
-        ret += " * @version "+ DateUtil.thisDate()+" modify: "+System.getProperty("user.name")+"\r\n";
+        ret += " * " + getCommentString(table.getComment()) + "Dao .\r\n";
+        ret += " * @author " + System.getProperty("user.name") + "\r\n";
+        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
         ret += " * @since 1.0\r\n";
         ret += " */\r\n\n";
         ret += "public interface " + table.getEntityName() + "Dao {\r\n";
-        for(Generator g:generators){
-            if (g instanceof AbstractBaseDaoGenerator){
-                AbstractBaseDaoGenerator baseDaoGenerator = (AbstractBaseDaoGenerator)g;
+        for (Generator g : generators) {
+            if (g instanceof AbstractBaseDaoGenerator) {
+                AbstractBaseDaoGenerator baseDaoGenerator = (AbstractBaseDaoGenerator) g;
                 ret += baseDaoGenerator.getComment(table);
             }
             String generate = g.generate(table);
-            if(StringUtil.isNotEmpty(generate)){
-                ret += generate+";\r\n\r\n";
+            if (StringUtil.isNotEmpty(generate)) {
+                ret += generate + ";\r\n\r\n";
             }
         }
         ret += "}\r\n";
@@ -86,11 +86,11 @@ public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenera
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         String[] names = applicationContext.getBeanNamesForType(AbstractBaseDaoGenerator.class);
         generators = new ArrayList<>();
-        for(String name : names){
+        for (String name : names) {
             Generator bean = applicationContext.getBean(name, Generator.class);
             generators.add(bean);
         }
-        logger.debug("generators=================:"+ Arrays.toString(names));
+        logger.debug("generators=================:" + Arrays.toString(names));
     }
 
 

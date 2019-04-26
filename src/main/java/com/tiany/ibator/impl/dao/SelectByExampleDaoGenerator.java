@@ -1,12 +1,8 @@
 package com.tiany.ibator.impl.dao;
 
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Table;
-import com.tiany.util.MapUtil;
-import com.tiany.util.StringUtil;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Table;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 public class SelectByExampleDaoGenerator extends AbstractBaseDaoGenerator implements Generator {

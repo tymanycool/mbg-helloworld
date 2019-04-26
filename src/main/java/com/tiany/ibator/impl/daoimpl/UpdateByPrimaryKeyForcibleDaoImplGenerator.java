@@ -1,7 +1,7 @@
 package com.tiany.ibator.impl.daoimpl;
 
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,9 +1,9 @@
 package com.tiany.ibator.impl.daoimpl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.Comment;
-import com.tiany.ibator.inf.Generator;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.Comment;
+import com.tiany.ibator.infs.Generator;
+import com.tiany.ibator.common.meta.Table;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

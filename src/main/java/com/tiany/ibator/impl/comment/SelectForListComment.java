@@ -1,7 +1,7 @@
 package com.tiany.ibator.impl.comment;
 
-import com.tiany.ibator.inf.Comment;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.Comment;
+import com.tiany.ibator.common.meta.Table;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,9 +1,9 @@
 package com.tiany.ibator.impl.mapper;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
-import com.tiany.ibator.inf.MapperInsertGenerator;
-import com.tiany.ibator.meta.Field;
-import com.tiany.ibator.meta.Table;
+import com.tiany.ibator.infs.MapperInsertGenerator;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.StringUtil;
 import org.springframework.stereotype.Component;
 
