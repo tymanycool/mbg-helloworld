@@ -4,9 +4,13 @@ import com.tiany.ibator.common.meta.Field;
 import com.tiany.ibator.common.meta.SQL;
 import com.tiany.ibator.common.meta.Table;
 import com.tiany.ibator.util.ListUtil;
+import com.tiany.inf.Word;
 import com.tiany.util.CollectionUtil;
 import com.tiany.util.MapUtil;
 import com.tiany.util.StringUtil;
+import com.tiany.util.tokenizer.KeyWord;
+import com.tiany.util.tokenizer.NumberWord;
+import com.tiany.util.tokenizer.WordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +42,11 @@ public class CreateTableExecutor extends AbstractRemoveCommentExecutor {
         List<String> list3 = words.subList(end, words.size());
 
         List<List<String>> split = CollectionUtil.split(list2, (obj, nexObj) -> {
-            return obj.equals(",");
+            String s = String.valueOf(nexObj);
+            boolean equals = obj.equals(",");
+            // 加入number 是为了修复：REPAY_AMT decimal(21, 2) default NULL comment '还款金额' 情况时候没有注释
+            boolean number = NumberWord.isNumber(s.charAt(0));
+            return equals && !number;
         });
         list1.addAll(list3);
         data.add(list1);
@@ -142,6 +150,9 @@ public class CreateTableExecutor extends AbstractRemoveCommentExecutor {
 
                 }
                 for (int j = 0; j < row.size(); j++) {
+                    if (field.getType().toUpperCase().equals("DECIMAL")) {
+                        logger.info("999999999999");
+                    }
                     if ("COMMENT".equals(row.get(j).toUpperCase())) {
                         String after = ListUtil.getAfter(row, row.get(j));
                         field.setComment(after);
