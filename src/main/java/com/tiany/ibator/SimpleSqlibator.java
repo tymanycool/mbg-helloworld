@@ -6,6 +6,7 @@ import com.tiany.ibator.impl.EntityExampleGenerator;
 import com.tiany.ibator.impl.EntityGenerator;
 import com.tiany.ibator.infs.*;
 import com.tiany.util.CastUtil;
+import com.tiany.util.DateUtil;
 import com.tiany.util.StringUtil;
 import com.tiany.util.io.FileUtil;
 import com.tiany.util.io.PropertiesUtil;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,23 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
             logger.error("暂时不支持{}类型", data.getClass());
             throw new Exception("暂时不支持该类型");
         }
+
+        // 历史版本记录备份
+        File history = new File("history.json");
+        File historyBak = new File("history/" + DateUtil.thisDateTime() + "/history.json");
+        try {
+            boolean b = FileUtil.copyFile(history, historyBak, true);
+            if (b) {
+                logger.info("配置备份成功：{}", historyBak.getAbsolutePath());
+            } else {
+                logger.info("配置备份失败：{}", historyBak.getAbsolutePath());
+                return false;
+            }
+        } catch (IOException e) {
+            logger.info("配置备份失败：{},{}", historyBak.getAbsolutePath(), e.getMessage());
+            return false;
+        }
+
 
         // 配置
         String removePrefix = tibatisConfig.get("removePrefix");
