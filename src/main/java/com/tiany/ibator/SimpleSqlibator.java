@@ -56,7 +56,7 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
                     sqlString += obj;
                 } else {
                     logger.error("暂时不支持{}类型", obj.getClass());
-                    throw new Exception("暂时不支持改类型");
+                    throw new Exception("暂时不支持该类型");
                 }
                 sqlString += "\n";
             }
@@ -64,7 +64,7 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
             sqlString = (String) data;
         } else {
             logger.error("暂时不支持{}类型", data.getClass());
-            throw new Exception("暂时不支持改类型");
+            throw new Exception("暂时不支持该类型");
         }
 
         // 配置

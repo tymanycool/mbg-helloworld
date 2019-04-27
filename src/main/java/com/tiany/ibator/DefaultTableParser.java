@@ -68,7 +68,12 @@ public class DefaultTableParser extends AbstractBaseSqlibator implements TablePa
             for (Executable executable : executables) {
                 if (executable.accept(sql)) {
                     Table table = resolveCurSQLTable(sql, executable);
-                    executable.execute(table, sql);
+                    try {
+                        executable.execute(table, sql);
+                    } catch (Exception e) {
+                        logger.info("该SQL未被{}执行！！！，SQL====> {}", executable.getClass().getSimpleName(), sql.getSqlWords());
+                        throw new RuntimeException("该SQL未被执行！！！");
+                    }
                     logger.info("一条SQL已经执行成功~~~");
                 } else {
                     logger.info("该SQL未被{}执行！！！，SQL====> {}", executable.getClass().getSimpleName(), sql.getSqlWords());
