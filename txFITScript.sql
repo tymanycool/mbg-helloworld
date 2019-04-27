@@ -437,7 +437,7 @@ alter table tx_callback_info comment '回调信息表';
 /*==============================================================*/
 create table tx_cust_info
 (
-   id                   char(20) not null comment '客户ID',
+   id                   char(20) not null comment '客户id',
    order_id             char(32) not null comment '腾讯平台订单号',
    cust_name            varchar(30) not null comment '客户姓名',
    cust_type            char(1) not null default '0' comment '客户类型
@@ -447,7 +447,7 @@ create table tx_cust_info
    sex                  enum('M','F') not null comment '性别:
             男：M
             女：F',
-   reg_mobile           varchar(20) not null comment '手机号',
+   reg_mobile2           varchar(20) not null comment '手机号',
    card_type            char(2) not null comment '证件类型(idcardType)
             身份证：01',
    idcard_no            varchar(30) not null comment '证件号',

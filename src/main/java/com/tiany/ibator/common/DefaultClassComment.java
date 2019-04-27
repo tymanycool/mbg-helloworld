@@ -218,8 +218,8 @@ public class DefaultClassComment extends BaseComment implements ClassComment {
 
             String omtype = StringUtil.toStringAndTrim(om.get("type")).toUpperCase();
             String omcomment = StringUtil.toStringAndTrim(om.get("comment"));
-            String nmtype = StringUtil.toStringAndTrim(om.get("type")).toUpperCase();
-            String nmcomment = StringUtil.toStringAndTrim(om.get("comment"));
+            String nmtype = StringUtil.toStringAndTrim(nm.get("type")).toUpperCase();
+            String nmcomment = StringUtil.toStringAndTrim(nm.get("comment"));
             //  更新字段
             if (omtype.equals(nmtype) && omcomment.equals(nmcomment)) {
                 continue;
