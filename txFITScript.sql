@@ -65,7 +65,7 @@ create temporary table SYS_DICT
             idcardType：证件类型
             deptIdentityType：机构标识',
    DICT_VALUE           varchar(32) not null comment '数值',
-   DICT_NAME            varchar(32) comment '名称',
+   DICT_NAME            varchar(32) comment 'Name',
    DICT_DESCRIPTION     varchar(32) comment '描述',
    primary key (DICT_TYPE, DICT_VALUE)
 );
@@ -84,7 +84,7 @@ create table SYS_SEQUENCE
    INCREMENT_VAL        char(11) not null comment '自增步长'
 );
 
-alter table SYS_SEQUENCE comment '自增序列表';
+alter table SYS_SEQUENCE comment '自增序列表2';
 
 /*==============================================================*/
 /* Table: bt_repay_deduct_file                                  */

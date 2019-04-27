@@ -13,7 +13,7 @@ public class SelectByExampleDaoImplGenerator extends AbstractBaseDaoImplGenerato
         ret += "    try {\n";
         ret += "      return (List<"+table.getEntityName()+">)sqlMap.queryForList(\""+table.getEntityName()+".selectByExample\",example);\r\n";
         ret += "    } catch (Exception e) {\n";
-        ret += "      logger.log(Level.INFO, \"查询结果:null,可能没有查询到可用数据\");\n";
+        ret += "      logger.log(Level.INFO, \"查询失败:{},可能没有查询到可用数据\", e.getMessage());\n";
         ret += "      return null;\n";
         ret += "    }\n";
         ret += "  }\r\n\r\n";

@@ -1,17 +1,20 @@
 package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
+import com.tiany.ibator.common.RemarkHelper;
+import com.tiany.ibator.common.meta.Field;
+import com.tiany.ibator.common.meta.Table;
+import com.tiany.ibator.impl.comment.DaoImplClassComment;
 import com.tiany.ibator.impl.daoimpl.AbstractBaseDaoImplGenerator;
 import com.tiany.ibator.infs.DaoImplGenerator;
 import com.tiany.ibator.infs.Generator;
-import com.tiany.ibator.common.meta.Field;
-import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.CastUtil;
 import com.tiany.util.DateUtil;
 import com.tiany.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,10 @@ import java.util.List;
 public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoImplGenerator, ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(DaoImplGeneratorImpl.class);
     private List<Generator> generators;
+    @Autowired
+    private DaoImplClassComment classComment;
+    @Autowired
+    private RemarkHelper remarkHelper;
 
     @Override
     public String generateDaoImpl(Table table, List<Generator> list) {
@@ -67,13 +74,15 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         }
         ret += "\n";
 
-        ret += "/**\r\n";
-        ret += " * " + getCommentString(table.getComment()) + "Dao" + (generateInterface ? "Impl" : "") + " . \r\n";
-        ret += " * @author " + System.getProperty("user.name") + "\r\n";
-        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
-        ret += " * @since 1.0\r\n";
-        ret += " */\r\n";
-        ret += "\n";
+        String classRemark = remarkHelper.getClassRemark(classComment, table);
+        ret += classRemark;
+//        ret += "/**\r\n";
+//        ret += " * " + getCommentString(table.getComment()) + "Dao" + (generateInterface ? "Impl" : "") + " . \r\n";
+//        ret += " * @author " + System.getProperty("user.name") + "\r\n";
+//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
+//        ret += " * @since 1.0\r\n";
+//        ret += " */\r\n";
+//        ret += "\n";
         ret += "@Repository\r\n";
         ret += "@SuppressWarnings(\"unchecked\")\r\n";
         if (generateInterface) {

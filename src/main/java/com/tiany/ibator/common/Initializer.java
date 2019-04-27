@@ -44,6 +44,7 @@ public class Initializer extends BaseComponent {
             MapUtil.ifEmptyPut(pros, "generateInterface", "true");
             // 是否生成分页
             MapUtil.ifEmptyPut(pros, "generatePage", "true");
+            MapUtil.ifEmptyPut(pros, "productInfo", "All rights reserved by " + System.getProperty("user.name"));
             tibatisConfig = MapUtil.copyToMap(pros);
         } catch (Exception e) {
             logger.error("type.properties加载失败");

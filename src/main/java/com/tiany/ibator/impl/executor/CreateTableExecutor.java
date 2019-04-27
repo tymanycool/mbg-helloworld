@@ -4,6 +4,7 @@ import com.tiany.ibator.common.meta.Field;
 import com.tiany.ibator.common.meta.SQL;
 import com.tiany.ibator.common.meta.Table;
 import com.tiany.ibator.util.ListUtil;
+import com.tiany.inf.Iter;
 import com.tiany.inf.Word;
 import com.tiany.util.CollectionUtil;
 import com.tiany.util.MapUtil;
@@ -41,12 +42,32 @@ public class CreateTableExecutor extends AbstractRemoveCommentExecutor {
         List<String> list2 = words.subList(begin + 1, end);
         List<String> list3 = words.subList(end, words.size());
 
-        List<List<String>> split = CollectionUtil.split(list2, (obj, nexObj) -> {
-            String s = String.valueOf(nexObj);
-            boolean equals = obj.equals(",");
-            // 加入number 是为了修复：REPAY_AMT decimal(21, 2) default NULL comment '还款金额' 情况时候没有注释
-            boolean number = NumberWord.isNumber(s.charAt(0));
-            return equals && !number;
+//        List<List<String>> split = CollectionUtil.split(list2, (obj, nexObj) -> {
+//            String s = nexObj;
+//            boolean equals = obj.equals(",");
+//            // 加入number 是为了修复：REPAY_AMT decimal(21, 2) default NULL comment '还款金额' 情况时候没有注释
+//            boolean number = NumberWord.isNumber(s.charAt(0));
+//            return equals && !number;
+//        });
+        List<List<String>> split = CollectionUtil.splitByIter(list2, (iter, nextIter) -> {
+            if (nextIter == null) {
+                return false;
+            }
+            String next = nextIter.getValue();
+            boolean equals = iter.getValue().equals(",");
+            // 如果是,并且往前面找如果第一个括号是)而不是(则返回true
+            if (equals) {
+                Iter temp = iter;
+                while ((temp = temp.getPreIter()) != null) {
+                    if (")".equals(temp.getValue())) {
+                        return true;
+                    }
+                    if ("(".equals(temp.getValue())) {
+                        return false;
+                    }
+                }
+            }
+            return equals;
         });
         list1.addAll(list3);
         data.add(list1);
@@ -150,9 +171,6 @@ public class CreateTableExecutor extends AbstractRemoveCommentExecutor {
 
                 }
                 for (int j = 0; j < row.size(); j++) {
-                    if (field.getType().toUpperCase().equals("DECIMAL")) {
-                        logger.info("999999999999");
-                    }
                     if ("COMMENT".equals(row.get(j).toUpperCase())) {
                         String after = ListUtil.getAfter(row, row.get(j));
                         field.setComment(after);

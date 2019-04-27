@@ -10,7 +10,13 @@ public class InsertDaoImplGenerator extends AbstractBaseDaoImplGenerator impleme
     public String generate(Table table) {
         String ret = "";
         ret += getDaoString(table)+" {\r\n";
-        ret += "    return sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "    try {\n";
+        ret += "      sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "      return true;\r\n";
+        ret += "    } catch (Exception e) {\n";
+        ret += "      logger.log(Level.INFO, \"插入失败：{}\", e.getMessage());\n";
+        ret += "      return false;\n";
+        ret += "    }\n";
         ret += "  }\r\n\r\n";
         return ret;
     }

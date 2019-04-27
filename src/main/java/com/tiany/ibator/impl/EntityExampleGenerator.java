@@ -1,12 +1,16 @@
 package com.tiany.ibator.impl;
 
 import com.tiany.ibator.AbstractBaseSqlibator;
+import com.tiany.ibator.common.RemarkHelper;
+import com.tiany.ibator.impl.comment.DaoImplClassComment;
+import com.tiany.ibator.impl.comment.EntityExampleClassComment;
 import com.tiany.ibator.infs.Generator;
 import com.tiany.ibator.common.meta.Field;
 import com.tiany.ibator.common.meta.Table;
 import com.tiany.util.CastUtil;
 import com.tiany.util.DateUtil;
 import com.tiany.ibator.util.SerializableNoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,6 +18,10 @@ import java.util.*;
 @Component
 public class EntityExampleGenerator extends AbstractBaseSqlibator implements Generator {
     private Random random = new Random();
+    @Autowired
+    private EntityExampleClassComment classComment;
+    @Autowired
+    private RemarkHelper remarkHelper;
 
     @Override
     public String generate(Table table) {
@@ -40,14 +48,15 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         for (String s : imports) {
             ret += "import " + s + ";\n";
         }
-
         ret += "\n";
-        ret += "/**\r\n";
-        ret += " * " + getCommentString(table.getComment()) + "Example .\r\n";
-        ret += " * @author " + System.getProperty("user.name") + "\r\n";
-        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
-        ret += " * @since 1.0\r\n";
-        ret += " */\n";
+        String classRemark = remarkHelper.getClassRemark(classComment, table);
+        ret += classRemark;
+//        ret += "/**\r\n";
+//        ret += " * " + getCommentString(table.getComment()) + "Example .\r\n";
+//        ret += " * @author " + System.getProperty("user.name") + "\r\n";
+//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
+//        ret += " * @since 1.0\r\n";
+//        ret += " */\n";
         ret += "public class " + table.getEntityName() + "Example implements Serializable {\r\n";
         ret += "  /** 序列化号 . */\r\n";
         ret += "  private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example", "" + Math.abs(random.nextLong())) + "L;\r\n";
