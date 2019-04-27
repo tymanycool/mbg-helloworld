@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 通过SQL语句逆向工程
@@ -43,6 +40,7 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
     @Autowired
     @Qualifier("defaultTableParser")
     private TableParser tableParser;
+    private final String historyName = "history.json";
 
     @Override
     public Object generate(Object data) throws Exception {
@@ -70,19 +68,25 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
         }
 
         // 历史版本记录备份
-        File history = new File("history.json");
-        File historyBak = new File("history/" + DateUtil.thisDateTime() + "/history.json");
-        try {
-            boolean b = FileUtil.copyFile(history, historyBak, true);
-            if (b) {
-                logger.info("配置备份成功：{}", historyBak.getAbsolutePath());
-            } else {
-                logger.info("配置备份失败：{}", historyBak.getAbsolutePath());
+        File history = new File(historyName);
+        if (history.exists()) {
+            String time = DateUtil.date2Str(new Date(),"yyyy-MM-dd-HHmmss");
+            File historyDir = new File("history/" + time);
+            if(!historyDir.exists()){
+                historyDir.mkdirs();
+            }
+            try {
+                boolean b = FileUtil.copyFile(history, new File(historyDir,historyName), true);
+                if (b) {
+                    logger.info("配置备份成功：{}", historyDir.getAbsolutePath());
+                } else {
+                    logger.info("配置备份失败：{}", historyDir.getAbsolutePath());
+                    return false;
+                }
+            } catch (IOException e) {
+                logger.info("配置备份失败：{},{}", historyDir.getAbsolutePath(), e.getMessage());
                 return false;
             }
-        } catch (IOException e) {
-            logger.info("配置备份失败：{},{}", historyBak.getAbsolutePath(), e.getMessage());
-            return false;
         }
 
 
