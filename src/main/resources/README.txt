@@ -7,3 +7,4 @@ sql-ibator功能:通过sql文件进行逆向工程
 5. serializable.properties为序列化的配置，保证每次生成的实体类的序列化号保持一致(一般不需要手动维护)
 6. 1.5.9重构代码，修复bug
 7. 1.6.0后加入版本概念，其依赖history.json(勿删，勿改)
+8. 如果多人对一个项目的表结构进行使用，请保持serializable.properties和history.json配置文件同步，否则版本或者序列化号会有所差异
