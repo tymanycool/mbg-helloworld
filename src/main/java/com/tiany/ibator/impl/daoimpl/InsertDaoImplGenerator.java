@@ -14,7 +14,7 @@ public class InsertDaoImplGenerator extends AbstractBaseDaoImplGenerator impleme
         ret += "      sqlMap.insert(\""+table.getEntityName()+".insert\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
         ret += "      return true;\r\n";
         ret += "    } catch (Exception e) {\n";
-        ret += "      logger.log(Level.INFO, \"插入失败：{}\", e.getMessage());\n";
+        ret += "      logger.log(Level.INFO, \"插入失败：\" + e.getMessage());\n";
         ret += "      return false;\n";
         ret += "    }\n";
         ret += "  }\r\n\r\n";

@@ -15,7 +15,7 @@ public class SelectForObjectDaoImplGenerator extends AbstractBaseDaoImplGenerato
         ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\",\n          "+getBeanNameByClassName(table.getEntityName())+");\r\n";
         ret += "    } catch (Exception e) {\n";
         ret += "      logger.log(Level.INFO, \"查询参数对象:\" + "+getBeanNameByClassName(table.getEntityName())+");\n";
-        ret += "      logger.log(Level.INFO, \"查询失败:{},可能没有查询到数据或者查询到多条数据\", e.getMessage());\n";
+        ret += "      logger.log(Level.INFO, \"查询失败:\" + e.getMessage() + \",可能没有查询到数据或者查询到多条数据\");\n";
         ret += "    }\n";
         ret += "    return result;\n";
         ret += "  }\r\n\r\n";
