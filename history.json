@@ -1,0 +1,2494 @@
+{
+  "FtDeptInfo" : {
+    "tableFields" : [ {
+      "name" : "DEPT_ID",
+      "comment" : "'机构标识'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_NAME",
+      "comment" : "'机构名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_TYPE",
+      "comment" : "'机构类型             1：资产方              2：资金方'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_PRI_KEY",
+      "comment" : "'机构私钥'",
+      "type" : "varchar"
+    }, {
+      "name" : "THIRD_MER_ID",
+      "comment" : "'三方支付商户号'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_IP",
+      "comment" : "'上游sftp地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_PORT",
+      "comment" : "'上游sftp端口'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_USER",
+      "comment" : "'上游sftp用户'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_PASSWD",
+      "comment" : "'上游sftp密码'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_PAY_PATH",
+      "comment" : "'上游批量扣款文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_SFTP_CHECK_PATH",
+      "comment" : "'上游对账文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_ID",
+      "comment" : "'下游系统标识'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_NAME",
+      "comment" : "'下游系统名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_PUB_KEY",
+      "comment" : "'下游系统公钥'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_IP",
+      "comment" : "'下游sftp地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_PORT",
+      "comment" : "'下游sftp端口'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_USER",
+      "comment" : "'下游sftp用户'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_PASSWD",
+      "comment" : "'下游sftp密码'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_PAY_PATH",
+      "comment" : "'下游批量扣款文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "DS_SFTP_CHECK_PATH",
+      "comment" : "'下游对账文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "LOCAL_PAY_PATH",
+      "comment" : "'本地批量扣款文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "LOCAL_CHECK_PATH",
+      "comment" : "'本地对账文件地址'",
+      "type" : "varchar"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'机构参数信息表'",
+    "version" : "1.0",
+    "createDate" : "2019-05-15",
+    "since" : "1.0"
+  },
+  "LoanRepayInfo" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'还款总状态ID'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "varchar"
+    }, {
+      "name" : "evidence_no",
+      "comment" : "'借据号'",
+      "type" : "varchar"
+    }, {
+      "name" : "order_status",
+      "comment" : "'贷后订单状态：             80未还款             81正常还款中             82已逾期             83提前结清             84正常结清             85逾期结清'",
+      "type" : "char"
+    }, {
+      "name" : "repay_principal",
+      "comment" : "'应还本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_principal",
+      "comment" : "'实还本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "residual_principal",
+      "comment" : "'剩余本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "repay_interest",
+      "comment" : "'应还利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_interest",
+      "comment" : "'实还利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "residual_interest",
+      "comment" : "'剩余利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "repay_principal_interest",
+      "comment" : "'应还本金利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_principal_interest",
+      "comment" : "'实还本金利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "residual_principal_interest",
+      "comment" : "'剩余本金利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款总状态表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanRepayment" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'还款ID'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "varchar"
+    }, {
+      "name" : "user_id",
+      "comment" : "'用户鉴权唯一编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "yh_dept_identity",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "cj_dept_identity",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "repay_no",
+      "comment" : "'资金方还款流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "evidence_no",
+      "comment" : "'借据号'",
+      "type" : "varchar"
+    }, {
+      "name" : "trans_type",
+      "comment" : "'交易类型：             01-提前还款,             02-退货,             03-主动还当期             04-自动还当期'",
+      "type" : "char"
+    }, {
+      "name" : "loan_term",
+      "comment" : "'本期期数'",
+      "type" : "char"
+    }, {
+      "name" : "auto_pay_flag",
+      "comment" : "'是否在线支付             0否             1是'",
+      "type" : "char"
+    }, {
+      "name" : "otherpay_flag",
+      "comment" : "'代偿标志             0否             1是'",
+      "type" : "varchar"
+    }, {
+      "name" : "payback_flag",
+      "comment" : "'回购标志             0否             1是'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'本次还款状态（注意更新还款总状态）             71 还款成功             72 还款中             73 还款失败'",
+      "type" : "char"
+    }, {
+      "name" : "repay_time",
+      "comment" : "'还款时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "end_time",
+      "comment" : "'到期日'",
+      "type" : "datetime"
+    }, {
+      "name" : "repay_account_type",
+      "comment" : "'银行账号类型             01一类             02二类户'",
+      "type" : "char"
+    }, {
+      "name" : "repay_account_no",
+      "comment" : "'存款账户账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "repay_account_name",
+      "comment" : "'存款账户名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "repay_amount",
+      "comment" : "'本期实际还款总金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "repay_balance",
+      "comment" : "'本期未还余额'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_balance_fine",
+      "comment" : "'本期计划本金罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_balance_cfine",
+      "comment" : "'本期计划本金罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_interest_fine",
+      "comment" : "'本期计划利息罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_interest_cfine",
+      "comment" : "'本期计划利息罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_date",
+      "comment" : "'本期计划还款日期'",
+      "type" : "datetime"
+    }, {
+      "name" : "plan_amount",
+      "comment" : "'本期计划还款金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_balance",
+      "comment" : "'本期计划还款本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_interest",
+      "comment" : "'本期计划还款利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "plan_free",
+      "comment" : "'本期计划应收费用'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_principal",
+      "comment" : "'本期已还本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_principal_fine",
+      "comment" : "'本期已还本金罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_interest",
+      "comment" : "'本期已还利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_principal_cfine",
+      "comment" : "'本期已收本金罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_interest_fine",
+      "comment" : "'本期已收利息罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_interest_cfine",
+      "comment" : "'本期已收利息罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "actual_free",
+      "comment" : "'本期已收费用'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_principal",
+      "comment" : "'本期未还本金'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_principal_fine",
+      "comment" : "'本期未还本金罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_interest",
+      "comment" : "'本期未还利息'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_principal_cfine",
+      "comment" : "'本期未还本金罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_interest_fine",
+      "comment" : "'本期未还利息罚息'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_interest_cfine",
+      "comment" : "'本期未还利息罚息复利'",
+      "type" : "varchar"
+    }, {
+      "name" : "unpaid_free",
+      "comment" : "'本期未还费用'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款记录表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "BtPayFile" : {
+    "tableFields" : [ {
+      "name" : "BATCH_NO",
+      "comment" : "'批次号'",
+      "type" : "varchar"
+    }, {
+      "name" : "OID_PARTNER",
+      "comment" : "'商户号'",
+      "type" : "varchar"
+    }, {
+      "name" : "SUM_AMOUNT",
+      "comment" : "'总金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "SUM_COUNT",
+      "comment" : "'总笔数'",
+      "type" : "varchar"
+    }, {
+      "name" : "SUCC_AMOUNT",
+      "comment" : "'成功金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "SUCC_COUNT",
+      "comment" : "'成功笔数'",
+      "type" : "varchar"
+    }, {
+      "name" : "FAIL_AMOUNT",
+      "comment" : "'失败金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "FAIL_COUNT",
+      "comment" : "'失败笔数'",
+      "type" : "varchar"
+    }, {
+      "name" : "BATCH_FILE_STATUS",
+      "comment" : "'批次文件执行结果'",
+      "type" : "varchar"
+    }, {
+      "name" : "BATCH_FAIL_REASON",
+      "comment" : "'批次失败原因'",
+      "type" : "varchar"
+    }, {
+      "name" : "BATCH_FILE",
+      "comment" : "'批量扣款申请文件名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "BATCH_RESULT_FILE",
+      "comment" : "'批量扣款结果文件名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "STATUS",
+      "comment" : "'文件状态：             0未处理             1处理成功             2处理失败             3已受理9处理中'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_SIGN",
+      "comment" : "'批量扣款文件签名'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_MD5",
+      "comment" : "'批量扣款文件摘要'",
+      "type" : "varchar"
+    }, {
+      "name" : "RESULT_FILE_SIGN",
+      "comment" : "'批量扣款结果文件签名'",
+      "type" : "varchar"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'批扣透传类文件表'",
+    "version" : "1.0",
+    "createDate" : "2019-05-15",
+    "since" : "1.0"
+  },
+  "LoanAccount" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'账户ID'",
+      "type" : "char"
+    }, {
+      "name" : "cust_id",
+      "comment" : "'客户ID'",
+      "type" : "char"
+    }, {
+      "name" : "account_type",
+      "comment" : "'银行账号类型             01一类             02二类户'",
+      "type" : "char"
+    }, {
+      "name" : "card_no",
+      "comment" : "'银行账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_code",
+      "comment" : "'银行编码'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_name",
+      "comment" : "'银行名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "reserve_phone",
+      "comment" : "'银行预留手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "serial_no",
+      "comment" : "'开户流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "purpose",
+      "comment" : "'账户用途             01：放款             02：还款'",
+      "type" : "varchar"
+    }, {
+      "name" : "acc_open_addr",
+      "comment" : "'开户网点'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'记录时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：acc_open_addr" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'账户信息表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "SysDept" : {
+    "tableFields" : [ {
+      "name" : "dept_id",
+      "comment" : "'机构id'",
+      "type" : "char"
+    }, {
+      "name" : "dept_name",
+      "comment" : "'机构名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'机构标识             场景方：CJ             银行：YH             保险：BX             腾讯：TX'",
+      "type" : "char"
+    }, {
+      "name" : "parent_dept_identity",
+      "comment" : "'父级机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "dept_type",
+      "comment" : "'机构类型(deptType)             01：腾讯             02：科蓝             03：银行             04：保险方             05：场景方'",
+      "type" : "char"
+    }, {
+      "name" : "dept_level",
+      "comment" : "'机构级别             01：一级商户             02：二级商户'",
+      "type" : "char"
+    }, {
+      "name" : "reg_amount",
+      "comment" : "'注册资金'",
+      "type" : "varchar"
+    }, {
+      "name" : "reg_date",
+      "comment" : "'注册时间'",
+      "type" : "timestamp"
+    }, {
+      "name" : "email",
+      "comment" : "'邮箱'",
+      "type" : "varchar"
+    }, {
+      "name" : "state",
+      "comment" : "'机构状态             01-有效             02-无效'",
+      "type" : "char"
+    }, {
+      "name" : "address",
+      "comment" : "'机构地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "weburl",
+      "comment" : "'公司网站地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "legal_represent_name",
+      "comment" : "'法人代表姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "legal_represent_card",
+      "comment" : "'法人代表身份证'",
+      "type" : "varchar"
+    }, {
+      "name" : "legal_represent_phone",
+      "comment" : "'法人代表手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "parent_deptid",
+      "comment" : "'上级机构'",
+      "type" : "varchar"
+    }, {
+      "name" : "instancy_person",
+      "comment" : "'联系人姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "instancy_phone",
+      "comment" : "'紧急联系电话'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "operator",
+      "comment" : "'操作人'",
+      "type" : "char"
+    }, {
+      "name" : "del_flag",
+      "comment" : "'删除标志             01-有效             02-无效'",
+      "type" : "char"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：create_time类型更新; ", "字段更新：update_time类型更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'机构表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "FtRepayTrial" : {
+    "tableFields" : [ {
+      "name" : "LOAN_ORDER",
+      "comment" : "'贷款订单'",
+      "type" : "varchar"
+    }, {
+      "name" : "IOU_NO",
+      "comment" : "'借据号'",
+      "type" : "varchar"
+    }, {
+      "name" : "IOU_STATUS",
+      "comment" : "'借据状态'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_AMT",
+      "comment" : "'还款总额'",
+      "type" : "decimal"
+    }, {
+      "name" : "LOAN_BALANCE",
+      "comment" : "'贷款本金余额'",
+      "type" : "decimal"
+    }, {
+      "name" : "EAR_SETTLE_INT",
+      "comment" : "'提前结清利息'",
+      "type" : "decimal"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款试算表'",
+    "version" : "1.0",
+    "createDate" : "2019-05-15",
+    "since" : "1.0"
+  },
+  "OtRepayBalanceCompare" : {
+    "tableFields" : [ {
+      "name" : "ID",
+      "comment" : "'序号'",
+      "type" : "varchar"
+    }, {
+      "name" : "ASSET_DEPT_ID",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "CAPITAL_DEPT_ID",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "DATE",
+      "comment" : "'日期'",
+      "type" : "date"
+    }, {
+      "name" : "TYPE",
+      "comment" : "'类型              1：场景代付              2：还款明细'",
+      "type" : "varchar"
+    }, {
+      "name" : "PRO_ACCT_AMT",
+      "comment" : "'前一余额'",
+      "type" : "decimal"
+    }, {
+      "name" : "END_ACCT_AMT",
+      "comment" : "'后一余额'",
+      "type" : "decimal"
+    }, {
+      "name" : "ACCT_AMT",
+      "comment" : "'账户余额'",
+      "type" : "decimal"
+    }, {
+      "name" : "FILE_AMT",
+      "comment" : "'文件金额'",
+      "type" : "decimal"
+    }, {
+      "name" : "WARN_FLG",
+      "comment" : "'报警标志              0：否              1：是'",
+      "type" : "varchar"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "增加字段：DATE" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'内部账户余额对比表'",
+    "version" : "2.9",
+    "createDate" : "2019-05-15",
+    "since" : "1.0"
+  },
+  "BtRepayDeductFile" : {
+    "tableFields" : [ {
+      "name" : "ID",
+      "comment" : "'序号'",
+      "type" : "varchar"
+    }, {
+      "name" : "ASSET_DEPT_ID",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "CAPITAL_DEPT_ID",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "FILE_DATE",
+      "comment" : "'文件日期'",
+      "type" : "date"
+    }, {
+      "name" : "BATCH_NO",
+      "comment" : "'批次号'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_PATH",
+      "comment" : "'文件路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_NAME",
+      "comment" : "'文件名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_TYPE",
+      "comment" : "'文件类型              00：批扣合并              01：批扣资金              02：批扣结果              03：资产方还款计划              04：资金方还款计划              05：资金方还款明细文件              06：资金方还款结果文件             07：场景代付资金明细文件             08：已扣款未入账明细文件             09：服务费扣款结果文件'",
+      "type" : "varchar"
+    }, {
+      "name" : "FILE_STATUS",
+      "comment" : "'文件状态              00：创建成功              01：上传成功              02：上传失败              03：下载成功              04：处理中              05：处理成功              06：处理失败'",
+      "type" : "varchar"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "删除字段：REPAY_DATE", "增加字段：FILE_DATE", "增加字段：BATCH_NO", "字段更新：ASSET_DEPT_ID类型更新; ", "字段更新：CAPITAL_DEPT_ID类型更新; ", "字段更新：FILE_STATUS描述更新; ", "字段更新：FILE_TYPE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'批量扣款文件记录表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanWithdraw" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'提现ID'",
+      "type" : "char"
+    }, {
+      "name" : "seq_no",
+      "comment" : "'腾讯平台流水号'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "char"
+    }, {
+      "name" : "channel_seq",
+      "comment" : "'提现流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "cust_name",
+      "comment" : "'借款人姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "id_no",
+      "comment" : "'证件号码'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_card_no",
+      "comment" : "'银行卡号'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_no",
+      "comment" : "'银行卡联行号'",
+      "type" : "varchar"
+    }, {
+      "name" : "amount",
+      "comment" : "'发生额'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'提现状态             61提现中             62提现成功             63提现失败             64状态未明'",
+      "type" : "char"
+    }, {
+      "name" : "message",
+      "comment" : "'放款信息'",
+      "type" : "varchar"
+    }, {
+      "name" : "start_time",
+      "comment" : "'提现发起时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "end_time",
+      "comment" : "'提现完成时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：status描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'提现流水表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanProduct" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'产品表ID'",
+      "type" : "char"
+    }, {
+      "name" : "product_code",
+      "comment" : "'产品编码             P0000001             P0000002             依次增加'",
+      "type" : "char"
+    }, {
+      "name" : "cj_dept_identity",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "yh_dept_identity",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "bx_dept_identity",
+      "comment" : "'保险机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "zf_dept_identity",
+      "comment" : "'支付公司机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "forward_url",
+      "comment" : "'请求转发地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_term",
+      "comment" : "'贷款期限'",
+      "type" : "char"
+    }, {
+      "name" : "loan_rate",
+      "comment" : "'贷款利率'",
+      "type" : "char"
+    }, {
+      "name" : "pay_type",
+      "comment" : "'放款方式             见字典'",
+      "type" : "char"
+    }, {
+      "name" : "repay_type",
+      "comment" : "'还款方式             见字典'",
+      "type" : "char"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "operator",
+      "comment" : "'操作人'",
+      "type" : "char"
+    }, {
+      "name" : "del_flag",
+      "comment" : "'删除标志             01正常             02删除'",
+      "type" : "char"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'贷款产品表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "AuthenticationInfo" : {
+    "tableFields" : [ {
+      "name" : "auth_jnlno",
+      "comment" : "'信息认证ID'",
+      "type" : "char"
+    }, {
+      "name" : "uuid",
+      "comment" : "'全局标识uuid'",
+      "type" : "char"
+    }, {
+      "name" : "apply_dept_ident",
+      "comment" : "'申请机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "ref_dept_ident",
+      "comment" : "'和该次授权关联的机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "loan_type",
+      "comment" : "'贷款类型(loanType)             00现金贷             01车贷             02消费贷'",
+      "type" : "char"
+    }, {
+      "name" : "name",
+      "comment" : "'姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "phone",
+      "comment" : "'手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "card_type",
+      "comment" : "'证件类型(idcardType)             00-身份证'",
+      "type" : "char"
+    }, {
+      "name" : "idcard_no",
+      "comment" : "'证件号'",
+      "type" : "varchar"
+    }, {
+      "name" : "idcard_frimg_url",
+      "comment" : "'证件正面存储路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "idcard_bkimg_url",
+      "comment" : "'证件反面存储路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "live_img_url",
+      "comment" : "'人脸照片存储路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "live_video_url",
+      "comment" : "'活体视频存储路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "auth_sign_url",
+      "comment" : "'手签授权书存储路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "upload_finish",
+      "comment" : "'所有文件是否完成             01：完成             02：未完成'",
+      "type" : "char"
+    }, {
+      "name" : "auth_id",
+      "comment" : "'E证通授权id'",
+      "type" : "varchar"
+    }, {
+      "name" : "auth_result",
+      "comment" : "'E证通身份认证结果'",
+      "type" : "varchar"
+    }, {
+      "name" : "insurer_auth_id",
+      "comment" : "'保险公司授信ID'",
+      "type" : "varchar"
+    }, {
+      "name" : "insurer_auth_result",
+      "comment" : "'保险公司授信结果'",
+      "type" : "varchar"
+    }, {
+      "name" : "risk_state",
+      "comment" : "'风控评估状态'",
+      "type" : "char"
+    }, {
+      "name" : "risk_score",
+      "comment" : "'风控分'",
+      "type" : "varchar"
+    }, {
+      "name" : "anti_fraud_score1",
+      "comment" : "'反欺诈分1'",
+      "type" : "varchar"
+    }, {
+      "name" : "anti_fraud_score2",
+      "comment" : "'反欺诈分2'",
+      "type" : "varchar"
+    }, {
+      "name" : "anti_fraud_score3",
+      "comment" : "'反欺诈分3'",
+      "type" : "varchar"
+    }, {
+      "name" : "anti_fraud_score4",
+      "comment" : "'反欺诈分4'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "timestamp"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "timestamp"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'保存认证数据(E证通)'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanApply" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'贷款申请ID'",
+      "type" : "char"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "product_code",
+      "comment" : "'产品编码'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号：             发送方机构ID + yyyyMMddHHmmss + 00（两位预留位）+ 6位随机数'",
+      "type" : "char"
+    }, {
+      "name" : "user_id",
+      "comment" : "'用户鉴权唯一编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "asset_order_id",
+      "comment" : "'资金方订单号'",
+      "type" : "varchar"
+    }, {
+      "name" : "pri_contract_num",
+      "comment" : "'资金方合同号'",
+      "type" : "varchar"
+    }, {
+      "name" : "order_status",
+      "comment" : "'贷前订单状态：             00入库状态,             11开户成功,12开户失败             21授信成功,22授信失败23授信中              31审批拒绝,32审批中,33审批通过             41人工审批拒绝,42人工审批中,43人工审核通过             51放款中,52放款成功,53放款失败'",
+      "type" : "char"
+    }, {
+      "name" : "seq_no",
+      "comment" : "'腾讯平台流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "approval_seq",
+      "comment" : "'审批流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "br_no",
+      "comment" : "'合作机构号              厦门信托机构号'",
+      "type" : "varchar"
+    }, {
+      "name" : "project_no",
+      "comment" : "'信托项目编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "product_no",
+      "comment" : "'信托产品号'",
+      "type" : "varchar"
+    }, {
+      "name" : "currency",
+      "comment" : "'申请币种             CNY,人民币             EUR,欧元             GBP,英镑             HCD,港币             JPY,日元             USD,美元'",
+      "type" : "char"
+    }, {
+      "name" : "contact_name",
+      "comment" : "'联系人姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "contact_phone",
+      "comment" : "'联系人手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "contact_rel",
+      "comment" : "'联系人关系             01-亲属             02-朋友             03-同事             04-其它             05-担保人             06-直系亲属'",
+      "type" : "varchar"
+    }, {
+      "name" : "vouch_type",
+      "comment" : "'担保方式             1-质押             2-抵押             4-信用'",
+      "type" : "char"
+    }, {
+      "name" : "loan_purpose",
+      "comment" : "'贷款用途             01-经营类             02-消费类'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_amt",
+      "comment" : "'贷款金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_term",
+      "comment" : "'贷款期限(单位月)'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_rate",
+      "comment" : "'客户贷款利率'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_capital_rate",
+      "comment" : "'贷款产品利率'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_strat_date",
+      "comment" : "'贷款起始日期'",
+      "type" : "datetime"
+    }, {
+      "name" : "loan_end_date",
+      "comment" : "'贷款到期日期'",
+      "type" : "datetime"
+    }, {
+      "name" : "pay_type",
+      "comment" : "'放款类型:             00自主支付             01受托支付             02现金             03转账             99其他             '",
+      "type" : "varchar"
+    }, {
+      "name" : "deduct_tpye",
+      "comment" : "'扣款类型:             1-委托扣本息(足额)             2-委托扣息(足额)             3-委托扣本息(不足额)             4-委托扣息(不足额)             9-柜台还款'",
+      "type" : "char"
+    }, {
+      "name" : "repay_type",
+      "comment" : "'还款方式 01等额本息 02等额本金 03等本等息 04随借随还 05按频率付息、任意本金计划 06按月付息，按季还本 07按期付息到期还本 08到期还本付息 09一次性还款付息 10按期付息一次性还本 11按日均摊 12等额减息 13其他 '",
+      "type" : "varchar"
+    }, {
+      "name" : "first_pay_date",
+      "comment" : "'首次还款日'",
+      "type" : "datetime"
+    }, {
+      "name" : "risk_level",
+      "comment" : "'客户风险等级'",
+      "type" : "varchar"
+    }, {
+      "name" : "risk_result",
+      "comment" : "'风险识别结果'",
+      "type" : "varchar"
+    }, {
+      "name" : "return_code",
+      "comment" : "'返回结果代码'",
+      "type" : "varchar"
+    }, {
+      "name" : "return_message",
+      "comment" : "'返回信息'",
+      "type" : "varchar"
+    }, {
+      "name" : "insurance_no",
+      "comment" : "'保单号'",
+      "type" : "varchar"
+    }, {
+      "name" : "insurance_status",
+      "comment" : "'保单出具状态             01成功             02失败             03状态未明'",
+      "type" : "char"
+    }, {
+      "name" : "insurance_url",
+      "comment" : "'保单Url地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "redirect_url",
+      "comment" : "'回调地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse1",
+      "comment" : "'备用字段1'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse2",
+      "comment" : "'备用字段2'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse3",
+      "comment" : "'备用字段3'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse4",
+      "comment" : "'备用字段4'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse5",
+      "comment" : "'备用字段5'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'记录时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：insurance_status", "字段更新：order_status描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'贷款申请表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "Batch" : {
+    "tableFields" : [ {
+      "name" : "batch_id",
+      "comment" : "'主键ID'",
+      "type" : "char"
+    }, {
+      "name" : "jnl_id",
+      "comment" : "'腾讯平台流水号'",
+      "type" : "char"
+    }, {
+      "name" : "batch_name",
+      "comment" : "'批次名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "trans_code",
+      "comment" : "'交易码'",
+      "type" : "varchar"
+    }, {
+      "name" : "batch_status",
+      "comment" : "'01-执行中，02-执行成功，03-执行失败'",
+      "type" : "char"
+    }, {
+      "name" : "batch_msg",
+      "comment" : "'返回消息(正常返回,异常信息)'",
+      "type" : "varchar"
+    }, {
+      "name" : "opr_time",
+      "comment" : "'操作时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'批次表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "CallbackInfo" : {
+    "tableFields" : [ {
+      "name" : "callback_id",
+      "comment" : "'回调ID'",
+      "type" : "char"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'回调接收方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'贷款订单号'",
+      "type" : "char"
+    }, {
+      "name" : "callback_seq",
+      "comment" : "'回调流水(腾讯内部)'",
+      "type" : "char"
+    }, {
+      "name" : "callback_type",
+      "comment" : "'回调类型             TX0001：贷款申请结果通知             TX0002：放款申请结果通知'",
+      "type" : "char"
+    }, {
+      "name" : "url",
+      "comment" : "'异步通知地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "content",
+      "comment" : "'回调内容'",
+      "type" : "text"
+    }, {
+      "name" : "trans_code",
+      "comment" : "'交易码'",
+      "type" : "varchar"
+    }, {
+      "name" : "callback_times",
+      "comment" : "'回调次数'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'回调状态             01待回调             02回调成功             03回调中             04回调失败'",
+      "type" : "char"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'回调信息表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "SysDict" : {
+    "tableFields" : [ {
+      "name" : "DICT_TYPE",
+      "comment" : "'deptType：机构类型             resourceType：资源类型             loanType：贷款类型             idcardType：证件类型             deptIdentityType：机构标识'",
+      "type" : "varchar"
+    }, {
+      "name" : "DICT_VALUE",
+      "comment" : "'数值'",
+      "type" : "varchar"
+    }, {
+      "name" : "DICT_NAME",
+      "comment" : "'名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "DICT_DESCRIPTION",
+      "comment" : "'描述'",
+      "type" : "varchar"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "更新表描述; ", "字段更新：DICT_DESCRIPTION描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：DICT_NAME描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：DICT_NAME描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：DICT_TYPE", "删除字段：DICT_VALUE", "删除字段：DICT_NAME", "删除字段：DICT_DESCRIPTION", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：DICT_TYPE", "增加字段：DICT_VALUE", "增加字段：DICT_NAME", "增加字段：DICT_DESCRIPTION" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：DICT_TYPE", "删除字段：DICT_VALUE", "删除字段：DICT_NAME", "删除字段：DICT_DESCRIPTION", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：null", "增加字段：null", "增加字段：null", "增加字段：null" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "删除字段：null", "删除字段：null", "删除字段：null", "删除字段：null", "增加字段：DICT_TYPE", "增加字段：DICT_VALUE", "增加字段：DICT_NAME", "增加字段：DICT_DESCRIPTION" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'数据字典表'",
+    "version" : "2.5",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanPayment" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'放款ID'",
+      "type" : "char"
+    }, {
+      "name" : "seq_no",
+      "comment" : "'腾讯平台流水号'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "char"
+    }, {
+      "name" : "contract_no",
+      "comment" : "'合同编号(用户签署)'",
+      "type" : "varchar"
+    }, {
+      "name" : "evidence_no",
+      "comment" : "'借据号(放款通知)'",
+      "type" : "varchar"
+    }, {
+      "name" : "pay_seq",
+      "comment" : "'放款流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "borrow_bank_code",
+      "comment" : "'借方银行代码'",
+      "type" : "varchar"
+    }, {
+      "name" : "borrow_ac_no",
+      "comment" : "'借方账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "borrow_ac_name",
+      "comment" : "'借方账户名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_bank_code",
+      "comment" : "'贷方银行代码'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_ac_no",
+      "comment" : "'贷方帐号'",
+      "type" : "varchar"
+    }, {
+      "name" : "loan_ac_name",
+      "comment" : "'贷方帐号户名'",
+      "type" : "varchar"
+    }, {
+      "name" : "amount",
+      "comment" : "'发生额'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'放款(提现)状态（状态需要和申请表中保持同步）             51放款(提现)中             52放款(提现)成功             53放款(提现)失败'",
+      "type" : "char"
+    }, {
+      "name" : "message",
+      "comment" : "'放款信息'",
+      "type" : "varchar"
+    }, {
+      "name" : "start_time",
+      "comment" : "'放款发起时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "end_time",
+      "comment" : "'放款完成时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "recorded_mode",
+      "comment" : "'入账方式             00：实时             01：T+1'",
+      "type" : "char"
+    }, {
+      "name" : "redirect_url",
+      "comment" : "'回调地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'放款表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "BankCardAuth" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'鉴权ID'",
+      "type" : "char"
+    }, {
+      "name" : "seq_no",
+      "comment" : "'腾讯平台流水号'",
+      "type" : "char"
+    }, {
+      "name" : "user_id",
+      "comment" : "'用户鉴权唯一编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "token",
+      "comment" : "'授权码             签约授权令牌'",
+      "type" : "varchar"
+    }, {
+      "name" : "cust_name",
+      "comment" : "'客户姓名'",
+      "type" : "char"
+    }, {
+      "name" : "id_type",
+      "comment" : "'证件类型             01身份证'",
+      "type" : "varchar"
+    }, {
+      "name" : "id_no",
+      "comment" : "'证件号码'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_name",
+      "comment" : "'银行名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "bank_card_no",
+      "comment" : "'银行账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "reserve_phone",
+      "comment" : "'银行预留手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "acc_open_addr",
+      "comment" : "'开户网点'",
+      "type" : "varchar"
+    }, {
+      "name" : "agree_no",
+      "comment" : "'签约协议号'",
+      "type" : "varchar"
+    }, {
+      "name" : "auth_status",
+      "comment" : "'鉴权状态             01:签约申请             02:签约验证             03:签约成功             04:签约失败'",
+      "type" : "char"
+    }, {
+      "name" : "create_time",
+      "comment" : "'记录时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：token", "增加字段：acc_open_addr" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'银行卡鉴权表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "AttachJnl" : {
+    "tableFields" : [ {
+      "name" : "attach_jnl_id",
+      "comment" : "'流水附表ID'",
+      "type" : "char"
+    }, {
+      "name" : "jnl_id",
+      "comment" : "'流水主表ID'",
+      "type" : "char"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "req_direction",
+      "comment" : "'请求方向             01 接收             10 发送'",
+      "type" : "char"
+    }, {
+      "name" : "req_ip",
+      "comment" : "'上游ip'",
+      "type" : "varchar"
+    }, {
+      "name" : "req_url",
+      "comment" : "'下游请求url'",
+      "type" : "varchar"
+    }, {
+      "name" : "req_params",
+      "comment" : "'请求报文'",
+      "type" : "mediumtext"
+    }, {
+      "name" : "resp_params",
+      "comment" : "'响应报文'",
+      "type" : "mediumtext"
+    }, {
+      "name" : "return_code",
+      "comment" : "'返回码'",
+      "type" : "varchar"
+    }, {
+      "name" : "return_msg",
+      "comment" : "'返回信息'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'交易状态             01成功             02失败'",
+      "type" : "char"
+    }, {
+      "name" : "remark",
+      "comment" : "'备注'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_date",
+      "comment" : "'创建时间'",
+      "type" : "timestamp"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'流水附表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "SysDeptResource" : {
+    "tableFields" : [ {
+      "name" : "dept_resource_id",
+      "comment" : "'机构资源ID'",
+      "type" : "char"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'机构标识             场景方：CJ             银行：YH             保险：BX             腾讯：TX'",
+      "type" : "char"
+    }, {
+      "name" : "comm_dept_identity",
+      "comment" : "'通信方机构标识             1.若通信方为本系统(资金服务平台)，则为TX000014             2.若通信方为连连支付，则为ZF000006'",
+      "type" : "char"
+    }, {
+      "name" : "resource_type",
+      "comment" : "'资源类型（resouceType）             01：授权书              02：证书              03：公钥             04：私钥'",
+      "type" : "char"
+    }, {
+      "name" : "resource_name",
+      "comment" : "'资源名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "resource_url",
+      "comment" : "'资源存储路径，机构标识为路径'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "timestamp"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "timestamp"
+    }, {
+      "name" : "operator",
+      "comment" : "'操作人'",
+      "type" : "char"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'机构的资源存放表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "FtRepayDeptRlt" : {
+    "tableFields" : [ {
+      "name" : "ID",
+      "comment" : "'还款设置id'",
+      "type" : "varchar"
+    }, {
+      "name" : "DEPT_ID",
+      "comment" : "'机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "DEPT_TP",
+      "comment" : "'机构类型              0：资产方              1：资金方'",
+      "type" : "char"
+    }, {
+      "name" : "RLT_DEPT_ID",
+      "comment" : "'关联机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "RLT_DEPT_TP",
+      "comment" : "'关联机构类型              0：资产方             1：资金方'",
+      "type" : "char"
+    }, {
+      "name" : "REPAY_TP",
+      "comment" : "'还款类型             0：手动             1：自动'",
+      "type" : "char"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：DEPT_ID类型更新; ", "字段更新：DEPT_TP描述更新; ", "字段更新：RLT_DEPT_ID类型更新; ", "字段更新：RLT_DEPT_TP描述更新; ", "字段更新：REPAY_TP描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款机构关联设置表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "LoanCredit" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'授信ID'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "char"
+    }, {
+      "name" : "bank_credit_no",
+      "comment" : "'银行额度编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "insurer_credit_no",
+      "comment" : "'保险额度编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "credit_id",
+      "comment" : "'第三方机构返回授信id'",
+      "type" : "varchar"
+    }, {
+      "name" : "credit_term",
+      "comment" : "'授信期限'",
+      "type" : "varchar"
+    }, {
+      "name" : "credit_rate",
+      "comment" : "'授信利率'",
+      "type" : "varchar"
+    }, {
+      "name" : "credit_amt",
+      "comment" : "'授信金额'",
+      "type" : "varchar"
+    }, {
+      "name" : "begin_date",
+      "comment" : "'授信起始日'",
+      "type" : "datetime"
+    }, {
+      "name" : "end_date",
+      "comment" : "'授信到期日'",
+      "type" : "datetime"
+    }, {
+      "name" : "stsubs_ac_name",
+      "comment" : "'受托支付户名'",
+      "type" : "varchar"
+    }, {
+      "name" : "stsubs_acno",
+      "comment" : "'受托支付账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "depesubs_ac_name",
+      "comment" : "'受托扣款户名'",
+      "type" : "varchar"
+    }, {
+      "name" : "depesubs_ac_no",
+      "comment" : "'受托扣款账号'",
+      "type" : "varchar"
+    }, {
+      "name" : "return_code",
+      "comment" : "'返回结果代码'",
+      "type" : "varchar"
+    }, {
+      "name" : "return_message",
+      "comment" : "'返回信息'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse1",
+      "comment" : "'备用字段1'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse2",
+      "comment" : "'备用字段2'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse3",
+      "comment" : "'备用字段3'",
+      "type" : "varchar"
+    }, {
+      "name" : "reverse4",
+      "comment" : "'备用字段4'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'记录时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：credit_id" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'贷款授信表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "SysSequence" : {
+    "tableFields" : [ {
+      "name" : "SEQ_NAME",
+      "comment" : "'自增序列名'",
+      "type" : "varchar"
+    }, {
+      "name" : "MINVAL",
+      "comment" : "'最小值'",
+      "type" : "char"
+    }, {
+      "name" : "MAXVAL",
+      "comment" : "'最大值'",
+      "type" : "char"
+    }, {
+      "name" : "CURRENT_VAL",
+      "comment" : "'当前值'",
+      "type" : "char"
+    }, {
+      "name" : "INCREMENT_VAL",
+      "comment" : "'自增步长'",
+      "type" : "char"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：INCREMENT_VAL" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "更新表描述; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'自增序列表'",
+    "version" : "1.2",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "CustInfo" : {
+    "tableFields" : [ {
+      "name" : "id",
+      "comment" : "'客户ID'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'腾讯平台订单号'",
+      "type" : "char"
+    }, {
+      "name" : "cust_name",
+      "comment" : "'客户姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "cust_type",
+      "comment" : "'客户类型             个人：0             企业：1             默认个人'",
+      "type" : "char"
+    }, {
+      "name" : "sex",
+      "comment" : "'性别:             男：M             女：F'",
+      "type" : "enum"
+    }, {
+      "name" : "reg_mobile",
+      "comment" : "'手机号'",
+      "type" : "varchar"
+    }, {
+      "name" : "card_type",
+      "comment" : "'证件类型(idcardType)             身份证：01'",
+      "type" : "char"
+    }, {
+      "name" : "idcard_no",
+      "comment" : "'证件号'",
+      "type" : "varchar"
+    }, {
+      "name" : "issue_authority",
+      "comment" : "'发证机关'",
+      "type" : "varchar"
+    }, {
+      "name" : "iss_date",
+      "comment" : "'证件签发时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "expiry_date",
+      "comment" : "'证件到期时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "nationality",
+      "comment" : "'民族'",
+      "type" : "char"
+    }, {
+      "name" : "birth",
+      "comment" : "'出生日期'",
+      "type" : "datetime"
+    }, {
+      "name" : "qualification",
+      "comment" : "'学历             01-小学及以下 02-初中  03-高中 04-中专  05-高职 06-专科 07-本科 08-硕士研究生 09-博士研究生及以上'",
+      "type" : "char"
+    }, {
+      "name" : "marry_stauts",
+      "comment" : "'婚姻状况             01-已婚             02-未婚             03-离异'",
+      "type" : "char"
+    }, {
+      "name" : "company_name",
+      "comment" : "'单位名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "company_phone",
+      "comment" : "'单位电话'",
+      "type" : "varchar"
+    }, {
+      "name" : "company_fix",
+      "comment" : "'单位传真'",
+      "type" : "varchar"
+    }, {
+      "name" : "office_address",
+      "comment" : "'办公地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "resident_city",
+      "comment" : "'居住城市'",
+      "type" : "varchar"
+    }, {
+      "name" : "resident_addr",
+      "comment" : "'居住地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "zip_code",
+      "comment" : "'邮编'",
+      "type" : "varchar"
+    }, {
+      "name" : "occupation",
+      "comment" : "'本人职业             A-律师、会计师、顾问或中介 B-国家企事业单位 C-贸易公司、离岸公司 D-工商服务业 E-金融业 F-农林牧渔 G-医疗、教育、非盈利事业 H-学生 I-珠宝、艺术品、稀有矿石 K-彩票、娱乐服务 L-无业或其他 M-军人 N-自由业主 O-采掘业、制造业、科技产业 P-行政、安全保卫人员'",
+      "type" : "char"
+    }, {
+      "name" : "title",
+      "comment" : "'职务'",
+      "type" : "varchar"
+    }, {
+      "name" : "month_incom",
+      "comment" : "'月薪'",
+      "type" : "varchar"
+    }, {
+      "name" : "year_income",
+      "comment" : "'个人年收入'",
+      "type" : "varchar"
+    }, {
+      "name" : "email",
+      "comment" : "'电子邮箱'",
+      "type" : "varchar"
+    }, {
+      "name" : "domicile_province",
+      "comment" : "'户籍所在省'",
+      "type" : "varchar"
+    }, {
+      "name" : "domicile_city",
+      "comment" : "'户籍所在城市'",
+      "type" : "varchar"
+    }, {
+      "name" : "domicile_county",
+      "comment" : "'户籍所在区县'",
+      "type" : "varchar"
+    }, {
+      "name" : "domicile_addr",
+      "comment" : "'户籍详细地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "degree",
+      "comment" : "'最高学位             0-其他             1-名誉博士             2-博士             3-硕士             4-学士             9-未知'",
+      "type" : "char"
+    }, {
+      "name" : "children",
+      "comment" : "'是否有子女             0-否             1-是             2-未知'",
+      "type" : "char"
+    }, {
+      "name" : "home_status",
+      "comment" : "'居住状况             1-自置             2-按揭             3-亲属楼宇             4-集体宿舍             5-租房             6-共有住宅             7-其他             9-未知'",
+      "type" : "char"
+    }, {
+      "name" : "work_way",
+      "comment" : "'工作单位所属行业             A-农、林、牧、渔业             B-采掘业             C-制造业             D-电力、燃气及水的生产和供应业             E-建筑业             F-交通运输、仓储和邮政业             G-信息传输、计算机服务和软件业             H-批发和零售业             I-住宿和餐饮业             J-金融业             K-房地产业             L-租赁和商务服务业             M-科学研究、技术服务业和地质勘察业N-水利、环境和公共设施管理业             O-居民服务和其他服务业             P-教育             Q-卫生、社会保障和社会福利业             R-文化、体育和娱乐业             S-公共管理和社会组织             T-国际组织             Z-未知。'",
+      "type" : "char"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：sex描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：sex描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "删除字段：reg_mobile", "增加字段：reg_mobile2" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "字段更新：id描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "删除字段：reg_mobile2", "增加字段：reg_mobile", "字段更新：id描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'客户信息表'",
+    "version" : "1.5",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "FileRecord" : {
+    "tableFields" : [ {
+      "name" : "file_id",
+      "comment" : "'文件ID'",
+      "type" : "char"
+    }, {
+      "name" : "order_id",
+      "comment" : "'贷款订单号'",
+      "type" : "varchar"
+    }, {
+      "name" : "dept_identity",
+      "comment" : "'机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "file_direction",
+      "comment" : "'文件上传方向             01接收             10发送'",
+      "type" : "char"
+    }, {
+      "name" : "file_type",
+      "comment" : "'文件类型             01：信审影像文件             02：贷后影像文件             03：每日放款明细文件             04：每日还款明细文件             05：还款计划文件             06：保单明细文件'",
+      "type" : "char"
+    }, {
+      "name" : "file_path",
+      "comment" : "'文件地址'",
+      "type" : "varchar"
+    }, {
+      "name" : "file_name",
+      "comment" : "'文件名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "file_date",
+      "comment" : "'文件上传时间'",
+      "type" : "timestamp"
+    }, {
+      "name" : "file_encrypt",
+      "comment" : "'解压zip文件密码             通知类型为01时不能为空'",
+      "type" : "varchar"
+    }, {
+      "name" : "file_md5",
+      "comment" : "'MD5'",
+      "type" : "varchar"
+    }, {
+      "name" : "status",
+      "comment" : "'状态             01传输中             02传输成功             03传输失败'",
+      "type" : "char"
+    }, {
+      "name" : "send_times",
+      "comment" : "'发送次数'",
+      "type" : "varchar"
+    }, {
+      "name" : "create_time",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "update_time",
+      "comment" : "'更新时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：send_times", "字段更新：create_time类型更新; ", "字段更新：update_time类型更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'文件记录表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "OtRepayDeductConfirm" : {
+    "tableFields" : [ {
+      "name" : "ID",
+      "comment" : "'序号'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_DATE",
+      "comment" : "'还款日期'",
+      "type" : "date"
+    }, {
+      "name" : "ASSET_DEPT_ID",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "IS_ASSET_CONFIRM",
+      "comment" : "'资产方是否确认              0：否              1：是'",
+      "type" : "char"
+    }, {
+      "name" : "CAPITAL_DEPT_ID",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "IS_CAPITAL_CONFIRM",
+      "comment" : "'资金方是否确认              0：否              1：是'",
+      "type" : "char"
+    }, {
+      "name" : "REPAY_STEP",
+      "comment" : "'还款步骤：             0：初始             1：同步还款计划             2：同步银行还款结果文件             3：三方支付对账             4：生成已扣款未入账明细文件             5：生成扣款明细             6：创建扣款文件             7：发送扣款文件             8：同步扣款结果             9：生成银行扣款明细文件             10：生成并发送场景服务费批量扣款结果文件             11：发送银行扣款明细文件'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_STATUS",
+      "comment" : "'还款状态：             S：成功              E：失败              P：处理中'",
+      "type" : "varchar"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：REPAY_STEP", "增加字段：REPAY_STATUS", "字段更新：ASSET_DEPT_ID类型更新; ", "字段更新：CAPITAL_DEPT_ID类型更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款批量扣款确认表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "OtRepayDeductTrans" : {
+    "tableFields" : [ {
+      "name" : "SEQ_NO",
+      "comment" : "'平台流水'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_DATE",
+      "comment" : "'还款日期'",
+      "type" : "date"
+    }, {
+      "name" : "DEDUCT_DATE",
+      "comment" : "'扣款日期'",
+      "type" : "date"
+    }, {
+      "name" : "ASSET_DEPT_ID",
+      "comment" : "'资产方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "ASSET_SEQ_NO",
+      "comment" : "'资产方流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "CURRENT_REPAY_PERIOD",
+      "comment" : "'本期期数'",
+      "type" : "varchar"
+    }, {
+      "name" : "CAPITAL_DEPT_ID",
+      "comment" : "'资金方机构标识'",
+      "type" : "char"
+    }, {
+      "name" : "CAPITAL_SEQ_NO",
+      "comment" : "'资金方流水号'",
+      "type" : "varchar"
+    }, {
+      "name" : "LOAN_ORDER",
+      "comment" : "'贷款订单'",
+      "type" : "varchar"
+    }, {
+      "name" : "IOU_NO",
+      "comment" : "'借据号'",
+      "type" : "varchar"
+    }, {
+      "name" : "USER_ID",
+      "comment" : "'用户唯一编号'",
+      "type" : "varchar"
+    }, {
+      "name" : "NAME",
+      "comment" : "'姓名'",
+      "type" : "varchar"
+    }, {
+      "name" : "ID_NO",
+      "comment" : "'身份证号'",
+      "type" : "varchar"
+    }, {
+      "name" : "SIGN_NO",
+      "comment" : "'协议号'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_AMT",
+      "comment" : "'还款金额'",
+      "type" : "decimal"
+    }, {
+      "name" : "SVC_REPAY_AMT",
+      "comment" : "'服务费金额'",
+      "type" : "decimal"
+    }, {
+      "name" : "PRI_INT_REPAY_AMT",
+      "comment" : "'本息金额'",
+      "type" : "decimal"
+    }, {
+      "name" : "GOODS_NAME",
+      "comment" : "'商品名称'",
+      "type" : "varchar"
+    }, {
+      "name" : "ORDER_INFO",
+      "comment" : "'订单详情'",
+      "type" : "varchar"
+    }, {
+      "name" : "BATCH_NO",
+      "comment" : "'批次号'",
+      "type" : "varchar"
+    }, {
+      "name" : "TRANS_STATUS",
+      "comment" : "'交易状态             00：成功             01：失败             02：部分成功             03：已受理             04：未处理             05：处理中'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_TYPE",
+      "comment" : "'还款类型             1：正常还款             2：还款日入账时间后还款             3：提前还当期              4：提前全额结清             5：逾期还款             6：线下还款'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_STATUS",
+      "comment" : "'还款状态             1：未扣款             2：已扣款未清分             3：已扣款已清分未入账             4：已扣款已清分已入账'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_CODE",
+      "comment" : "'还款结果响应码'",
+      "type" : "varchar"
+    }, {
+      "name" : "REPAY_DESC",
+      "comment" : "'还款结果描述'",
+      "type" : "varchar"
+    }, {
+      "name" : "TRANS_FINISH_TIME",
+      "comment" : "'交易完成时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "THIRD_SETTLE_DATE",
+      "comment" : "'三方支付清算日期'",
+      "type" : "date"
+    }, {
+      "name" : "THIRD_SEQ_NO",
+      "comment" : "'三方支付流水'",
+      "type" : "varchar"
+    }, {
+      "name" : "GMT_CREATE",
+      "comment" : "'创建时间'",
+      "type" : "datetime"
+    }, {
+      "name" : "GMT_MODIFY",
+      "comment" : "'修改时间'",
+      "type" : "datetime"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    }, {
+      "modifiedDescs" : [ "增加字段：DEDUCT_DATE", "增加字段：CAPITAL_SEQ_NO", "增加字段：LOAN_ORDER", "增加字段：IOU_NO", "增加字段：TRANS_STATUS", "增加字段：REPAY_TYPE", "增加字段：REPAY_CODE", "增加字段：TRANS_FINISH_TIME", "增加字段：THIRD_SETTLE_DATE", "增加字段：THIRD_SEQ_NO", "字段更新：REPAY_STATUS类型更新; REPAY_STATUS描述更新; ", "字段更新：SEQ_NO类型更新; SEQ_NO描述更新; ", "字段更新：ASSET_SEQ_NO描述更新; ", "字段更新：REPAY_DATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-15"
+    } ],
+    "author" : "tiany",
+    "comment" : "'还款批量扣款明细表'",
+    "version" : "1.1",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  },
+  "TransJnl" : {
+    "tableFields" : [ {
+      "name" : "jnl_id",
+      "type" : "char",
+      "comment" : "'流水主表ID'"
+    }, {
+      "name" : "dept_identity",
+      "type" : "char",
+      "comment" : "'机构标识'"
+    }, {
+      "name" : "product_code",
+      "type" : "char",
+      "comment" : "'产品编码'"
+    }, {
+      "name" : "order_id",
+      "type" : "varchar",
+      "comment" : "'贷款订单号'"
+    }, {
+      "name" : "third_seq",
+      "type" : "varchar",
+      "comment" : "'第三方流水号'"
+    }, {
+      "name" : "local_ip",
+      "type" : "varchar",
+      "comment" : "'节点IP'"
+    }, {
+      "name" : "trans_code",
+      "type" : "varchar",
+      "comment" : "'交易编码'"
+    }, {
+      "name" : "remark",
+      "type" : "varchar",
+      "comment" : "'备注'"
+    }, {
+      "name" : "opr_date",
+      "type" : "timestamp",
+      "comment" : "'操作时间'"
+    } ],
+    "modifiedHistory" : [ {
+      "modifiedDescs" : [ "Created" ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-04-27"
+    } ],
+    "author" : "tiany",
+    "comment" : "'流水主表'",
+    "version" : "1.0",
+    "createDate" : "2019-04-27",
+    "since" : "1.0"
+  }
+}

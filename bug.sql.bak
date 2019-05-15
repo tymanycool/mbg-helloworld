@@ -1,0 +1,56 @@
+/*==============================================================*/
+/* Table: ot_repay_deduct_trans                                 */
+/*==============================================================*/
+create table ot_repay_deduct_trans
+(
+   SEQ_NO               varchar(32) character set utf8 not null comment '平台流水',
+   REPAY_DATE           date default NULL comment '还款日期',
+   DEDUCT_DATE          date default NULL comment '扣款日期',
+   ASSET_DEPT_ID        char(8) character set utf8 comment '资产方机构标识',
+   ASSET_SEQ_NO         varchar(50) character set utf8 comment '资产方流水号',
+   CURRENT_REPAY_PERIOD varchar(2) character set utf8 comment '本期期数',
+   CAPITAL_DEPT_ID      char(8) character set utf8 comment '资金方机构标识',
+   CAPITAL_SEQ_NO       varchar(50) character set utf8 comment '资金方流水号',
+   LOAN_ORDER           varchar(64) character set utf8 comment '贷款订单',
+   IOU_NO               varchar(32) character set utf8 comment '借据号',
+   USER_ID              varchar(32) character set utf8 comment '用户唯一编号',
+   NAME                 varchar(50) character set utf8 comment '姓名',
+   ID_NO                varchar(50) character set utf8 comment '身份证号',
+   SIGN_NO              varchar(50) character set utf8 comment '协议号',
+   REPAY_AMT            decimal(21, 2) default NULL comment '还款金额',
+   SVC_REPAY_AMT        decimal(21, 2) default NULL comment '服务费金额',
+   PRI_INT_REPAY_AMT    decimal(21, 2) default NULL comment '本息金额',
+   GOODS_NAME           varchar(255) character set utf8 comment '商品名称',
+   ORDER_INFO           varchar(255) character set utf8 comment '订单详情',
+   BATCH_NO             varchar(32) character set utf8 comment '批次号',
+   TRANS_STATUS         varchar(2) character set utf8 comment '交易状态
+            00：成功
+            01：失败
+            02：部分成功
+            03：已受理
+            04：未处理
+            05：处理中',
+   REPAY_TYPE           varchar(1) character set utf8 comment '还款类型
+            1：正常还款
+            2：还款日入账时间后还款
+            3：提前还当期
+             4：提前全额结清
+            5：逾期还款
+            6：线下还款',
+   REPAY_STATUS         varchar(2) character set utf8 comment '还款状态
+            1：未扣款
+            2：已扣款未清分
+            3：已扣款已清分未入账
+            4：已扣款已清分已入账',
+   REPAY_CODE           varchar(20) character set utf8 comment '还款结果响应码',
+   REPAY_DESC           varchar(255) character set utf8 comment '还款结果描述',
+   TRANS_FINISH_TIME    datetime comment '交易完成时间',
+   THIRD_SETTLE_DATE    date default NULL comment '三方支付清算日期',
+   THIRD_SEQ_NO         varchar(32) character set utf8 comment '三方支付流水',
+   GMT_CREATE           datetime comment '创建时间',
+   GMT_MODIFY           datetime comment '修改时间',
+   primary key (SEQ_NO)
+)
+ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '还款批量扣款明细表' ROW_FORMAT = Dynamic;
+
+alter table ot_repay_deduct_trans comment '还款批量扣款明细表';

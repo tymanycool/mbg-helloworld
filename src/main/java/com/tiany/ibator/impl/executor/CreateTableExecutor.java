@@ -162,11 +162,16 @@ public class CreateTableExecutor extends AbstractRemoveCommentExecutor {
             List<String> row = data.get(i);
             if (ListUtil.contains(row, map)) {
                 Field field = new Field();
-                for (int j = 0; j < row.size(); j++) {
+                // 从第二个开始
+                for (int j = 1; j < row.size(); j++) {
                     if (MapUtil.containsKeyIgnoreCase(map, row.get(j))) {
-                        String pre = ListUtil.getPre(row, row.get(j));
+                        String pre = row.get(j - 1);
+                        if (pre == null) {
+                            continue;
+                        }
                         field.setName(pre);
                         field.setType(row.get(j));
+                        break;
                     }
 
                 }
