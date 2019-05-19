@@ -444,10 +444,50 @@
       "modifiedDescs" : [ "Created" ],
       "author" : "tiany",
       "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_CREATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_CREATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_CREATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "更新表描述; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "更新表描述; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "更新表描述; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_MODIFY描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_MODIFY描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "字段更新：GMT_MODIFY描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
+    }, {
+      "modifiedDescs" : [ "更新表描述; ", "字段更新：GMT_MODIFY描述更新; ", "字段更新：GMT_CREATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
     } ],
     "author" : "tiany",
     "comment" : "'批扣透传类文件表'",
-    "version" : "1.0",
+    "version" : "2.0",
     "createDate" : "2019-05-15",
     "since" : "1.0"
   },
@@ -810,19 +850,19 @@
       "type" : "char"
     }, {
       "name" : "FILE_DATE",
-      "comment" : "'文件日期'",
+      "comment" : "'文件日期2'",
       "type" : "date"
     }, {
       "name" : "BATCH_NO",
-      "comment" : "'批次号'",
+      "comment" : "'批次号2'",
       "type" : "varchar"
     }, {
       "name" : "FILE_PATH",
-      "comment" : "'文件路径'",
+      "comment" : "'文件路径2'",
       "type" : "varchar"
     }, {
       "name" : "FILE_NAME",
-      "comment" : "'文件名称'",
+      "comment" : "'文件名称2'",
       "type" : "varchar"
     }, {
       "name" : "FILE_TYPE",
@@ -849,10 +889,14 @@
       "modifiedDescs" : [ "删除字段：REPAY_DATE", "增加字段：FILE_DATE", "增加字段：BATCH_NO", "字段更新：ASSET_DEPT_ID类型更新; ", "字段更新：CAPITAL_DEPT_ID类型更新; ", "字段更新：FILE_STATUS描述更新; ", "字段更新：FILE_TYPE描述更新; " ],
       "author" : "tiany",
       "modifiedDate" : "2019-05-15"
+    }, {
+      "modifiedDescs" : [ "字段更新：BATCH_NO描述更新; ", "字段更新：FILE_PATH描述更新; ", "字段更新：FILE_NAME描述更新; ", "字段更新：FILE_DATE描述更新; " ],
+      "author" : "tiany",
+      "modifiedDate" : "2019-05-19"
     } ],
     "author" : "tiany",
     "comment" : "'批量扣款文件记录表'",
-    "version" : "1.1",
+    "version" : "1.2",
     "createDate" : "2019-04-27",
     "since" : "1.0"
   },

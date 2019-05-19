@@ -26,6 +26,9 @@ public class DefaultClassComment extends BaseComment implements ClassComment {
     protected String getTypeDesc() {
         return "";
     }
+    protected void updateInfo(Table table,List<String> updateDescs) {
+
+    }
 
     @Override
     public Remark remark(Table table, Map history) {
@@ -57,6 +60,8 @@ public class DefaultClassComment extends BaseComment implements ClassComment {
         List<String> fieldsUpdateDescs = resolveFieldsUpdateDesc(newTableFields, tableFields);
         updateDescs.addAll(tableUpdateDescs);
         updateDescs.addAll(fieldsUpdateDescs);
+
+        updateInfo(table,updateDescs);
 
         // 字段变化则版本增加，其他情况暂时忽略
         if (updateDescs.size() > 0) {

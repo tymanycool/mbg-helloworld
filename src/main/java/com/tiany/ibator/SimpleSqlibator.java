@@ -1,15 +1,12 @@
 package com.tiany.ibator;
 
-import com.tiany.ibator.common.meta.SQL;
 import com.tiany.ibator.common.meta.Table;
 import com.tiany.ibator.impl.EntityExampleGenerator;
 import com.tiany.ibator.impl.EntityGenerator;
 import com.tiany.ibator.infs.*;
 import com.tiany.util.CastUtil;
 import com.tiany.util.DateUtil;
-import com.tiany.util.StringUtil;
 import com.tiany.util.io.FileUtil;
-import com.tiany.util.io.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -29,6 +26,8 @@ import java.util.*;
 public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGenerator {
     @Autowired
     private EntityExampleGenerator entityExampleGenerator;
+    @Autowired
+    private Map versionUpdateInfos;
     @Autowired
     private EntityGenerator entityGenerator;
     @Autowired
@@ -70,13 +69,13 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
         // 历史版本记录备份
         File history = new File(historyName);
         if (history.exists()) {
-            String time = DateUtil.date2Str(new Date(),"yyyy-MM-dd-HHmmss");
+            String time = DateUtil.date2Str(new Date(), "yyyy-MM-dd-HHmmss");
             File historyDir = new File("history/" + time);
-            if(!historyDir.exists()){
+            if (!historyDir.exists()) {
                 historyDir.mkdirs();
             }
             try {
-                boolean b = FileUtil.copyFile(history, new File(historyDir,historyName), true);
+                boolean b = FileUtil.copyFile(history, new File(historyDir, historyName), true);
                 if (b) {
                     logger.info("配置备份成功：{}", historyDir.getAbsolutePath());
                 } else {
@@ -165,7 +164,24 @@ public class SimpleSqlibator extends AbstractBaseSqlibator implements IbatorGene
                 logger.debug(table.getEntityName() + ",已经生成{}相关文件完成，正在生成下一个...", table.getEntityName());
             }
         }
+
+        // 生成更新信息
+        String updatedesc = "\n======= 本次更新信息begin =======\n";
+        Iterator iterator = versionUpdateInfos.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry next = (Map.Entry) iterator.next();
+            Object key = next.getKey();
+            List<String> list = (List<String>) next.getValue();
+            for (String s : list) {
+                updatedesc += key + "\t" + s + "\n";
+            }
+        }
+        updatedesc += "=======  本次更新信息end  =======\n";
+
+        FileUtil.write("update-infos.txt", updatedesc.trim());
+
         if (logger.isInfoEnabled()) {
+            logger.info(updatedesc);
             logger.info("生成完毕，欢迎使用！");
         }
         return true;

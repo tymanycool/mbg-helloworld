@@ -12,6 +12,7 @@ import java.util.Map;
 public class Initializer extends BaseComponent {
     private Map<String, String> typesConfig = new HashMap<>();
     private Map<String, String> tibatisConfig = new HashMap<>();
+    private Map versionUpdateInfos = new HashMap<>();
 
     @Bean
     public Map<String, String> typesConfig() {
@@ -50,5 +51,10 @@ public class Initializer extends BaseComponent {
             logger.error("type.properties加载失败");
         }
         return tibatisConfig;
+    }
+
+    @Bean
+    public Map versionUpdateInfos() {
+        return versionUpdateInfos;
     }
 }
