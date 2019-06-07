@@ -65,6 +65,7 @@ public class EntityGenerator extends AbstractBaseSqlibator implements Generator 
         }
         ret += "\r\n";
         ret += generateGetterSetter(table);
+        ret += generateGetPrimaryKey(table);
         ret += generateToString(table);
         ret += "}\r\n";
         return ret;
@@ -92,6 +93,24 @@ public class EntityGenerator extends AbstractBaseSqlibator implements Generator 
         ret += "  public " + getSimpleClassName((String) MapUtil.getIgnoreCase((Map) typesConfig, field.getType())) + " " + StringUtil.getCamelProperty("get_" + field.getName()) + "() {\r\n";
         ret += "    return " + "this." + camelProperty + ";\r\n";
         ret += "  }\r\n\r\n";
+        return ret;
+    }
+
+    /**
+     * 生成getter方法
+     *
+     * @param table
+     * @return
+     */
+    private String generateGetPrimaryKey(Table table) {
+        String ret = "";
+        List<Field> primaryKeys = table.getPrimaryKeys();
+        if (primaryKeys != null && primaryKeys.size() == 1) {
+            ret += "  public String getPrimaryKey() {\r\n";
+            ret += "    return \"" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "\";\r\n";
+            ret += "  }\r\n\r\n";
+        }
+
         return ret;
     }
 
