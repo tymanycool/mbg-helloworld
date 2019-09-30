@@ -178,13 +178,16 @@
             <version>1.6.2</version>
         </dependency>
 
-
-
-
+        <!-- https://mvnrepository.com/artifact/org.logback-extensions/logback-ext-spring -->
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>sql-ibator-1.6.4</finalName>
+        <finalName>sql-ibator-1.6.5</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

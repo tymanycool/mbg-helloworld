@@ -108,6 +108,26 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         }
         ret += "  }\n\n";
 
+        ret += "  private static String getStackTraceString(Throwable ex) {\n";
+        ret += "    StackTraceElement[] traceElements = ex.getStackTrace();\n";
+        ret += "    StringBuilder traceBuilder = new StringBuilder();\n";
+        ret += "    if (traceElements != null && traceElements.length > 0) {\n";
+        ret += "      for (StackTraceElement traceElement : traceElements) {\n";
+        ret += "        traceBuilder.append(traceElement.toString());\n";
+        ret += "        traceBuilder.append(\"\\n\");\n";
+        ret += "      }\n";
+        ret += "    }\n";
+        ret += "    return traceBuilder.toString();\n";
+        ret += "  }\n\n";
+
+        ret += "  // 构造异常堆栈信息\n";
+        ret += "  private static String buildErrorMessage(Exception ex) {\n";
+        ret += "    String stackTrace = getStackTraceString(ex);\n";
+        ret += "    String exceptionType = ex.toString();\n";
+        ret += "    String exceptionMessage = ex.getMessage();\n";
+        ret += "    return String.format(\"%s : %s \\r\\n %s\", exceptionType, exceptionMessage, stackTrace);\n";
+        ret += "  }\n\n";
+
         for (Generator g : generators) {
             String generate = g.generate(table);
             if (g instanceof AbstractBaseDaoImplGenerator && !generateInterface) {
