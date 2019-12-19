@@ -144,7 +144,9 @@ public class EntityGenerator extends AbstractBaseSqlibator implements Generator 
         for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
             if (i != fields.size() - 1) {
-                ret += "    sb.append(\"" + StringUtil.getCamelProperty(field.getName()) + "='\").append(" + StringUtil.getCamelProperty(field.getName()) + ").append('\\'');\r\n";
+                if(!"blob".equals(field.getType())){
+                    ret += "    sb.append(\"" + StringUtil.getCamelProperty(field.getName()) + "='\").append(" + StringUtil.getCamelProperty(field.getName()) + ").append('\\'');\r\n";
+                }
             } else {
                 ret += "    sb.append(\"" + StringUtil.getCamelProperty(field.getName()) + "='\").append(" + StringUtil.getCamelProperty(field.getName()) + ").append('\\'');\r\n";
             }

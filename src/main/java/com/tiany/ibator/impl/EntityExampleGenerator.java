@@ -180,6 +180,12 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
             ret += "\n";
             ret += generateLessThan(field);
             ret += "\n";
+            ret += generateLessThanOrEqualTo(field);
+            ret += "\n";
+            ret += generateGreaterThan(field);
+            ret += "\n";
+            ret += generateGreaterThanOrEqualTo(field);
+            ret += "\n";
             ret += generateLike(field);
             ret += "\n";
             ret += generateNotLike(field);
@@ -320,6 +326,15 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         return ret;
     }
 
+    public String generateGreaterThanOrEqualTo(Field field) {
+        String ret = "";
+        ret += "    public Criteria and" + getJavaName2(field) + "GreaterThanOrEqualTo(" + getJavaType(field) + " value) {\n";
+        ret += "      addCriterion(\"" + field.getName() + " &gt;=\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      return (Criteria) this;\n";
+        ret += "    }\n";
+        return ret;
+    }
+
     public String generateLessThan(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "LessThan(" + getJavaType(field) + " value) {\n";
@@ -332,7 +347,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateLessThanOrEqualTo(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "LessThanOrEqualTo(" + getJavaType(field) + " value) {\n";
-        ret += "      addCriterion(\"" + field.getName() + " &gt;=\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      addCriterion(\"" + field.getName() + " &lt;=\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
