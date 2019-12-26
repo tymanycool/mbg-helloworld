@@ -38,6 +38,7 @@ public class UpdateByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
         }
         ret += "\t</dynamic>\r\n";
         ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\r\n";
+        ret += "\tLIMIT 1\r\n";
         ret += "</update>\r\n";
         return ret;
     }
