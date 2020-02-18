@@ -320,7 +320,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateGreaterThan(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "GreaterThan(" + getJavaType(field) + " value) {\n";
-        ret += "      addCriterion(\"" + field.getName() + " &gt;\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      addCriterion(\"" + field.getName() + " >\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
@@ -329,7 +329,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateGreaterThanOrEqualTo(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "GreaterThanOrEqualTo(" + getJavaType(field) + " value) {\n";
-        ret += "      addCriterion(\"" + field.getName() + " &gt;=\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      addCriterion(\"" + field.getName() + " >=\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
@@ -338,7 +338,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateLessThan(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "LessThan(" + getJavaType(field) + " value) {\n";
-        ret += "      addCriterion(\"" + field.getName() + " &lt;\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      addCriterion(\"" + field.getName() + "  <\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
@@ -347,7 +347,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
     public String generateLessThanOrEqualTo(Field field) {
         String ret = "";
         ret += "    public Criteria and" + getJavaName2(field) + "LessThanOrEqualTo(" + getJavaType(field) + " value) {\n";
-        ret += "      addCriterion(\"" + field.getName() + " &lt;=\", value, \"" + getJavaName(field) + "\");\n";
+        ret += "      addCriterion(\"" + field.getName() + "  <=\", value, \"" + getJavaName(field) + "\");\n";
         ret += "      return (Criteria) this;\n";
         ret += "    }\n";
         return ret;
