@@ -29,6 +29,7 @@ public class DeleteByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
         ret += "\tDELETE FROM ";
         ret += table.getName() +" \r\n";
         ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
+        ret += "\tLIMIT 2\r\n";
         ret += "</delete>\r\n";
         return ret;
     }

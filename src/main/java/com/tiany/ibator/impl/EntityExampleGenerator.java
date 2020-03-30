@@ -65,7 +65,8 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "  private List<Criteria> oredCriteria;\n";
         if (generatePage) {
             ret += "  protected int pageNo;\n";
-            ret += "  protected int pageSize;\n\n";
+            ret += "  protected int pageSize;\n";
+            ret += "  protected int limit;\n\n";
         }
         ret += "  public " + table.getEntityName() + "Example() {\n";
         ret += "    oredCriteria = new ArrayList<>();\n";
@@ -97,6 +98,12 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
             ret += "  }\n\n";
             ret += "  public void setPageSize(int pageSize) {\n";
             ret += "    this.pageSize = pageSize;\n";
+            ret += "  }\n\n";
+            ret += "  public int getLimit() {\n";
+            ret += "    return limit;\n";
+            ret += "  }\n\n";
+            ret += "  public void setLimit(int limit) {\n";
+            ret += "    this.limit = limit;\n";
             ret += "  }\n\n";
         }
         ret += "  public List<Criteria> getOredCriteria() {\n";

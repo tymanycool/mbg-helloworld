@@ -50,6 +50,10 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
             ret += "\t<isNotEqual property=\"pageSize\" compareValue=\"0\">\n";
             ret += "\t\tLIMIT #pageStartIndex#,#pageSize#\n";
             ret += "\t</isNotEqual>\n";
+
+            ret += "\t<isNotEqual property=\"limit\" compareValue=\"0\">\n";
+            ret += "\t\tLIMIT #limit#\n";
+            ret += "\t</isNotEqual>\n";
         }
         ret += "</select>\r\n";
         return ret;

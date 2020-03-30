@@ -4,6 +4,7 @@ import com.tiany.ibator.AbstractBaseSqlibator;
 import com.tiany.ibator.infs.MapperUpdateGenerator;
 import com.tiany.ibator.common.meta.Field;
 import com.tiany.ibator.common.meta.Table;
+import com.tiany.util.CastUtil;
 import com.tiany.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
 
     @Override
     public String generate(Table table) {
+        boolean generatePage = CastUtil.castBoolean(tibatisConfig.get("generatePage"));
         String ret = "<update id=\""+getUpdateId()+"\"  parameterClass=\"java.util.Map\" >\r\n";
         ret += "\tUPDATE "+table.getName()+"\r\n";
         List<Field> fields = table.getFields();
@@ -43,6 +45,11 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
         ret += "\t</dynamic>\r\n";
 
         ret += "\t<include refid=\""+updateWhereSqlMapperGenerator.getSqlId()+"\" />\n";
+        if (generatePage) {
+            ret += "\t<isNotEqual property=\"limit\" compareValue=\"0\">\n";
+            ret += "\t\tLIMIT #limit#\n";
+            ret += "\t</isNotEqual>\n";
+        }
         ret += "</update>\r\n";
         return ret;
     }
