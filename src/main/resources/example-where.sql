@@ -1,7 +1,7 @@
 <sql id="ExampleWhereClause">
   <isNotNull property="oredCriteria">
     WHERE
-    <iterate  property="oredCriteria" conjunction="OR" removeFirstPrepend="true">
+    <iterate  property="oredCriteria" conjunction="OR" removeFirstPrepend="iterate">
       <isEqual property="oredCriteria[].valid"  prepend="AND" compareValue="true" removeFirstPrepend="true">(
         <iterate  property="oredCriteria[].criteria" >
           <isEqual property="oredCriteria[].criteria[].noValue" compareValue="true" removeFirstPrepend="true" prepend="AND">
