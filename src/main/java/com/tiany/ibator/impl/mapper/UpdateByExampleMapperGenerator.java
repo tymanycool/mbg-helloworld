@@ -46,8 +46,8 @@ public class UpdateByExampleMapperGenerator extends AbstractBaseSqlibator implem
 
         ret += "\t<include refid=\""+updateWhereSqlMapperGenerator.getSqlId()+"\" />\n";
         if (generatePage) {
-            ret += "\t<isNotEqual property=\"limit\" compareValue=\"0\">\n";
-            ret += "\t\tLIMIT #limit#\n";
+            ret += "\t<isNotEqual property=\"example.limit\" compareValue=\"0\">\n";
+            ret += "\t\tLIMIT #example.limit#\n";
             ret += "\t</isNotEqual>\n";
         }
         ret += "</update>\r\n";
