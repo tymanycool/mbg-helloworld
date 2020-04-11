@@ -39,7 +39,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         String daoPackageName = tibatisConfig.get("daoPackageName");
         String entityPackageName = tibatisConfig.get("entityPackageName");
         String ret = "";
-        ret += "package " + daoPackageName + (CastUtil.castBoolean(tibatisConfig.get("generateInterface")) ? ".impl" : "") + ";\r\n\r\n";
+        ret += "package " + daoPackageName + (CastUtil.castBoolean(tibatisConfig.get("generateInterface")) ? ".impl" : "") + ";\n\n";
 
         List<String> imports = new ArrayList<>();
         imports.add(entityPackageName + "." + table.getEntityName());
@@ -76,26 +76,26 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
 
         String classRemark = remarkHelper.getClassRemark(classComment, table);
         ret += classRemark;
-//        ret += "/**\r\n";
-//        ret += " * " + getCommentString(table.getComment()) + "Dao" + (generateInterface ? "Impl" : "") + " . \r\n";
-//        ret += " * @author " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @since 1.0\r\n";
-//        ret += " */\r\n";
+//        ret += "/**\n";
+//        ret += " * " + getCommentString(table.getComment()) + "Dao" + (generateInterface ? "Impl" : "") + " . \n";
+//        ret += " * @author " + System.getProperty("user.name") + "\n";
+//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\n";
+//        ret += " * @since 1.0\n";
+//        ret += " */\n";
 //        ret += "\n";
-        ret += "@Repository\r\n";
-        ret += "@SuppressWarnings(\"unchecked\")\r\n";
+        ret += "@Repository\n";
+        ret += "@SuppressWarnings(\"unchecked\")\n";
         if (generateInterface) {
-            ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao {\r\n";
+            ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao {\n";
             ret += "  private static final Logger logger = Logger.getLogger(" + table.getEntityName() + "DaoImpl.class.getName());\n";
         } else {
-            ret += "public class " + table.getEntityName() + "Dao {\r\n";
+            ret += "public class " + table.getEntityName() + "Dao {\n";
             ret += "  private static final Logger logger = Logger.getLogger(" + table.getEntityName() + "Dao.class.getName());\n";
         }
 
-        ret += "  @Autowired\r\n";
-        ret += "  private SqlMapClientOperations sqlMap;\r\n";
-        ret += "  private List<String> fields = new ArrayList<>();\r\n\r\n";
+        ret += "  @Autowired\n";
+        ret += "  private SqlMapClientOperations sqlMap;\n";
+        ret += "  private List<String> fields = new ArrayList<>();\n\n";
 
         ret += "  /**\n" + "   * constructor .\n" + "   */\n";
         if (generateInterface) {
@@ -135,7 +135,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
                 ret += baseDaoImplGenerator.getComment(table);
             } else {
                 if (StringUtil.isNotEmpty(generate)) {
-                    ret += "  @Override\r\n";
+                    ret += "  @Override\n";
                 }
             }
 
@@ -144,7 +144,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
             }
 
         }
-        ret += "}\r\n";
+        ret += "}\n";
         return ret;
     }
 

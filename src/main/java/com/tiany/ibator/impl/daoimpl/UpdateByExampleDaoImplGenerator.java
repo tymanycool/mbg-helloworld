@@ -10,12 +10,12 @@ public class UpdateByExampleDaoImplGenerator extends AbstractBaseDaoImplGenerato
     public String generate(Table table) {
         table.getEntityName();
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
-        ret += "    Map<String, Object> params = new HashMap<>();\r\n";
-        ret += "    params.put(\"example\", example);\r\n";
-        ret += "    params.put(\""+getBeanNameByClassName(table.getEntityName())+"\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
-        ret += "    return sqlMap.update(\""+ table.getEntityName() +".updateByExample\",params);\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table) + " {\n";
+        ret += "    Map<String, Object> params = new HashMap<>();\n";
+        ret += "    params.put(\"example\", example);\n";
+        ret += "    params.put(\""+getBeanNameByClassName(table.getEntityName())+"\", "+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "    return sqlMap.update(\""+ table.getEntityName() +".updateByExample\",params);\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

@@ -9,9 +9,9 @@ public class InsertComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 插入一条新的纪录,成功返回true,否则返回false .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 插入一条新的纪录,成功返回true,否则返回false .\n";
+        ret += "   */\n";
         return ret;
     }
 }

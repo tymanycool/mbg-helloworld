@@ -11,12 +11,12 @@ public class SelectByExampleDaoImplGenerator extends AbstractBaseDaoImplGenerato
         String ret = "";
         ret += getDaoString(table)+" {\n";
         ret += "    try {\n";
-        ret += "      return (List<"+table.getEntityName()+">)sqlMap.queryForList(\""+table.getEntityName()+".selectByExample\",example);\r\n";
+        ret += "      return (List<"+table.getEntityName()+">)sqlMap.queryForList(\""+table.getEntityName()+".selectByExample\",example);\n";
         ret += "    } catch (Exception e) {\n";
         ret += "      logger.log(Level.INFO, \"查询失败:\" + buildErrorMessage(e) + \",可能没有查询到可用数据\");\n";
         ret += "      return null;\n";
         ret += "    }\n";
-        ret += "  }\r\n\r\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

@@ -13,9 +13,9 @@ public class SelectByPrimaryKeyDaoImplGenerator extends AbstractBaseDaoImplGener
             return "";
         }
         String ret = "";
-        ret += getDaoString(table)+" {\r\n";
-        ret += "    return ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectByPrimaryKey\","+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName())+");\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table)+" {\n";
+        ret += "    return ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectByPrimaryKey\","+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName())+");\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

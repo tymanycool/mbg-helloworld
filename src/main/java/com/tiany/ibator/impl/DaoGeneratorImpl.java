@@ -38,7 +38,7 @@ public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenera
     @Override
     public String generateDao(Table table, List<Generator> generators) {
         String ret = "";
-        ret += "package " + tibatisConfig.get("daoPackageName") + ";\r\n\r\n";
+        ret += "package " + tibatisConfig.get("daoPackageName") + ";\n\n";
 
         List<String> imports = new ArrayList<>();
         imports.add(tibatisConfig.get("entityPackageName") + "." + table.getEntityName());
@@ -63,13 +63,13 @@ public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenera
         ret += "\n";
         String classRemark = remarkHelper.getClassRemark(classComment, table);
         ret += classRemark;
-//        ret += "/**\r\n";
-//        ret += " * " + getCommentString(table.getComment()) + "Dao .\r\n";
-//        ret += " * @author " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @since 1.0\r\n";
-//        ret += " */\r\n\n";
-        ret += "public interface " + table.getEntityName() + "Dao {\r\n";
+//        ret += "/**\n";
+//        ret += " * " + getCommentString(table.getComment()) + "Dao .\n";
+//        ret += " * @author " + System.getProperty("user.name") + "\n";
+//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\n";
+//        ret += " * @since 1.0\n";
+//        ret += " */\n\n";
+        ret += "public interface " + table.getEntityName() + "Dao {\n";
         for (Generator g : generators) {
             if (g instanceof AbstractBaseDaoGenerator) {
                 AbstractBaseDaoGenerator baseDaoGenerator = (AbstractBaseDaoGenerator) g;
@@ -77,10 +77,10 @@ public class DaoGeneratorImpl extends AbstractBaseSqlibator implements DaoGenera
             }
             String generate = g.generate(table);
             if (StringUtil.isNotEmpty(generate)) {
-                ret += generate + ";\r\n\r\n";
+                ret += generate + ";\n\n";
             }
         }
-        ret += "}\r\n";
+        ret += "}\n";
         return ret;
     }
 

@@ -12,9 +12,9 @@ public class DeleteByPrimaryKeyComment extends BaseComment implements Comment {
             return "";
         }
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 根据主键删除"+table.getEntityName()+" .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据主键删除"+table.getEntityName()+" .\n";
+        ret += "   */\n";
         return ret;
     }
 }

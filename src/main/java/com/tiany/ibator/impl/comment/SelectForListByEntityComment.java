@@ -10,9 +10,9 @@ public class SelectForListByEntityComment implements Comment {
     public String remark(Table table) {
         String beanNameByClassName = getBeanNameByClassName(table.getEntityName());
         String ret = "";
-        ret += "  /**\r\n";
-        ret += "   * 根据" + beanNameByClassName + "查询" + table.getEntityName() + "的List集合，" + beanNameByClassName + "为null表示查询所有 .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据" + beanNameByClassName + "查询" + table.getEntityName() + "的List集合，" + beanNameByClassName + "为null表示查询所有 .\n";
+        ret += "   */\n";
         return ret;
     }
 

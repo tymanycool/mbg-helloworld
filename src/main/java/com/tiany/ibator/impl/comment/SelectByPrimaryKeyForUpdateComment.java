@@ -12,9 +12,9 @@ public class SelectByPrimaryKeyForUpdateComment extends BaseComment implements C
             return "";
         }
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 根据主键查询(for update)"+table.getEntityName()+" .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据主键查询(for update)"+table.getEntityName()+" .\n";
+        ret += "   */\n";
         return ret;
     }
 }

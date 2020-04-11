@@ -19,23 +19,23 @@ public class InsertMapperGenerator extends AbstractBaseSqlibator implements Mapp
     @Override
     public String generate(Table table) {
         String entityPackageName = tibatisConfig.get("entityPackageName");
-        String ret = "<insert id=\"" + getInsertId() + "\"  parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "\" >\r\n";
-        ret += "\tINSERT INTO " + table.getName() + " (\r\n";
-        ret += "\t<dynamic prepend=\" \">\r\n";
+        String ret = "<insert id=\"" + getInsertId() + "\"  parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "\" >\n";
+        ret += "\tINSERT INTO " + table.getName() + " (\n";
+        ret += "\t<dynamic prepend=\" \">\n";
         List<Field> fields = table.getFields();
         for (int i = 0; i < fields.size(); i++) {
-            ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" prepend=\",\">" + fields.get(i).getName() + "</" + getPropertyDynamicLabel(fields.get(i)) + "> \r\n";
+            ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" prepend=\",\">" + fields.get(i).getName() + "</" + getPropertyDynamicLabel(fields.get(i)) + "> \n";
         }
 
         ret += "\t</dynamic>";
-        ret += "\r\n\t) VALUES (\r\n";
-        ret += "\t<dynamic prepend=\" \">\r\n";
+        ret += "\n\t) VALUES (\n";
+        ret += "\t<dynamic prepend=\" \">\n";
         for (int i = 0; i < fields.size(); i++) {
-            ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" prepend=\",\"> #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "# </" + getPropertyDynamicLabel(fields.get(i)) + "> \r\n";
+            ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" prepend=\",\"> #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "# </" + getPropertyDynamicLabel(fields.get(i)) + "> \n";
         }
         ret += "\t</dynamic>";
-        ret += "\r\n\t)\r\n";
-        ret += "</insert>\r\n";
+        ret += "\n\t)\n";
+        ret += "</insert>\n";
         return ret;
     }
 }

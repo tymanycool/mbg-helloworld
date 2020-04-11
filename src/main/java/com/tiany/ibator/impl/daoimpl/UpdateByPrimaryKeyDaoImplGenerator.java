@@ -12,9 +12,9 @@ public class UpdateByPrimaryKeyDaoImplGenerator extends AbstractBaseDaoImplGener
             return "";
         }
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
-        ret += "    return sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKey\","+getBeanNameByClassName(table.getEntityName())+");\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table) + " {\n";
+        ret += "    return sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKey\","+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

@@ -24,22 +24,22 @@ public class UpdateByPrimaryKeyMapMapperGenerator extends AbstractBaseSqlibator 
             return "";
         }
         List<Field> primaryKeys = table.getPrimaryKeys();
-        String ret = "<update id=\"" + getUpdateId() + "\"  parameterClass=\"java.util.Map\" >\r\n";
-        ret += "\tUPDATE " + table.getName() + "\r\n";
+        String ret = "<update id=\"" + getUpdateId() + "\"  parameterClass=\"java.util.Map\" >\n";
+        ret += "\tUPDATE " + table.getName() + "\n";
         List<Field> fields = table.getFields();
-        ret += "\t<dynamic prepend=\"set\" >\r\n";
+        ret += "\t<dynamic prepend=\"set\" >\n";
         for (int i = 0; i < fields.size(); i++) {
             // 不是主键时
             if (!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
                 ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
                 ret += " " + fields.get(i).getName() + " = #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
-                ret += " </" + getPropertyDynamicLabel(fields.get(i)) + ">\r\n";
+                ret += " </" + getPropertyDynamicLabel(fields.get(i)) + ">\n";
             }
         }
-        ret += "\t</dynamic>\r\n";
-        ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\r\n";
-        ret += "\tLIMIT 2\r\n";
-        ret += "</update>\r\n";
+        ret += "\t</dynamic>\n";
+        ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\n";
+        ret += "\tLIMIT 2\n";
+        ret += "</update>\n";
         return ret;
     }
 }

@@ -9,9 +9,9 @@ public class SelectCountByParamsDaoImplGenerator extends AbstractBaseDaoImplGene
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table)+" {\r\n";
-        ret += "    return (Integer)sqlMap.queryForObject(\""+table.getEntityName()+".selectCountByParams\",params);\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table)+" {\n";
+        ret += "    return (Integer)sqlMap.queryForObject(\""+table.getEntityName()+".selectCountByParams\",params);\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

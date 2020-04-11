@@ -54,38 +54,38 @@ public class MapperGeneratorImpl extends AbstractBaseSqlibator implements Mapper
             }
         }
         String ret = "";
-        ret += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
-        ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\r\n";
-        ret += "<sqlMap namespace=\"" + table.getEntityName() + "\" >\r\n";
+        ret += "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+        ret += "<!DOCTYPE sqlMap PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" \"http://ibatis.apache.org/dtd/sql-map-2.dtd\" >\n";
+        ret += "<sqlMap namespace=\"" + table.getEntityName() + "\" >\n";
         for (Generator g:resultMaps){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:sqls){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:selects){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:updates){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:insters){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:deletes){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
         for (Generator g:defaults){
             ret += FormatUtil.addTab(g.generate(table), 1);
-            ret += "\r\n";
+            ret += "\n";
         }
-        ret += "</sqlMap>\r\n";
+        ret += "</sqlMap>\n";
         return ret;
     }
 

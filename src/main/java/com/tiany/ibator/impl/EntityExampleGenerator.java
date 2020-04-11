@@ -28,7 +28,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         String entityPackageName = tibatisConfig.get("entityPackageName");
         boolean generatePage = CastUtil.castBoolean(tibatisConfig.get("generatePage"));
         String ret = "";
-        ret += "package " + entityPackageName + ";\r\n\r\n";
+        ret += "package " + entityPackageName + ";\n\n";
 
         List<String> imports = new ArrayList<>();
         imports.add("java.io.Serializable");
@@ -51,15 +51,15 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "\n";
         String classRemark = remarkHelper.getClassRemark(classComment, table);
         ret += classRemark;
-//        ret += "/**\r\n";
-//        ret += " * " + getCommentString(table.getComment()) + "Example .\r\n";
-//        ret += " * @author " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\r\n";
-//        ret += " * @since 1.0\r\n";
+//        ret += "/**\n";
+//        ret += " * " + getCommentString(table.getComment()) + "Example .\n";
+//        ret += " * @author " + System.getProperty("user.name") + "\n";
+//        ret += " * @version " + DateUtil.thisDate() + " modify: " + System.getProperty("user.name") + "\n";
+//        ret += " * @since 1.0\n";
 //        ret += " */\n";
-        ret += "public class " + table.getEntityName() + "Example implements Serializable {\r\n";
-        ret += "  /** 序列化号 . */\r\n";
-        ret += "  private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example", "" + Math.abs(random.nextLong())) + "L;\r\n";
+        ret += "public class " + table.getEntityName() + "Example implements Serializable {\n";
+        ret += "  /** 序列化号 . */\n";
+        ret += "  private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example", "" + Math.abs(random.nextLong())) + "L;\n";
         ret += "  protected String orderByClause;\n";
         ret += "  protected boolean distinct;\n";
         ret += "  private List<Criteria> oredCriteria;\n";
@@ -139,7 +139,7 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
         ret += "  }\n\n";
         ret += "\n";
         ret += "  protected abstract static class GeneratedCriteria implements Serializable {\n";
-        ret += "    /** 序列化号 . */\r\n";
+        ret += "    /** 序列化号 . */\n";
         ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.GeneratedCriteria", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    protected List<Criterion> criteria;\n\n";
         ret += "    protected GeneratedCriteria() {\n";
@@ -211,14 +211,14 @@ public class EntityExampleGenerator extends AbstractBaseSqlibator implements Gen
 
 
         ret += "  public static class Criteria extends GeneratedCriteria {\n";
-        ret += "    /** 序列化号 . */\r\n";
+        ret += "    /** 序列化号 . */\n";
         ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.Criteria", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    protected Criteria() {\n";
         ret += "      super();\n";
         ret += "    }\n";
         ret += "  }\n\n";
         ret += "  public static class Criterion implements Serializable {\n";
-        ret += "    /** 序列化号 . */\r\n";
+        ret += "    /** 序列化号 . */\n";
         ret += "    private static final long serialVersionUID = " + SerializableNoUtil.getSerializableNo(table.getEntityName() + "Example.Criterion", "" + Math.abs(random.nextLong())) + "L;\n\n";
         ret += "    private String condition;\n";
         ret += "    private Object value;\n";

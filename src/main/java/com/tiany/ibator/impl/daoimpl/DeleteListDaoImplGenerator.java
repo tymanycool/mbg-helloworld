@@ -13,8 +13,8 @@ public class DeleteListDaoImplGenerator extends AbstractBaseDaoImplGenerator imp
             return "";
         }
         String ret = "";
-        ret += getDaoString(table)+" {\r\n";
-        ret += "    return sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\r\n";
+        ret += getDaoString(table)+" {\n";
+        ret += "    return sqlMap.delete(\"" + table.getEntityName() + ".deleteList\"," + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List);\n";
         ret += "  }\n\n";
         return ret;
     }

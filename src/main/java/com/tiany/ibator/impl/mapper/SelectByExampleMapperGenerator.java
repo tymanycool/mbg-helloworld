@@ -25,7 +25,7 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
         String entityPackageName = tibatisConfig.get("entityPackageName");
         boolean generatePage = CastUtil.castBoolean(tibatisConfig.get("generatePage"));
         List<Field> primaryKeys = table.getPrimaryKeys();
-        String ret = "<select id=\"" + getSelectId() + "\" resultMap=\"" + table.getEntityName() + "BaseResultMap\" parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "Example\" >\r\n";
+        String ret = "<select id=\"" + getSelectId() + "\" resultMap=\"" + table.getEntityName() + "BaseResultMap\" parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "Example\" >\n";
         ret += "\tSELECT \n";
         ret += "\t<isEqual property=\"distinct\" compareValue=\"true\">\n";
         ret += "\t\tDISTINCT\n";
@@ -38,8 +38,8 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
                 ret += ",";
             }
         }
-        ret += "\t\r\n";
-        ret += "\tFROM " + table.getName() + " \r\n";
+        ret += "\t\n";
+        ret += "\tFROM " + table.getName() + " \n";
         //ret += "<isNotNull property=\"_parameter\">\n";
         ret += "\t<include refid=\"" + whereSqlMapperGenerator.getSqlId() + "\" />\n";
         //ret += "\t</isNotNull>\n";
@@ -55,7 +55,7 @@ public class SelectByExampleMapperGenerator extends AbstractBaseSqlibator implem
             ret += "\t\tLIMIT #limit#\n";
             ret += "\t</isNotEqual>\n";
         }
-        ret += "</select>\r\n";
+        ret += "</select>\n";
         return ret;
     }
 }

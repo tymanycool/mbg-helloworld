@@ -24,8 +24,8 @@ public class UpdateByPrimaryKeyForcibleMapperGenerator extends AbstractBaseSqlib
             return "";
         }
         List<Field> primaryKeys = table.getPrimaryKeys();
-        String ret = "<update id=\"" + getUpdateId() + "\"  parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "\" >\r\n";
-        ret += "\tUPDATE " + table.getName() + " SET\r\n";
+        String ret = "<update id=\"" + getUpdateId() + "\"  parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "\" >\n";
+        ret += "\tUPDATE " + table.getName() + " SET\n";
         List<Field> fields = table.getFields();
         for (int i = 0; i < fields.size(); i++) {
             // 不是主键时
@@ -38,9 +38,9 @@ public class UpdateByPrimaryKeyForcibleMapperGenerator extends AbstractBaseSqlib
                 }
             }
         }
-        ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\r\n";
-        ret += "\tLIMIT 2\r\n";
-        ret += "</update>\r\n";
+        ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\n";
+        ret += "\tLIMIT 2\n";
+        ret += "</update>\n";
         return ret;
     }
 }

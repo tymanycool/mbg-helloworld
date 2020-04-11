@@ -9,10 +9,10 @@ public class SelectForObjectDaoImplGenerator extends AbstractBaseDaoImplGenerato
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
+        ret += getDaoString(table) + " {\n";
         ret += "    "+table.getEntityName()+" result = null;\n";
         ret += "    try {\n";
-        ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\",\n          "+getBeanNameByClassName(table.getEntityName())+");\r\n";
+        ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\",\n          "+getBeanNameByClassName(table.getEntityName())+");\n";
         ret += "    } catch (Exception e) {\n";
         ret += "      String message = String.valueOf(e.getMessage());\n";
         ret += "      logger.log(Level.INFO, \"查询参数对象:\" + "+getBeanNameByClassName(table.getEntityName())+");\n";
@@ -25,7 +25,7 @@ public class SelectForObjectDaoImplGenerator extends AbstractBaseDaoImplGenerato
         ret += "      }\n";
         ret += "    }\n";
         ret += "    return result;\n";
-        ret += "  }\r\n\r\n";
+        ret += "  }\n\n";
 
         return ret;
     }

@@ -9,9 +9,9 @@ public class SelectForMapListDaoImplGenerator extends AbstractBaseDaoImplGenerat
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
-        ret += "    return sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table) + " {\n";
+        ret += "    return sqlMap.queryForList(\""+table.getEntityName()+".selectForMapList\",params);\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

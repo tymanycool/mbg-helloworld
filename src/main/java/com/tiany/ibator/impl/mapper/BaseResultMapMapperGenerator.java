@@ -15,11 +15,11 @@ public class BaseResultMapMapperGenerator extends AbstractSqlibator implements M
     public String generate(Table table) {
         String entityPackageName = tibatisConfig.get("entityPackageName");
         List<Field> fields = table.getFields();
-        String ret = "<resultMap id=\"" + table.getEntityName() + "" + getResultMapId() + "\" class=\"" + entityPackageName + "." + table.getEntityName() + "\" >\r\n";
+        String ret = "<resultMap id=\"" + table.getEntityName() + "" + getResultMapId() + "\" class=\"" + entityPackageName + "." + table.getEntityName() + "\" >\n";
         for (int i = 0; i < fields.size(); i++) {
-            ret += "\t<result column=\"" + fields.get(i).getName() + "\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase() + "\" />\r\n";
+            ret += "\t<result column=\"" + fields.get(i).getName() + "\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase() + "\" />\n";
         }
-        ret += "</resultMap>\r\n\r\n";
+        ret += "</resultMap>\n\n";
         return ret;
     }
 

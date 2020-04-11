@@ -13,12 +13,12 @@ public class UpdateListDaoImplGenerator extends AbstractBaseDaoImplGenerator imp
             return "";
         }
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
-        ret += "    Map<String, Object> params = new HashMap<>();\r\n";
-        ret += "    params.put(\""+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+"\", "+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+");\r\n";
-        ret += "    params.put(\""+getBeanNameByClassName(table.getEntityName())+"\", "+getBeanNameByClassName(table.getEntityName())+");\r\n";
-        ret += "    return sqlMap.update(\""+table.getEntityName()+".updateList\",params);\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table) + " {\n";
+        ret += "    Map<String, Object> params = new HashMap<>();\n";
+        ret += "    params.put(\""+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+"\", "+StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List"+");\n";
+        ret += "    params.put(\""+getBeanNameByClassName(table.getEntityName())+"\", "+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "    return sqlMap.update(\""+table.getEntityName()+".updateList\",params);\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

@@ -9,9 +9,9 @@ public class SelectForListByEntityDaoImplGenerator extends AbstractBaseDaoImplGe
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table) + " {\r\n";
-        ret += "    return sqlMap.queryForList(\"" + table.getEntityName() + ".selectForListByEntity\"," + getBeanNameByClassName(table.getEntityName()) + ");\r\n";
-        ret += "  }\r\n\r\n";
+        ret += getDaoString(table) + " {\n";
+        ret += "    return sqlMap.queryForList(\"" + table.getEntityName() + ".selectForListByEntity\"," + getBeanNameByClassName(table.getEntityName()) + ");\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

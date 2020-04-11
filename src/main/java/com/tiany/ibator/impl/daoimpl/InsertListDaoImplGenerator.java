@@ -9,15 +9,15 @@ public class InsertListDaoImplGenerator extends AbstractBaseDaoImplGenerator imp
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table)+" {\r\n";
+        ret += getDaoString(table)+" {\n";
         ret += "    try {\n";
-        ret += "      sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\r\n";
-        ret += "      return true;\r\n";
+        ret += "      sqlMap.insert(\""+table.getEntityName()+".insertList\", "+getBeanNameByClassName(table.getEntityName())+"List);\n";
+        ret += "      return true;\n";
         ret += "    } catch (Exception e) {\n";
         ret += "      logger.log(Level.INFO, \"插入失败：\" + buildErrorMessage(e));\n";
         ret += "      return false;\n";
         ret += "    }\n";
-        ret += "  }\r\n\r\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

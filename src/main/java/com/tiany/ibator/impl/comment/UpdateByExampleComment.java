@@ -9,9 +9,9 @@ public class UpdateByExampleComment implements Comment {
     @Override
     public String remark(Table table) {
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 根据example更新"+table.getEntityName()+" .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据example更新"+table.getEntityName()+" .\n";
+        ret += "   */\n";
         return ret;
     }
 }

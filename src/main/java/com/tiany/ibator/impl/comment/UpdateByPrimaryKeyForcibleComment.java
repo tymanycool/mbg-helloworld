@@ -12,9 +12,9 @@ public class UpdateByPrimaryKeyForcibleComment extends BaseComment implements Co
             return "";
         }
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 根据主键强制覆盖更新"+table.getEntityName()+" .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据主键强制覆盖更新"+table.getEntityName()+" .\n";
+        ret += "   */\n";
         return ret;
     }
 }

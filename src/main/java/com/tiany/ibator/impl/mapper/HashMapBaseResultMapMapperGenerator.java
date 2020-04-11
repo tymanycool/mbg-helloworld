@@ -14,11 +14,11 @@ public class HashMapBaseResultMapMapperGenerator extends AbstractSqlibator imple
     @Override
     public String generate(Table table) {
         List<Field> fields = table.getFields();
-        String ret = "<resultMap id=\""+getResultMapId()+"\" class=\"java.util.HashMap\" >\r\n";
+        String ret = "<resultMap id=\""+getResultMapId()+"\" class=\"java.util.HashMap\" >\n";
         for(int i =0;i<fields.size();i++){
-            ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\r\n";
+            ret += "\t<result column=\"" + fields.get(i).getName()+"\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" jdbcType=\"" + fields.get(i).getType().toUpperCase()+"\" />\n";
         }
-        ret += "</resultMap>\r\n";
+        ret += "</resultMap>\n";
         return ret;
     }
 

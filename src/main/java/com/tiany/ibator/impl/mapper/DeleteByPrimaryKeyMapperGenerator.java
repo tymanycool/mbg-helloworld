@@ -25,12 +25,12 @@ public class DeleteByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
         }
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
-        String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\""+ MapUtil.getIgnoreCase((Map) typesConfig,fields.get(0).getType())+"\" >\r\n";
+        String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\""+ MapUtil.getIgnoreCase((Map) typesConfig,fields.get(0).getType())+"\" >\n";
         ret += "\tDELETE FROM ";
-        ret += table.getName() +" \r\n";
-        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
-        ret += "\tLIMIT 2\r\n";
-        ret += "</delete>\r\n";
+        ret += table.getName() +" \n";
+        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\n";
+        ret += "\tLIMIT 2\n";
+        ret += "</delete>\n";
         return ret;
     }
 }

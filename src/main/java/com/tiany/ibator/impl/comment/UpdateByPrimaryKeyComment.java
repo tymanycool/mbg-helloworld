@@ -12,9 +12,9 @@ public class UpdateByPrimaryKeyComment extends BaseComment implements Comment {
             return "";
         }
         String ret ="";
-        ret += "  /**\r\n";
-        ret += "   * 根据主键选择性更新"+table.getEntityName()+" .\r\n";
-        ret += "   */\r\n";
+        ret += "  /**\n";
+        ret += "   * 根据主键选择性更新"+table.getEntityName()+" .\n";
+        ret += "   */\n";
         return ret;
     }
 }

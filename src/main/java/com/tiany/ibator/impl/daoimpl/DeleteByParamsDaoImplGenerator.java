@@ -9,7 +9,7 @@ public class DeleteByParamsDaoImplGenerator extends AbstractBaseDaoImplGenerator
     @Override
     public String generate(Table table) {
         String ret = "";
-        ret += getDaoString(table)+" {\r\n";
+        ret += getDaoString(table)+" {\n";
         ret += "    if (params == null || params.size() == 0) {\n";
         ret += "      throw new IllegalArgumentException(\"缺少参数,请检查...\");\n";
         ret += "    }\n";
@@ -23,8 +23,8 @@ public class DeleteByParamsDaoImplGenerator extends AbstractBaseDaoImplGenerator
         ret += "    if (!flag) {\n";
         ret += "      throw new IllegalArgumentException(\"缺少参数,请检查...\");\n";
         ret += "    }\n";
-        ret += "    return sqlMap.delete(\""+table.getEntityName()+".deleteByParams\",params);\r\n";
-        ret += "  }\r\n\r\n";
+        ret += "    return sqlMap.delete(\""+table.getEntityName()+".deleteByParams\",params);\n";
+        ret += "  }\n\n";
         return ret;
     }
 }

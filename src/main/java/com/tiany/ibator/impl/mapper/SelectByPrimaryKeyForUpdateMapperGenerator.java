@@ -24,7 +24,7 @@ public class SelectByPrimaryKeyForUpdateMapperGenerator extends AbstractBaseSqli
             return "";
         }
         List<Field> primaryKeys = table.getPrimaryKeys();
-        String ret = "<select id=\""+getSelectId()+"\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map) typesConfig,primaryKeys.get(0).getType())+"\" >\r\n";
+        String ret = "<select id=\""+getSelectId()+"\" resultMap=\""+table.getEntityName()+"BaseResultMap\" parameterClass=\""+ MapUtil.getIgnoreCase((Map) typesConfig,primaryKeys.get(0).getType())+"\" >\n";
         ret += "\tSELECT ";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
@@ -33,11 +33,11 @@ public class SelectByPrimaryKeyForUpdateMapperGenerator extends AbstractBaseSqli
                 ret += ",";
             }
         }
-        ret += "\t\r\n";
-        ret += "\tFROM " + table.getName() +" \r\n";
-        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\r\n";
-        ret += "\tFOR UPDATE\r\n";
-        ret += "</select>\r\n";
+        ret += "\t\n";
+        ret += "\tFROM " + table.getName() +" \n";
+        ret += "\tWHERE "+fields.get(0).getName()+" = #"+StringUtil.getCamelProperty(fields.get(0).getName())+"#\n";
+        ret += "\tFOR UPDATE\n";
+        ret += "</select>\n";
         return ret;
     }
 }

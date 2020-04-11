@@ -18,12 +18,12 @@ public class DeleteListMapperGenerator extends AbstractBaseSqlibator implements 
         }
         List<Field> fields = table.getPrimaryKeys();
         AssertUtil.isTrue(fields.size() == 1);
-        String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\"java.util.List\" >\r\n";
+        String ret = "<delete id=\""+getDeleteId()+"\"  parameterClass=\"java.util.List\" >\n";
         ret += "\tDELETE FROM ";
-        ret += table.getName() +" \r\n";
-        ret += "\tWHERE "+fields.get(0).getName() +" IN(\r\n";
+        ret += table.getName() +" \n";
+        ret += "\tWHERE "+fields.get(0).getName() +" IN(\n";
 
-        ret += "\t<iterate conjunction =\",\">\r\n";
+        ret += "\t<iterate conjunction =\",\">\n";
         ret +="\t\t";
         for(int i =0;i<fields.size();i++){
             ret +="#[]#";
@@ -31,8 +31,8 @@ public class DeleteListMapperGenerator extends AbstractBaseSqlibator implements 
                 ret += ",";
             }
         }
-        ret += "\r\n\t</iterate>)\r\n";
-        ret += "</delete>\r\n";
+        ret += "\n\t</iterate>)\n";
+        ret += "</delete>\n";
         return ret;
     }
 

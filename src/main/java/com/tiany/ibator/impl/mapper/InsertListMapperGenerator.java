@@ -18,8 +18,8 @@ public class InsertListMapperGenerator extends AbstractBaseSqlibator implements 
 
     @Override
     public String generate(Table table) {
-        String ret = "<insert id=\""+getInsertId()+"\"  parameterClass=\"java.util.List\" >\r\n";
-        ret += "\tINSERT INTO "+table.getName()+" (\r\n\t\t";
+        String ret = "<insert id=\""+getInsertId()+"\"  parameterClass=\"java.util.List\" >\n";
+        ret += "\tINSERT INTO "+table.getName()+" (\n\t\t";
         List<Field> fields = table.getFields();
         for(int i =0;i<fields.size();i++){
             ret += fields.get(i).getName();
@@ -27,8 +27,8 @@ public class InsertListMapperGenerator extends AbstractBaseSqlibator implements 
                 ret += ",";
             }
         }
-        ret += "\r\n\t) VALUES \r\n";
-        ret += "\t<iterate conjunction =\",\">(\r\n";
+        ret += "\n\t) VALUES \n";
+        ret += "\t<iterate conjunction =\",\">(\n";
         ret +="\t\t";
         for(int i =0;i<fields.size();i++){
             ret +="#list[]."+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
@@ -36,8 +36,8 @@ public class InsertListMapperGenerator extends AbstractBaseSqlibator implements 
                 ret += ",";
             }
         }
-        ret += "\r\n\t)</iterate>\r\n";
-        ret += "</insert>\r\n";
+        ret += "\n\t)</iterate>\n";
+        ret += "</insert>\n";
         return ret;
     }
 }

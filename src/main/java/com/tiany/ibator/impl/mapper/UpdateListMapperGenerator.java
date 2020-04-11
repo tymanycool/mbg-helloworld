@@ -17,20 +17,20 @@ public class UpdateListMapperGenerator extends AbstractBaseSqlibator implements 
         if(!hasPrimatyKey(table)){
             return "";
         }
-        String ret = "<update id=\""+getUpdateId()+"\"  parameterClass=\"java.util.Map\" >\r\n";
-        ret += "\tUPDATE "+table.getName()+"\r\n";
+        String ret = "<update id=\""+getUpdateId()+"\"  parameterClass=\"java.util.Map\" >\n";
+        ret += "\tUPDATE "+table.getName()+"\n";
         List<Field> fields = table.getFields();
-        ret += "\t<dynamic prepend=\"set\" >\r\n";
+        ret += "\t<dynamic prepend=\"set\" >\n";
         for(int i =0;i<fields.size();i++){
             ret += "\t\t<"+getPropertyDynamicLabel(fields.get(i))+" prepend=\",\" property=\""+getBeanNameByClassName(table.getEntityName())+"."+StringUtil.getCamelProperty(fields.get(i).getName())+"\" >";
             ret += " "+fields.get(i).getName()+" = #"+getBeanNameByClassName(table.getEntityName())+"."+StringUtil.getCamelProperty(fields.get(i).getName())+"#";
-            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\r\n";
+            ret += " </"+getPropertyDynamicLabel(fields.get(i))+">\n";
         }
-        ret += "\t</dynamic>\r\n";
+        ret += "\t</dynamic>\n";
 
-        ret += "\tWHERE "+fields.get(0).getName() +" IN(\r\n";
+        ret += "\tWHERE "+fields.get(0).getName() +" IN(\n";
         List<Field> primaryKeys = table.getPrimaryKeys();
-        ret += "\t<iterate conjunction =\",\" property=\""+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"List\">\r\n";
+        ret += "\t<iterate conjunction =\",\" property=\""+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"List\">\n";
         ret +="\t\t";
         for(int i =0;i<primaryKeys.size();i++){
             ret +="#"+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"List[]#";
@@ -38,8 +38,8 @@ public class UpdateListMapperGenerator extends AbstractBaseSqlibator implements 
                 ret += ",";
             }
         }
-        ret += "\r\n\t</iterate>)\r\n";
-        ret += "</update>\r\n";
+        ret += "\n\t</iterate>)\n";
+        ret += "</update>\n";
         return ret;
     }
 
