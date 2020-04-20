@@ -39,6 +39,7 @@ public class UpdateListMapperGenerator extends AbstractBaseSqlibator implements 
             }
         }
         ret += "\n\t</iterate>)\n";
+        ret += "\tLIMIT #"+StringUtil.getCamelProperty(primaryKeys.get(0).getName())+"LimitSize#\n";
         ret += "</update>\n";
         return ret;
     }
