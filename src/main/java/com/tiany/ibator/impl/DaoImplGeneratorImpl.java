@@ -50,9 +50,17 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         imports.add("java.util.HashMap");
         imports.add("java.util.logging.Level");
         imports.add("java.util.logging.Logger");
+        imports.add("org.springframework.beans.BeansException");
+        imports.add("org.springframework.beans.factory.InitializingBean");
         imports.add("org.springframework.beans.factory.annotation.Autowired");
+        imports.add("org.springframework.context.ApplicationContext");
+        imports.add("org.springframework.context.ApplicationContextAware");
         imports.add("org.springframework.orm.ibatis.SqlMapClientOperations");
         imports.add("org.springframework.stereotype.Repository");
+        imports.add("org.springframework.transaction.TransactionDefinition");
+        imports.add("org.springframework.transaction.TransactionStatus");
+        imports.add("org.springframework.transaction.support.TransactionCallback");
+        imports.add("org.springframework.transaction.support.TransactionTemplate");
 
 //        if(hasClass(table,"BigInteger")){
 //            imports.add("java.math.BigInteger");
@@ -86,7 +94,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         ret += "@Repository\n";
         ret += "@SuppressWarnings(\"unchecked\")\n";
         if (generateInterface) {
-            ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao {\n";
+            ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao , ApplicationContextAware, InitializingBean {\n";
             ret += "  private static final Logger logger = Logger.getLogger(" + table.getEntityName() + "DaoImpl.class.getName());\n";
         } else {
             ret += "public class " + table.getEntityName() + "Dao {\n";
@@ -95,6 +103,8 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
 
         ret += "  @Autowired\n";
         ret += "  private SqlMapClientOperations sqlMap;\n";
+        ret += "  private TransactionTemplate transactionTemplate;\n";
+        ret += "  private ApplicationContext applicationContext;\n";
         ret += "  private List<String> fields = new ArrayList<>();\n\n";
 
         ret += "  /**\n" + "   * constructor .\n" + "   */\n";
@@ -126,6 +136,23 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
         ret += "    String exceptionType = ex.toString();\n";
         ret += "    String exceptionMessage = ex.getMessage();\n";
         ret += "    return String.format(\"%s : %s \\r\\n %s\", exceptionType, exceptionMessage, stackTrace);\n";
+        ret += "  }\n\n";
+
+        ret += "  @Override\n";
+        ret += "  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {\n";
+        ret += "    this.applicationContext = applicationContext;\n";
+        ret += "  }\n\n";
+
+        ret += "  @Override\n";
+        ret += "  public void afterPropertiesSet() throws Exception {\n";
+        ret += "    String[] names = applicationContext.getBeanNamesForType(TransactionTemplate.class);\n";
+        ret += "    for (String name : names) {\n";
+        ret += "      TransactionTemplate tt = (TransactionTemplate) applicationContext.getBean(name);\n";
+        ret += "      if (TransactionDefinition.PROPAGATION_REQUIRED == tt.getPropagationBehavior()) {\n";
+        ret += "        transactionTemplate = tt;\n";
+        ret += "        break;\n";
+        ret += "      }\n";
+        ret += "    }\n";
         ret += "  }\n\n";
 
         for (Generator g : generators) {

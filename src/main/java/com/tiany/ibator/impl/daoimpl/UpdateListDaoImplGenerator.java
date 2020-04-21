@@ -18,11 +18,16 @@ public class UpdateListDaoImplGenerator extends AbstractBaseDaoImplGenerator imp
         ret += "    params.put(\"" + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List" + "\", " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List" + ");\n";
         ret += "    params.put(\"" + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "LimitSize" + "\", " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List.size() + 1" + ");\n";
         ret += "    params.put(\"" + getBeanNameByClassName(table.getEntityName()) + "\", " + getBeanNameByClassName(table.getEntityName()) + ");\n";
-        ret += "    int result = sqlMap.update(\"" + table.getEntityName() + ".updateList\",params);\n";
-        ret += "    if (result != " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List.size()" + ") {\n";
-        ret += "      throw new UnsupportedOperationException(\"update_result_check_failed\");\n";
-        ret += "    }\n";
-        ret += "    return result;\n";
+        ret += "    return transactionTemplate.execute(new TransactionCallback<Integer>() {\n";
+        ret += "      @Override\n";
+        ret += "      public Integer doInTransaction(TransactionStatus status) {\n";
+        ret += "        int result = sqlMap.update(\"" + table.getEntityName() + ".updateList\",params);\n";
+        ret += "        if (result != " + StringUtil.getCamelProperty(table.getPrimaryKeys().get(0).getName()) + "List.size()" + ") {\n";
+        ret += "          throw new UnsupportedOperationException(\"update_result_check_failed\");\n";
+        ret += "        }\n";
+        ret += "        return result;\n";
+        ret += "      }\n";
+        ret += "    });\n";
         ret += "  }\n\n";
         return ret;
     }
