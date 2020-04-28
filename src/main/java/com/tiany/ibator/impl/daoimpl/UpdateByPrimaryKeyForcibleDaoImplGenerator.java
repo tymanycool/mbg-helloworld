@@ -13,7 +13,20 @@ public class UpdateByPrimaryKeyForcibleDaoImplGenerator extends AbstractBaseDaoI
         }
         String ret = "";
         ret += getDaoString(table) + " {\n";
-        ret += "    return sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKeyForcible\","+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "    if (transactionTemplate == null) {\n";
+        ret += "      return sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKeyForcible\","+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "    } else {\n";
+        ret += "      return transactionTemplate.execute(new TransactionCallback<Integer>() {\n";
+        ret += "        @Override\n";
+        ret += "        public Integer doInTransaction(TransactionStatus status) {\n";
+        ret += "          int result = sqlMap.update(\""+table.getEntityName()+".updateByPrimaryKeyForcible\","+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "          if (result != 1) {\n";
+        ret += "            throw new UnsupportedOperationException(\"update_result_check_failed\");\n";
+        ret += "          }\n";
+        ret += "          return result;\n";
+        ret += "        }\n";
+        ret += "      });\n";
+        ret += "    }\n";
         ret += "  }\n\n";
         return ret;
     }

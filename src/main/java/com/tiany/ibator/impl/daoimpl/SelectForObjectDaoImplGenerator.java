@@ -12,7 +12,7 @@ public class SelectForObjectDaoImplGenerator extends AbstractBaseDaoImplGenerato
         ret += getDaoString(table) + " {\n";
         ret += "    "+table.getEntityName()+" result = null;\n";
         ret += "    try {\n";
-        ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\",\n          "+getBeanNameByClassName(table.getEntityName())+");\n";
+        ret += "      result = ("+table.getEntityName()+")sqlMap.queryForObject(\""+table.getEntityName()+".selectForObject\","+getBeanNameByClassName(table.getEntityName())+");\n";
         ret += "    } catch (Exception e) {\n";
         ret += "      String message = String.valueOf(e.getMessage());\n";
         ret += "      logger.log(Level.INFO, \"查询参数对象:\" + "+getBeanNameByClassName(table.getEntityName())+");\n";
