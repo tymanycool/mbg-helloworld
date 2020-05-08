@@ -30,10 +30,20 @@ public class UpdateByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
         ret += "\t<dynamic prepend=\"set\" >\n";
         for (int i = 0; i < fields.size(); i++) {
             // 不是主键时
-            if (!primaryKeys.get(0).getName().toUpperCase().equals(fields.get(i).getName().toUpperCase())) {
-                ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " prepend=\",\" property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" >";
-                ret += " " + fields.get(i).getName() + " = #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "#";
-                ret += " </" + getPropertyDynamicLabel(fields.get(i)) + ">\n";
+            String db_name = fields.get(i).getName();
+            if (!primaryKeys.get(0).getName().toUpperCase().equals(db_name.toUpperCase())) {
+                String type = fields.get(i).getType();
+                String camelProperty = StringUtil.getCamelProperty(db_name);
+                String dynamicLabel = getPropertyDynamicLabel(fields.get(i));
+                if (!isTimeType(type)) {
+                    ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" > " + db_name + " = #" + camelProperty + "# </" + dynamicLabel + ">\n";
+                } else {
+                    ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" >\n ";
+                    ret += "\t\t\t<isNotEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> " + db_name + " = #" + camelProperty + "# </isNotEqual>\n";
+                    ret += "\t\t\t<isEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> " + db_name + " = $" + camelProperty + "$ </isEqual>\n";
+                    ret += "\t\t</" + dynamicLabel + ">\n";
+
+                }
             }
         }
         ret += "\t</dynamic>\n";

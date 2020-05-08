@@ -31,7 +31,16 @@ public class InsertMapperGenerator extends AbstractBaseSqlibator implements Mapp
         ret += "\n\t) VALUES (\n";
         ret += "\t<dynamic prepend=\" \">\n";
         for (int i = 0; i < fields.size(); i++) {
-            ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + StringUtil.getCamelProperty(fields.get(i).getName()) + "\" prepend=\",\"> #" + StringUtil.getCamelProperty(fields.get(i).getName()) + "# </" + getPropertyDynamicLabel(fields.get(i)) + "> \n";
+            String type = fields.get(i).getType();
+            String camelProperty = StringUtil.getCamelProperty(fields.get(i).getName());
+            if (!isTimeType(type)) {
+                ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + camelProperty + "\" prepend=\",\"> #" + camelProperty + "# </" + getPropertyDynamicLabel(fields.get(i)) + "> \n";
+            } else {
+                ret += "\t\t<" + getPropertyDynamicLabel(fields.get(i)) + " property=\"" + camelProperty + "\" prepend=\",\">\n";
+                ret += "\t\t\t<isNotEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> #" + camelProperty + "# </isNotEqual>\n";
+                ret += "\t\t\t<isEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> $" + camelProperty + "$ </isEqual>\n";
+                ret += "\t\t</" + getPropertyDynamicLabel(fields.get(i)) + "> \n";
+            }
         }
         ret += "\t</dynamic>";
         ret += "\n\t)\n";

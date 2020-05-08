@@ -85,6 +85,7 @@ public class DefaultClassComment extends BaseComment implements ClassComment {
         ret += " * " + getCommentString(table.getComment()) + getTypeDesc() + "\n";
         ret += " * " + table.getEntityName() + getTypeDesc() + " .\n";
         ret += " * @author " + entityHistory.get("author") + "\n";
+        ret += " * @begin\n";
         ret += " * <pre>\n";
         ret += " *   Created on " + entityHistory.get("createDate") + " \n";
         ret += " *   Modification class history\n";
@@ -111,6 +112,7 @@ public class DefaultClassComment extends BaseComment implements ClassComment {
             ret += " *   " + info + "\n";
         }
         ret += " * </pre>\n";
+        ret += " * @end\n";
         ret += " * @version " + entityHistory.get("version") + "\n";
         ret += " * @since 1.0\n";
         ret += " */";

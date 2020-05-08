@@ -92,7 +92,7 @@ public class DaoImplGeneratorImpl extends AbstractBaseSqlibator implements DaoIm
 //        ret += " */\n";
 //        ret += "\n";
         ret += "@Repository\n";
-        ret += "@SuppressWarnings(\"unchecked\")\n";
+        ret += "@SuppressWarnings(\"all\")\n";
         if (generateInterface) {
             ret += "public class " + table.getEntityName() + "DaoImpl implements " + table.getEntityName() + "Dao , ApplicationContextAware, InitializingBean {\n";
             ret += "  private static final Logger logger = Logger.getLogger(" + table.getEntityName() + "DaoImpl.class.getName());\n";
