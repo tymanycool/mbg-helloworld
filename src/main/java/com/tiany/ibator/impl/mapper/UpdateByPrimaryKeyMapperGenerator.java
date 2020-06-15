@@ -27,6 +27,9 @@ public class UpdateByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
         String ret = "<update id=\"" + getUpdateId() + "\"  parameterClass=\"" + entityPackageName + "." + table.getEntityName() + "\" >\n";
         ret += "\tUPDATE " + table.getName() + "\n";
         List<Field> fields = table.getFields();
+
+        boolean containsVersion = false;
+        String version = "";
         ret += "\t<dynamic prepend=\"set\" >\n";
         for (int i = 0; i < fields.size(); i++) {
             // 不是主键时
@@ -36,18 +39,27 @@ public class UpdateByPrimaryKeyMapperGenerator extends AbstractBaseSqlibator imp
                 String camelProperty = StringUtil.getCamelProperty(db_name);
                 String dynamicLabel = getPropertyDynamicLabel(fields.get(i));
                 if (!isTimeType(type)) {
-                    ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" > " + db_name + " = #" + camelProperty + "# </" + dynamicLabel + ">\n";
+                    if (!db_name.equalsIgnoreCase("version")) {
+                        ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" > " + db_name + " = #" + camelProperty + "# </" + dynamicLabel + ">\n";
+                    } else {
+                        ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" > " + db_name + " = #" + camelProperty + "# + 1</" + dynamicLabel + ">\n";
+                        containsVersion = true;
+                        version = db_name;
+                    }
                 } else {
                     ret += "\t\t<" + dynamicLabel + " prepend=\",\" property=\"" + camelProperty + "\" >\n ";
                     ret += "\t\t\t<isNotEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> " + db_name + " = #" + camelProperty + "# </isNotEqual>\n";
                     ret += "\t\t\t<isEqual property=\"" + camelProperty + "\" compareValue=\"NOW()\"> " + db_name + " = $" + camelProperty + "$ </isEqual>\n";
                     ret += "\t\t</" + dynamicLabel + ">\n";
-
                 }
             }
         }
         ret += "\t</dynamic>\n";
         ret += "\tWHERE " + primaryKeys.get(0).getName() + " = #" + StringUtil.getCamelProperty(primaryKeys.get(0).getName()) + "#\n";
+        if (containsVersion) {
+            String camelProperty = StringUtil.getCamelProperty(version);
+            ret += "\t<isNotNull prepend=\"AND\" property=\"" + camelProperty + "\" > " + version + " = #" + camelProperty + "# </isNotNull>\n";
+        }
         ret += "\tLIMIT 2\n";
         ret += "</update>\n";
         return ret;
