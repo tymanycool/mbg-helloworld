@@ -21,7 +21,7 @@
         <spring-ibatis.version>2.0.8</spring-ibatis.version>
         <ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
         <tomcat-jdbc.version>8.5.4</tomcat-jdbc.version>
-        <mysql-connector.version>5.1.40</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <jdbc.driver.db2.version>4.15.82</jdbc.driver.db2.version>
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.7</logback.version>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.35</version>
+            <version>8.0.28</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.generator</groupId>
@@ -253,7 +253,7 @@
                         <dependency>
                             <groupId>mysql</groupId>
                             <artifactId>mysql-connector-java</artifactId>
-                            <version>5.1.35</version>
+                            <version>8.0.28</version>
                         </dependency>
                     </dependencies>
                     <configuration>
